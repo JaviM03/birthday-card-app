@@ -21,7 +21,7 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
  */
 
 @Entity
-@Table(schema = "public",name="refered_friend")
+@Table(schema = "public",name="users")
 public class User {
     
     @Id

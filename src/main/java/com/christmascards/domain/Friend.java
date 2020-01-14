@@ -14,32 +14,20 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
+
 /**
  *
  * @author HP PC
  */
 
 @Entity
-@Table(schema = "public",name="refered_friend")
+@Table(name="referred_friend", schema="public")
 public class Friend {
     
     @Id
     @GeneratedValue
-    @Column(name="user_id")
-    private Integer userId;
-    
-    @Column(name="username")
-    private String username;
-    
-    @Column(name="user_password")
-    private String userPassword;
-    
-    @Column(name="email")
-    private String email;
-    
-    @Column(name="phone_number")
-    private String phoneNumber;
+    @Column(name="referred_friend_id")
+    private Integer friendId;
     
     @Column(name="first_name")
     private String firstName;
@@ -47,52 +35,44 @@ public class Friend {
     @Column(name="last_name")
     private String lastName;
     
+    @Column(name="household_name")
+    private String houseHoldName;
+    
+    @Column(name="address_line1")
+    private String addressLine1;
+    
+    @Column(name="address_line2")
+    private String address_line2;
+    
+    @Column(name="city")
+    private String city;
+    
+    @Column(name="state")
+    private String state;
+    
+    @Column(name="postal_code")
+    private String postalCode;
+    
+    @Column(name="country")
+    private String country;
+    
+    @Column(name="email")
+    private String email;
+    
     @Temporal(TemporalType.DATE)
-    @DateTimeFormat(iso = ISO.DATE)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @Column(name="birth_date")
     private Calendar birthDate;
 
     public Friend() {
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Integer getFriendId() {
+        return friendId;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getUserPassword() {
-        return userPassword;
-    }
-
-    public void setUserPassword(String userPassword) {
-        this.userPassword = userPassword;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setFriendId(Integer friendId) {
+        this.friendId = friendId;
     }
 
     public String getFirstName() {
@@ -111,6 +91,70 @@ public class Friend {
         this.lastName = lastName;
     }
 
+    public String getHouseHoldName() {
+        return houseHoldName;
+    }
+
+    public void setHouseHoldName(String houseHoldName) {
+        this.houseHoldName = houseHoldName;
+    }
+
+    public String getAddressLine1() {
+        return addressLine1;
+    }
+
+    public void setAddressLine1(String addressLine1) {
+        this.addressLine1 = addressLine1;
+    }
+
+    public String getAddress_line2() {
+        return address_line2;
+    }
+
+    public void setAddress_line2(String address_line2) {
+        this.address_line2 = address_line2;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public Calendar getBirthDate() {
         return birthDate;
     }
@@ -118,8 +162,6 @@ public class Friend {
     public void setBirthDate(Calendar birthDate) {
         this.birthDate = birthDate;
     }
-    
-    
     
     
 }
