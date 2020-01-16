@@ -10,6 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Sign Up</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="<c:url value="/resources/main.css" />">
         <link rel="stylesheet" href="<c:url value="/resources/bootstrap.css" />">
         <style type="text/css">
@@ -190,7 +191,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-11 mx-auto">
+                        <div class="col-sm-9 col-md-7 col-lg-4 col-11 mx-auto">
                             <div class="mb-5">
                                 <div class="mb-3">
                             <div class="form-label-group">
