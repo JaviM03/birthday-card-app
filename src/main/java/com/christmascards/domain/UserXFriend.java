@@ -70,13 +70,6 @@ public class UserXFriend {
     @Column(name="is_registered")
     private Boolean isRegistered;
     
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="user_id")
-    private Integer userId;
-    
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="registered_user_ref")
-    private Integer registeredUserRef;
 
     public UserXFriend() {
     }   
@@ -185,23 +178,6 @@ public class UserXFriend {
         this.isRegistered = isRegistered;
     }
 
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public Integer getRegisteredUserRef() {
-        return registeredUserRef;
-    }
-
-    public void setRegisteredUserRef(Integer registeredUserRef) {
-        this.registeredUserRef = registeredUserRef;
-    }
-    
-    
     
     
 }
