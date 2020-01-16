@@ -211,8 +211,9 @@
                         <div class="col-lg-1"></div>
                 </div>
                     <div class="row">
-                        <div class="col-lg-8 col-sm-8 col-8 mx-auto" id="hr-container">
-                            <hr>
+                        <div class="col-lg-8 col-sm-8 col-8 mx-auto text-center" id="hr-container">
+                            <div><hr></div>
+                            <a href="${pageContext.request.contextPath}/login">Already have an account? Log in</a>
                         </div>
                     </div>
                     <div class="col-lg-2 mx-auto mt-4 mb-5">
