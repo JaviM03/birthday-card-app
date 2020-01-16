@@ -5,6 +5,7 @@
  */
 package com.christmascards.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,7 +26,7 @@ import org.springframework.format.annotation.DateTimeFormat;
  */
 @Entity
 @Table(name="referred_friend", schema = "public")
-public class UserXFriend {
+public class UserXFriend implements Serializable {
     
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -70,7 +71,12 @@ public class UserXFriend {
     @Column(name="is_registered")
     private Boolean isRegistered;
     
-
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="user_id")
+    private User userThatReferred;
+    
+    
+    
     public UserXFriend() {
     }   
     
