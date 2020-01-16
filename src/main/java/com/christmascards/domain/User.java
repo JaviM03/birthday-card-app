@@ -6,11 +6,15 @@
 package com.christmascards.domain;
 
 import java.util.Calendar;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -52,6 +56,9 @@ public class User {
     @DateTimeFormat(iso = ISO.DATE)
     @Column(name="birth_date")
     private Calendar birthDate;
+    
+    @OneToMany (mappedBy = "userId", fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.PERSIST)
+    private List<UserXFriend> referredFriends;
 
     public User() {
     }
