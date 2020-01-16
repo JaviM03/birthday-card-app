@@ -96,13 +96,13 @@
         <div class="container marketing pt-5">
             <hr class="featurette-divider pb-3">
 
-            <div class="row featurette pt-5 pb-5">
-                <div class="col-md-7">
+            <div class="row featurette pt-4 pb-4">
+                <div class="col-md-7 my-auto">
                     <h2 class="featurette-heading">Product of the Month. <br> <span class="text-muted">Get ready for it!</span></h2>
                     <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
                 </div>
                 <div class="col-md-5">
-                    <img class="featurette-image img-fluid mx-auto" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
+                    <img class="featurette-image img-fluid mx-auto" src="https://cdn3.volusion.com/p47su.y695r/v/vspfiles/photos/9824623-2.jpg?v-cache=1574532263" alt="Generic placeholder image">
                 </div>
             </div>
             <hr class="featurette-divider pt-3">
