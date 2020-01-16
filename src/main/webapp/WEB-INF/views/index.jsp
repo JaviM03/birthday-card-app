@@ -65,7 +65,7 @@
                             <i class="far fa-id-card my-auto fa-3x" style=""></i>
                         </div>
                     </div>
-                    <h2>Contacts</h2>
+                    <h2 class="pt-3 pb-1">Contacts</h2>
                     <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
                     <p><a class="btn btn-secondary" href="#" role="button">Contacts info &raquo;</a></p>
                 </div><!-- /.col-lg-4 -->
@@ -75,7 +75,7 @@
                             <i class="far fa-calendar-alt my-auto fa-3x" style=""></i>
                         </div>
                     </div>
-                    <h2>Calendar</h2>
+                    <h2 class="pt-3 pb-1">Calendar</h2>
                     <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
                     <p><a class="btn btn-secondary" href="#" role="button">Calendar info &raquo;</a></p>
                 </div><!-- /.col-lg-4 -->
@@ -85,7 +85,7 @@
                             <i class="far fa-envelope my-auto fa-3x" style=""></i>
                         </div>
                     </div>
-                    <h2>Send</h2>
+                    <h2 class="pt-3 pb-1">Send</h2>
                     <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum mass.</p>
                     <p><a class="btn btn-secondary" href="#" role="button">Send info &raquo;</a></p>
                 </div><!-- /.col-lg-4 -->
