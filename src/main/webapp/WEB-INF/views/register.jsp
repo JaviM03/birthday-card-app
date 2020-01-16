@@ -169,7 +169,7 @@
                         <div class="col-sm-9 col-md-7 col-lg-4 col-11 mx-auto">
                             <div class="">
                                 <div class="">
-                                    <div class="form-label-group">
+                                    <div class="form-label-group ">
                                         <input type="text" id="inputFirstName" class="form-control" placeholder="First Name" required autofocus>
                                         <label for="inputFirstName">First Name</label>
                                     </div>
@@ -214,11 +214,11 @@
                     <div class="row">
                         <div class="col-lg-8 col-sm-8 col-8 mx-auto text-center" id="hr-container">
                             <div><hr></div>
-                            <a href="${pageContext.request.contextPath}/login">Already have an account? Log in</a>
+                            Already have an account? <a href="${pageContext.request.contextPath}/login">Log in</a>
                         </div>
                     </div>
                     <div class="col-lg-2 mx-auto mt-4 mb-5">
-                    <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button>
+                    <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign up</button>
                     </div>
                 </div>
             </form>
