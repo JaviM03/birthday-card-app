@@ -1,0 +1,54 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 14/01/2020, 10:28:09 AM
+    Author     : HP PC
+*/
+
+/* 
+    Primary Color
+*/
+.primary{
+    background-color:#AAABBC;
+}
+.secondary{
+    background-color:#6C91C2;
+}
+.secondary-dark{
+    background-color:#5a84bb;
+}
+.bg-card{
+    background-image: url("cards.jpg")
+}
+.rounded {
+    border-radius: 50%;
+    border: 8px solid #DCDCDC;
+}
+
+.center {
+    display:inline-block;
+    vertical-align: middle;
+}
+/* Centered text */
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@media (min-width: 992px) {
+    .card-container .card:hover {
+        margin-top: -.25rem;
+        margin-bottom: .25rem;
+        box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.3);
+    }
+    .card-container .card:hover .btn {
+        opacity: 1;
+    }
+}
+
+
