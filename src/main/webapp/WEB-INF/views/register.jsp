@@ -165,52 +165,46 @@
                 <div class="row card card-signin mb-5 ml-2 mr-2" >
                     <div class="mx-auto card-title pt-3">Sign up</div>
                     <div class="row">
-                        <div class="col-lg-1"></div>
+                        <div class="col-lg-1"></div>                       
                         <div class="col-sm-9 col-md-7 col-lg-4 col-11 mx-auto">
-                            <div class="">
+                            <div>
+                                <div class="mb-3">
+                                    <div class="form-label-group">
+                                        <input type="email" id="inputEmail" class="form-control" placeholder="Email" required>
+                                        <label for="inputEmail">Email</label>
+                                    </div>
+                                    <div class="form-label-group">
+                                        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                                        <label for="inputPassword">Password</label>
+                                    </div>
+                                    <div class="form-label-group">
+                                        <input type="password" id="inputPassword2" class="form-control" placeholder="Re-Type Password" required>
+                                        <label for="inputPassword2">Re-Type Password</label>
+                                    </div>
+                                </div>                           
+                            </div>
+                        </div>
+                        <div class="col-sm-9 col-md-7 col-lg-4 col-11 mx-auto">
+                            <div class="mb-5">
                                 <div class="">
                                     <div class="form-label-group ">
                                         <input type="text" id="inputFirstName" class="form-control" placeholder="First Name" required autofocus>
                                         <label for="inputFirstName">First Name</label>
                                     </div>
-
                                     <div class="form-label-group">
                                         <input type="text" id="inputLastName" class="form-control" placeholder="Last Name" required>
                                         <label for="inputLastName">Last Name</label>
-                                    </div>
-
+                                    </div>                                   
                                     <div class="form-label-group">
-                                        <input type="email" id="inputEmail" class="form-control" placeholder="Email" required>
-                                        <label for="inputEmail">Email</label>
-                                    </div>
-
-                                    <div class="form-label-group">
-                                        <input type="text" id="inputNumber" class="form-control" placeholder="Number" required>
-                                        <label for="inputNumber">Number</label>
-                                    </div>
+                                        <input type="text" id="inputNumber" class="form-control" placeholder="Number" pattern="([0-9]{3})-([0-9]{3})-([0-9]{3})" title="Us Phone Number Format" required>
+                                        <label for="inputNumber">Number</label> 
+                                        <div class="text-center"> Ex. 877-503-0830 </div>
+                                    </div>                                    
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-9 col-md-7 col-lg-4 col-11 mx-auto">
-                            <div class="mb-5">
-                                <div class="mb-3">
-                            <div class="form-label-group">
-                                <input type="text" id="inputUsername" class="form-control" placeholder="Username" required>
-                                <label for="inputUsername">Username</label>
-                            </div>
-                            <div class="form-label-group">
-                                <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-                                <label for="inputPassword">Password</label>
-                            </div>
-                            <div class="form-label-group">
-                                <input type="password" id="inputPassword2" class="form-control" placeholder="Re-Type Password" required>
-                                <label for="inputPassword2">Re-Type Password</label>
-                            </div>
-                                </div>                           
-                            </div>
-                        </div>
                         <div class="col-lg-1"></div>
-                </div>
+                    </div>
                     <div class="row">
                         <div class="col-lg-8 col-sm-8 col-8 mx-auto text-center" id="hr-container">
                             <div><hr></div>
@@ -218,7 +212,7 @@
                         </div>
                     </div>
                     <div class="col-lg-2 mx-auto mt-4 mb-5">
-                    <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign up</button>
+                        <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign up</button>
                     </div>
                 </div>
             </form>
