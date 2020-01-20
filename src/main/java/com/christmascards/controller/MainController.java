@@ -5,8 +5,13 @@
  */
 package com.christmascards.controller;
 
+import com.christmascards.domain.User;
+import java.util.logging.Logger;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -16,16 +21,18 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class MainController {
     
+    Logger l = Logger.getLogger("logger");
+    
     @RequestMapping(value="/")
     public ModelAndView index(){
         ModelAndView mv = new ModelAndView();
         mv.setViewName("index");
         return mv;
-    }
+    }   
     
-    @RequestMapping(value="/register")
-    public ModelAndView register(){
-        ModelAndView mv = new ModelAndView("register");
+    @RequestMapping(value="/login")
+    public ModelAndView login(){
+        ModelAndView mv = new ModelAndView("login");
         return mv;
     }
     
