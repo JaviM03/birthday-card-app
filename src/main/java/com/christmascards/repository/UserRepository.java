@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import com.christmascards.domain.User;
 import java.util.List;
+import org.springframework.data.domain.Example;
 /**
  *
  * @author HP PC
@@ -23,6 +24,13 @@ public interface UserRepository extends JpaRepository<User, Integer>{
 
     @Override
     public User findOne(Integer id);
+
+    @Override
+    public <S extends User> S findOne(Example<S> exmpl);
+    
+    public List<User> findByEmail(String email);
+    
+    public List<User> findByPhoneNumber(String phoneNumber);
     
     
 }

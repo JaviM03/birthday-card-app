@@ -68,7 +68,7 @@
             <artifactId>jackson-databind</artifactId>
             <version>2.9.8</version>
         </dependency>
-         <!-- Javax Servlet -->
+        <!-- Javax Servlet -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
@@ -80,10 +80,16 @@
             <artifactId>jstl</artifactId>
             <version>1.2</version>
         </dependency>
-       
+        <!-- https://mvnrepository.com/artifact/com.twilio.sdk/twilio -->
+        <dependency>
+            <groupId>com.twilio.sdk</groupId>
+            <artifactId>twilio</artifactId>
+            <version>7.46.0</version>
+            <scope>runtime</scope>
+        </dependency>
     </dependencies>
 
-   <build>
+    <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

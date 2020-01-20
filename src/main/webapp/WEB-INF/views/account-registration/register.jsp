@@ -125,7 +125,7 @@
                 background-color: #3b5998;
             }
 
-            .fa-arrow-left:hover{
+            .color-hover:hover .fas{
                 color: grey !important;
             }
 
@@ -159,9 +159,9 @@
     <body>
         <script src="<c:url value="/resources/font-awesome/js/all.js"/>"></script>
         <!-- This snippet uses Font Awesome 5 Free as a dependency. You can download it at fontawesome.io! -->
-        <div class="pt-2 pb-2 pl-3"><a href="${pageContext.request.contextPath}"><i class="fas fa-arrow-left fa-2x" style="color:lightgrey;"></i></a></div>
+        <div class="pt-2 pb-2 pl-3 color-hover" style="color:black;"><a href="${pageContext.request.contextPath}" style="color:black;"><i class="fas fa-arrow-left fa-2x" style="color:lightgrey;"></i> Go Back</a></div>
         <div class="container">
-            <form class="form-signin">
+            <form class="form-signin" id="form-register" method="POST" action="${pageContext.request.contextPath}/user-signup">
                 <div class="row card card-signin mb-5 ml-2 mr-2" >
                     <div class="mx-auto card-title pt-3">Sign up</div>
                     <div class="row">
@@ -170,17 +170,18 @@
                             <div>
                                 <div class="mb-3">
                                     <div class="form-label-group">
-                                        <input type="email" id="inputEmail" class="form-control" placeholder="Email" required>
+                                        <input type="email" id="inputEmail" class="form-control" placeholder="Email" name="email" required autofocus>
                                         <label for="inputEmail">Email</label>
                                     </div>
                                     <div class="form-label-group">
-                                        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                                        <input type="password" id="inputPassword" class="form-control" placeholder="Password" name="password" required>
                                         <label for="inputPassword">Password</label>
                                     </div>
                                     <div class="form-label-group">
-                                        <input type="password" id="inputPassword2" class="form-control" placeholder="Re-Type Password" required>
+                                        <input type="password" id="inputPassword2" class="form-control" placeholder="Re-Type Password" name="passwordConfirm" required>
                                         <label for="inputPassword2">Re-Type Password</label>
-                                    </div>
+                                        <div class="text-center" style="color:red; display:none;" id="mismatch-pass-message">Passwords do not match</div>
+                                    </div>                                   
                                 </div>                           
                             </div>
                         </div>
@@ -188,16 +189,16 @@
                             <div class="mb-5">
                                 <div class="">
                                     <div class="form-label-group ">
-                                        <input type="text" id="inputFirstName" class="form-control" placeholder="First Name" required autofocus>
+                                        <input type="text" id="inputFirstName" class="form-control" placeholder="First Name" name="firstName" required >
                                         <label for="inputFirstName">First Name</label>
                                     </div>
                                     <div class="form-label-group">
-                                        <input type="text" id="inputLastName" class="form-control" placeholder="Last Name" required>
+                                        <input type="text" id="inputLastName" class="form-control" placeholder="Last Name" name="lastName" required>
                                         <label for="inputLastName">Last Name</label>
                                     </div>                                   
                                     <div class="form-label-group">
-                                        <input type="text" id="inputNumber" class="form-control" placeholder="Number" pattern="([0-9]{3})-([0-9]{3})-([0-9]{3})" title="Us Phone Number Format" required>
-                                        <label for="inputNumber">Number</label> 
+                                        <input type="text" id="inputNumber" class="form-control" placeholder="Phone Number" pattern="([0-9]{3})-([0-9]{3})-([0-9]{4})" name="phoneNumber" title="Us Phone Number Format" required>
+                                        <label for="inputNumber">Phone Number</label> 
                                         <div class="text-center"> Ex. 877-503-0830 </div>
                                     </div>                                    
                                 </div>
@@ -217,5 +218,18 @@
                 </div>
             </form>
         </div>
+        <script>
+            document.getElementById('form-register').addEventListener("submit", function (e) {
+                 password = document.getElementById('inputPassword');
+                confirm_password = document.getElementById('inputPassword2');
+                
+                if(password.value !== confirm_password.value){
+                    confirm_password.className += " is-invalid";
+                    passwordMessage = document.getElementById("mismatch-pass-message");
+                    passwordMessage.removeAttribute("display");
+                    e.preventDefault();
+                }
+            })
+        </script>
     </body>
 </html>
