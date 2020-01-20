@@ -125,7 +125,7 @@
                 background-color: #3b5998;
             }
 
-            .color-hover:hover .fas{
+            .color-hover:hover svg{
                 color: grey !important;
             }
 
@@ -159,7 +159,7 @@
     <body>
         <script src="<c:url value="/resources/font-awesome/js/all.js"/>"></script>
         <!-- This snippet uses Font Awesome 5 Free as a dependency. You can download it at fontawesome.io! -->
-        <div class="pt-2 pb-2 pl-3 color-hover" style="color:black;"><a href="${pageContext.request.contextPath}" style="color:black;"><i class="fas fa-arrow-left fa-2x" style="color:lightgrey;"></i> Go Back</a></div>
+        <div class="pt-2 pb-2 pl-3 color-hover" style="color:black;"><a href="${pageContext.request.contextPath}" style="color:black; display: flex; align-items: center;"><i class="fas fa-arrow-left fa-2x pr-1" style="color:lightgrey;"></i>Go Back</a></div>
         <div class="container">
             <form class="form-signin" id="form-register" method="POST" action="${pageContext.request.contextPath}/user-signup">
                 <div class="row card card-signin mb-5 ml-2 mr-2" >
@@ -197,7 +197,7 @@
                                         <label for="inputLastName">Last Name</label>
                                     </div>                                   
                                     <div class="form-label-group">
-                                        <input type="text" id="inputNumber" class="form-control" placeholder="Phone Number" pattern="([0-9]{3})-([0-9]{3})-([0-9]{4})" name="phoneNumber" title="Us Phone Number Format" required>
+                                        <input type="text" id="inputNumber" class="form-control" placeholder="Phone Number" pattern="([0-9]{3})-([0-9]{4})-([0-9]{4})" name="phoneNumber" title="Us Phone Number Format" required>
                                         <label for="inputNumber">Phone Number</label> 
                                         <div class="text-center"> Ex. 877-503-0830 </div>
                                     </div>                                    
@@ -220,10 +220,10 @@
         </div>
         <script>
             document.getElementById('form-register').addEventListener("submit", function (e) {
-                 password = document.getElementById('inputPassword');
+                password = document.getElementById('inputPassword');
                 confirm_password = document.getElementById('inputPassword2');
-                
-                if(password.value !== confirm_password.value){
+
+                if (password.value !== confirm_password.value) {
                     confirm_password.className += " is-invalid";
                     passwordMessage = document.getElementById("mismatch-pass-message");
                     passwordMessage.removeAttribute("display");

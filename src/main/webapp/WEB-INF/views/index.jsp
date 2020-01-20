@@ -127,7 +127,7 @@
                                 <div class="row">
                                     <div class="col-lg-8 col-sm-1 col-1"></div>
                                     <div class="col-lg-3 col-sm-10 col-10">
-                                        <a href="#" class="btn btn-block text-uppercase btn-secondary">Register</a>
+                                        <a href="${pageContext.request.contextPath}/signup" class="btn btn-block text-uppercase btn-secondary">Register</a>
                                     </div>
                                     <div class="col-lg-1 col-sm-1 col-10"></div>
                                 </div>

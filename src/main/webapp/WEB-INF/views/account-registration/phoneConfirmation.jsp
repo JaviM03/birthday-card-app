@@ -160,7 +160,7 @@
         <script src="<c:url value="/resources/font-awesome/js/all.js"/>"></script>
         <div class="pt-2 pb-2 pl-3 color-hover"><a href="${pageContext.request.contextPath}"><i class="fas fa-arrow-left fa-2x" style="color:lightgrey;"></i> Go Back</a></div>
         <div class="container">
-            <form class="form-signin">
+            <form class="form-signin" method="POST" action="${pageContext.request.contextPath}/phone-confirmation">
                 <div class="row card card-signin mb-5 ml-2 mr-2" >
                     <div class="mx-auto card-title pt-3">Sign up</div>
                     <div class="row">
@@ -170,20 +170,9 @@
                         </div>
                         <div class="col-sm-9 col-md-7 col-lg-4 col-11 mx-auto">
                             <div class="mb-5">
-                                <div class="">
-                                    <div class="form-label-group ">
-                                        <input type="text" id="inputFirstName" class="form-control" placeholder="First Name" required autofocus>
-                                        <label for="inputFirstName">First Name</label>
-                                    </div>
-                                    <div class="form-label-group">
-                                        <input type="text" id="inputLastName" class="form-control" placeholder="Last Name" required>
-                                        <label for="inputLastName">Last Name</label>
-                                    </div>                                   
-                                    <div class="form-label-group">
-                                        <input type="text" id="inputNumber" class="form-control" placeholder="Number" pattern="([0-9]{3})-([0-9]{3})-([0-9]{3})" title="Us Phone Number Format" required>
-                                        <label for="inputNumber">Number</label> 
-                                        <div class="text-center"> Ex. 877-503-0830 </div>
-                                    </div>                                    
+                                <strong>We've sent you a confirmation SMS to your phone number. Please provide the confirmation code to continue: </strong>
+                                <div class="form-group">
+                                        <input type="text" id="inputCode" class="form-control" placeholder="SMS Code" name="code" required>
                                 </div>
                             </div>
                         </div>

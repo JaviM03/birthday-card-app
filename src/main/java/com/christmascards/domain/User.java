@@ -18,6 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 /**
@@ -57,7 +58,9 @@ public class User {
     @Column(name="birth_date")
     private Calendar birthDate;
 
-
+    @Transient
+    private Boolean phoneConfirmation;
+    
     public User() {
     }
 
@@ -123,6 +126,14 @@ public class User {
 
     public void setBirthDate(Calendar birthDate) {
         this.birthDate = birthDate;
+    }
+
+    public Boolean getPhoneConfirmation() {
+        return phoneConfirmation;
+    }
+
+    public void setPhoneConfirmation(Boolean phoneConfirmation) {
+        this.phoneConfirmation = phoneConfirmation;
     }
     
     
