@@ -23,6 +23,7 @@ public class TwilioVerification implements VerificationService {
         Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
     }
 
+    @Override
     public VerificationResult startVerification(String phone, String channel) {
         try {
             Verification verification = Verification.creator(VERIFICATION_SID, phone, channel).create();
@@ -32,6 +33,7 @@ public class TwilioVerification implements VerificationService {
         }
     }
 
+    @Override
     public VerificationResult checkVerification(String phone, String code) {
         try {
             VerificationCheck verification = VerificationCheck.creator(VERIFICATION_SID, code).setTo(phone).create();
