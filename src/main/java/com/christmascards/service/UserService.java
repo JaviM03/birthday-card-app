@@ -9,7 +9,11 @@ import com.christmascards.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.christmascards.domain.User;
+import com.christmascards.util.EmailSender;
+import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.transaction.annotation.Transactional;
 /**
  *
@@ -22,9 +26,18 @@ public class UserService {
     @Autowired
     UserRepository userRepo;
     
+    
+    //Saves an user on the DB after confirmation of phone number has been completed and sends an email to desired email address
     @Transactional
-    public User registerUser(User user){
-        return userRepo.saveAndFlush(user);
+    public User registerUser(final User user) throws IOException{
+        User userResult = userRepo.saveAndFlush(user);
+        String message = "An account has just been registered \n "+
+        "First Name: "+user.getFirstName()+"\n"+
+        "Last Name: "+user.getLastName()+"\n"+
+        "Email: "+user.getEmail()+"\n";
+        EmailSender.sendEmail("edwin.morales9b@gmail.com", message, "Account created on Christmas card App", "edwin.morales9b@gmail.com", System.getenv("EMAIL_PASSWORD"));
+        
+        return userResult;
     }
     
     //Checks if phone number and email have already beign used, which if true would mean that the user alreeady has an account

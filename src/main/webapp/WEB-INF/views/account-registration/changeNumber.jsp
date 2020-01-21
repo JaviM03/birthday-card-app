@@ -1,6 +1,6 @@
 <%-- 
-    Document   : register
-    Created on : 16/01/2020, 01:34:47 PM
+    Document   : changeNumber
+    Created on : 20/01/2020, 07:34:19 PM
     Author     : HP PC
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -158,43 +158,30 @@
     </head>
     <body>
         <script src="<c:url value="/resources/font-awesome/js/all.js"/>"></script>
-        <div class="pt-2 pb-2 pl-3 color-hover" style="color:black;"><a href="${pageContext.request.contextPath}/signup" style="color:black; display: flex; align-items: center;"><i class="fas fa-arrow-left fa-2x pr-1" style="color:lightgrey;"></i>Go Back</a></div>
+        <div class="pt-2 pb-2 pl-3 color-hover" style="color:black;"><a href="${pageContext.request.contextPath}/user-signup?redirect=true" style="color:black; display: flex; align-items: center;"><i class="fas fa-arrow-left fa-2x pr-1" style="color:lightgrey;"></i>Go Back</a></div>
         <div class="container">
-            <div class="alert alert-danger" role="alert" style="display:${failedAttempt?"":"none"}">
-                Wrong confirmation number. Please try again.
-            </div>
-            <div class="alert alert-success" role="alert" style="display:${newAttempt?"":"none"}">
-                A new confirmation code has been sent to your phone number.
-            </div>
-            <form class="form-signin" method="POST" action="${pageContext.request.contextPath}/phone-confirmation">
+            <form class="form-signin" method="POST" action="${pageContext.request.contextPath}/user-signup">
                 <div class="row card card-signin mb-5 ml-2 mr-2" >
-                    <div class="pl-2 pr-2 pt-4 mx-auto" style="font-size: large;">We've sent a confirmation SMS to your phone number.</div>
-                    <div class='pb-3 mx-auto' style="font-size: large;"><strong>Please provide the confirmation code to continue:</strong></div>
+                    <div class="row pt-5">
+                        <div class="col-6 mx-auto text-center"><h4>Enter your new Phone Number</h4></div>
+                    </div>
                     <div class="row">
-                        <div class="col-sm-9 col-md-7 col-lg-4 col-11 mx-auto">
-                            <div class="mb-2">
-                                <div class="form-group">
-                                    <input type="text" id="inputCode" class="form-control" placeholder="SMS Code" name="code" required>
-                                </div>
+                        <div class="col-lg-2"></div>
+                        <div class="col-lg-4 mx-auto">
+                            <div class="form-label-group">
+                                <input type="text" id="inputNumber" class="form-control" placeholder="Phone Number" pattern="([0-9]{3})-([0-9]{4})-([0-9]{4})" name="phoneNumber" title="Us Phone Number Format" required>
+                                <label for="inputNumber">Phone Number</label> 
+                                <div class="text-center"> Ex. 877-503-0830 </div>
+                                <input type="hidden" value="true" name="changeNumber">
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-3 col-sm-1 col-8 mx-auto text-center">
-                            <a href="${pageContext.request.contextPath}/user-signup?resend=true">Resend code</a>
+                        <div class="col-lg-2 mx-auto">
+                            <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Confirm</button>
                         </div>
-                        <div class="col-lg-3 col-sm-1 col-8 mx-auto text-center">
-                            <a href="${pageContext.request.contextPath}/change-number">Change number</a>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 mx-auto mt-1 mb-4">
-                        <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Confirm</button>
+                        <div class="col-lg-3"></div>
                     </div>
                 </div>
             </form>
         </div>
-
-        <script>
-        </script>
     </body>
 </html>

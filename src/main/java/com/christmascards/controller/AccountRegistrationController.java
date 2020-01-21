@@ -45,28 +45,55 @@ public class AccountRegistrationController {
     @RequestMapping(value="/user-signup")
     public ModelAndView signUpUser(HttpServletRequest request, @RequestParam(name = "firstName",required = false) String firstName, @RequestParam(name = "lastName",required = false) String LastName,
             @RequestParam(name = "email",required = false) String email, @RequestParam(name = "phoneNumber",required = false) String number,
-            @RequestParam(name = "password",required = false) String password, @RequestParam(name="redirect", required = false) String redirect
-    ){
-        number = "+"+number;
-        String emailAndPhoneConfirm = userService.checkUserEmailAndPhone(email, number);
-        if(redirect != null){
-            if(redirect.equals("true")){
-                ModelAndView mv = new ModelAndView("account-registration/phoneConfirmation");
-                mv.addObject("failedAttempt", true);
-                return mv;
+            @RequestParam(name = "password",required = false) String password, @RequestParam(name="redirect", required = false) Boolean redirect,
+            @RequestParam(name="resend", required = false) Boolean resend, @RequestParam(name="changeNumber", required = false) Boolean changeNumber,
+            @RequestParam(name="failedAttempt", required=false) Boolean failedAttempt
+    ){       
+        ModelAndView mv = new ModelAndView("account-registration/phoneConfirmation");
+        User userSess = (User) request.getSession().getAttribute("user");
+        if(userSess!=null){
+            if(resend != null){
+                if(resend){
+                   tv.startVerification(userSess.getPhoneNumber() , "sms");
+                   mv.addObject("newAttempt", true);
+                   return mv;
+                }
             }
+            else if(failedAttempt != null){
+                if(failedAttempt){
+                    mv.addObject("failedAttempt", true);
+                    return mv;
+                }
+            }
+            else if(changeNumber != null){
+                if(changeNumber){
+                    userSess.setPhoneNumber(number);
+                    tv.startVerification(number, "sms");
+                    request.getSession().setAttribute("user", userSess);
+                    return mv;
+                }
+            }
+            else if(redirect != null){
+                if(redirect){
+                    return mv;
+            }
+            
         }
+        }
+        
+        number = "+"+(number.replaceAll("-",""));
+        String emailAndPhoneConfirm = userService.checkUserEmailAndPhone(email, number);
         if(emailAndPhoneConfirm.equals("none")){
             HttpSession session = request.getSession();
-            tv.startVerification(number.replaceAll("-", ""), "sms");
+            tv.startVerification(number, "sms");
             User user = new User();
             user.setFirstName(firstName);
             user.setEmail(email);
             user.setFirstName(firstName);
             user.setLastName(LastName);
             user.setUserPassword(password);
+            user.setPhoneNumber(number);
             session.setAttribute("user", user);
-            ModelAndView mv = new ModelAndView("account-registration/phoneConfirmation");
             return mv;
         }
         else {
@@ -79,6 +106,7 @@ public class AccountRegistrationController {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         if(user != null){
+            l.info(user.getPhoneNumber());
             VerificationResult vr =  tv.checkVerification(user.getPhoneNumber(), code);
             if(vr.isValid()){
                 try{
@@ -87,15 +115,27 @@ public class AccountRegistrationController {
                 catch(Exception e){
                     
                 }
-                response.sendRedirect("/");
+                response.sendRedirect(request.getContextPath()+"/account-created");
             }
             else{
-                response.sendRedirect("/user-signup?redirect=true");
+                response.sendRedirect(request.getContextPath()+"/user-signup?failedAttempt=true");
             }
         }
         else{
-            response.sendRedirect("/signup");
+            response.sendRedirect(request.getContextPath()+"/signup");
         }
+    }
+    
+    @RequestMapping(value="/change-number")
+    public ModelAndView changeNumber(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        if(request.getSession().getAttribute("user")!=null){
+            ModelAndView mv = new ModelAndView("account-registration/changeNumber");
+            return mv;
+        }
+        else{
+            response.sendRedirect(request.getContextPath()+"/signup");
+        }
+        return null;
     }
     
     @RequestMapping(value="/account-created")
@@ -107,7 +147,7 @@ public class AccountRegistrationController {
             return mv;
         }
         else {
-            response.sendRedirect("/signup");
+            response.sendRedirect(request.getContextPath()+"/signup");
         }
         return null;
     }
