@@ -68,7 +68,8 @@ public class AccountRegistrationController {
             }
             else if(changeNumber != null){
                 if(changeNumber){
-                    number = "+"+(number.replaceAll("-",""));
+                    if(number.contains("-")){number = number.replaceAll("-","");}
+                    number = "+1"+number;
                     l.info("Change Number: "+number);
                     userSess.setPhoneNumber(number);                    
                     VerificationResult vr = tv.startVerification(number, "sms");
@@ -83,8 +84,8 @@ public class AccountRegistrationController {
             
         }
         }
-        
-        number = "+"+(number.replaceAll("-",""));
+        if(number.contains("-")){number.replaceAll("-","");}
+        number = "+1"+number;
         String emailAndPhoneConfirm = userService.checkUserEmailAndPhone(email, number);
         if(emailAndPhoneConfirm.equals("none")){
             HttpSession session = request.getSession();
