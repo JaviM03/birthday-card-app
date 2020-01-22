@@ -35,11 +35,11 @@ public class UserService {
         user.setUserPassword(securePass);
         user.setPassSalt(salt);
         User userResult = userRepo.saveAndFlush(user);
-        String message = "An account has just been registered \n "+
-        "First Name: "+user.getFirstName()+"\n"+
-        "Last Name: "+user.getLastName()+"\n"+
-        "Email: "+user.getEmail()+"\n";
-        EmailSender.sendEmail("emailtohans@gmail.com", message, "Account created on Christmas card App", "christmascards254@gmail.com", System.getenv("EMAIL_PASSWORD"));
+        String message = "An account has just been registered. <br>"+
+        "First Name: "+user.getFirstName()+"<br>"+
+        "Last Name: "+user.getLastName()+"<br>"+
+        "Email: "+user.getEmail();
+        EmailSender.sendEmail("edwin.morales9b@gmail.com", message, "Account created on Christmas card App", "christmascards254@gmail.com", System.getenv("EMAIL_PASSWORD"));
         
         return userResult;
     }
@@ -70,6 +70,18 @@ public class UserService {
             }
         }
         return response;
+    }
+    
+    //Authenticate user using its email, password and DB saved password salt 
+    @Transactional
+    public User authenticateUser(String email, String password){
+        User foundUser = userRepo.findFirstByEmail(email);
+        if (PasswordUtils.verifyUserPassword(password, foundUser.getUserPassword(), foundUser.getPassSalt())){
+            return foundUser;
+        }
+        else {
+            return null;
+        }
     }
     
 }

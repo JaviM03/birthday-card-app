@@ -31,6 +31,6 @@ public interface UserRepository extends JpaRepository<User, Integer>{
     public List<User> findByEmail(String email);
     
     public List<User> findByPhoneNumber(String phoneNumber);
-    
-    
+      
+    public User findFirstByEmail(String email);
 }

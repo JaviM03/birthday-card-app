@@ -6,8 +6,12 @@
 package com.christmascards.controller;
 
 import com.christmascards.domain.User;
+import com.christmascards.service.UserService;
+import java.io.IOException;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,6 +25,9 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class MainController {
     
+    @Autowired
+    UserService us;        
+    
     Logger l = Logger.getLogger("logger");
     
     @RequestMapping(value="/")
@@ -31,8 +38,27 @@ public class MainController {
     }   
     
     @RequestMapping(value="/login")
-    public ModelAndView login(){
+    public ModelAndView login(HttpServletRequest request, @RequestParam(name="attempt", required=false) Boolean attempt){
         ModelAndView mv = new ModelAndView("login");
+        if(attempt!=null){if(attempt){mv.addObject("failedLogin", true);}}
+        return mv;
+    }
+    
+    @RequestMapping(value="/attempt-login")
+    public void attemptLogin(HttpServletRequest request, HttpServletResponse response, @RequestParam(name="email") String email, @RequestParam(name="password") String password) throws IOException{
+        User user = us.authenticateUser(email, password);
+        if(user!=null){
+            request.getSession().setAttribute("loggedUser", user);
+            response.sendRedirect(request.getContextPath()+"/dashboard");
+        }
+        else{
+            response.sendRedirect(request.getContextPath()+"/login?attempt=true");
+        }
+    }
+    
+    @RequestMapping(value="/dashboard")
+    public ModelAndView dashboard(HttpServletRequest request, HttpServletResponse response){
+        ModelAndView mv = new ModelAndView("dashboard");
         return mv;
     }
     
