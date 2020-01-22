@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.christmascards.domain.User;
 import com.christmascards.util.EmailSender;
+import com.christmascards.util.PasswordUtils;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
@@ -26,10 +27,13 @@ public class UserService {
     @Autowired
     UserRepository userRepo;
     
-    
     //Saves an user on the DB after confirmation of phone number has been completed and sends an email to desired email address
     @Transactional
     public User registerUser(final User user) throws IOException{
+        String salt = PasswordUtils.getSalt(30);
+        String securePass = PasswordUtils.generateSecurePassword(user.getUserPassword(),salt);
+        user.setUserPassword(securePass);
+        user.setPassSalt(salt);
         User userResult = userRepo.saveAndFlush(user);
         String message = "An account has just been registered \n "+
         "First Name: "+user.getFirstName()+"\n"+

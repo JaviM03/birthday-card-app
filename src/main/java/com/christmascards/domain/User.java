@@ -58,6 +58,9 @@ public class User {
     @Column(name="birth_date")
     private Calendar birthDate;
 
+    @Column(name="pass_salt")
+    private String passSalt;
+    
     @Transient
     private Boolean phoneConfirmation;
     
@@ -134,6 +137,14 @@ public class User {
 
     public void setPhoneConfirmation(Boolean phoneConfirmation) {
         this.phoneConfirmation = phoneConfirmation;
+    }
+
+    public String getPassSalt() {
+        return passSalt;
+    }
+
+    public void setPassSalt(String passSalt) {
+        this.passSalt = passSalt;
     }
     
     

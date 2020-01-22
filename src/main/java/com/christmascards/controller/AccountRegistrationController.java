@@ -54,6 +54,7 @@ public class AccountRegistrationController {
         if(userSess!=null){
             if(resend != null){
                 if(resend){
+                    l.info("Resend Number: "+userSess.getPhoneNumber());
                    tv.startVerification(userSess.getPhoneNumber() , "sms");
                    mv.addObject("newAttempt", true);
                    return mv;
@@ -67,8 +68,10 @@ public class AccountRegistrationController {
             }
             else if(changeNumber != null){
                 if(changeNumber){
-                    userSess.setPhoneNumber(number);
-                    tv.startVerification(number, "sms");
+                    number = "+"+(number.replaceAll("-",""));
+                    l.info("Change Number: "+number);
+                    userSess.setPhoneNumber(number);                    
+                    VerificationResult vr = tv.startVerification(number, "sms");
                     request.getSession().setAttribute("user", userSess);
                     return mv;
                 }
@@ -86,6 +89,7 @@ public class AccountRegistrationController {
         if(emailAndPhoneConfirm.equals("none")){
             HttpSession session = request.getSession();
             tv.startVerification(number, "sms");
+            l.info("Initial Registration Number: "+number);
             User user = new User();
             user.setFirstName(firstName);
             user.setEmail(email);
@@ -106,7 +110,6 @@ public class AccountRegistrationController {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         if(user != null){
-            l.info(user.getPhoneNumber());
             VerificationResult vr =  tv.checkVerification(user.getPhoneNumber(), code);
             if(vr.isValid()){
                 try{
