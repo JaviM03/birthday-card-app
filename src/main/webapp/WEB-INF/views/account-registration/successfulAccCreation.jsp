@@ -160,7 +160,7 @@
         <script src="<c:url value="/resources/font-awesome/js/all.js"/>"></script>
         <div class="container">
             <div class="row card card-signin mb-5 ml-2 mr-2 mt-5" >
-                    <div class="mt-5 text-center" style="color:#AAABBC"><strong>Your account has been created.</strong></div>
+                <div class="mt-5 text-center" style="color:#AAABBC"><h3>Your account has been created.</h3></div>
                     <div class="text-center mt-4 mb-2"><a href="${pageContext.request.contextPath}/login">Login</a></div>
                     <div class="text-center mb-5"><a href="${pageContext.request.contextPath}/">Home</a></div>
             </div>

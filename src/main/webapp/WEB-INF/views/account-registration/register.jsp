@@ -197,7 +197,7 @@
                                         <label for="inputLastName">Last Name</label>
                                     </div>                                   
                                     <div class="form-label-group">
-                                        <input type="text" id="inputNumber" class="form-control" placeholder="Phone Number" pattern="([0-9]{3})-([0-9]{4})-([0-9]{4})" name="phoneNumber" title="Us Phone Number Format" required>
+                                        <input type="text" id="inputNumber" class="form-control" placeholder="Phone Number" pattern="([0-9]{3})-([0-9]{3})-([0-9]{4})" name="phoneNumber" title="US Phone Number Format" required>
                                         <label for="inputNumber">Phone Number</label> 
                                         <div class="text-center"> Ex. 877-503-0830 </div>
                                     </div>                                    

@@ -161,21 +161,21 @@
         <div class="pt-2 pb-2 pl-3 color-hover" style="color:black;"><a href="${pageContext.request.contextPath}/user-signup?redirect=true" style="color:black; display: flex; align-items: center;"><i class="fas fa-arrow-left fa-2x pr-1" style="color:lightgrey;"></i>Go Back</a></div>
         <div class="container">
             <form class="form-signin" method="POST" action="${pageContext.request.contextPath}/user-signup">
-                <div class="row card card-signin mb-5 ml-2 mr-2" >
+                <div class="row card card-signin mb-5 ml-2 mr-2 pb-5" >
                     <div class="row pt-5">
-                        <div class="col-6 mx-auto text-center"><h4>Enter your new Phone Number</h4></div>
+                        <div class="col-6 mx-auto text-center"><h4>Enter your Phone Number</h4></div>
                     </div>
                     <div class="row">
                         <div class="col-lg-2"></div>
-                        <div class="col-lg-4 mx-auto">
+                        <div class="col-lg-4 col-11 mx-auto">
                             <div class="form-label-group">
-                                <input type="text" id="inputNumber" class="form-control" placeholder="Phone Number" pattern="([0-9]{3})-([0-9]{4})-([0-9]{4})" name="phoneNumber" title="Us Phone Number Format" required>
+                                <input type="text" id="inputNumber" class="form-control" placeholder="Phone Number" pattern="([0-9]{3})-([0-9]{3})-([0-9]{4})" name="phoneNumber" title="US Phone Number Format" required>
                                 <label for="inputNumber">Phone Number</label> 
                                 <div class="text-center"> Ex. 877-503-0830 </div>
                                 <input type="hidden" value="true" name="changeNumber">
                             </div>
                         </div>
-                        <div class="col-lg-2 mx-auto">
+                        <div class="col-lg-2 col-11 mx-auto">
                             <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Confirm</button>
                         </div>
                         <div class="col-lg-3"></div>

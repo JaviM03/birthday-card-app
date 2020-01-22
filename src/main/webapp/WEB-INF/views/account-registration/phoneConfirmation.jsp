@@ -168,8 +168,10 @@
             </div>
             <form class="form-signin" method="POST" action="${pageContext.request.contextPath}/phone-confirmation">
                 <div class="row card card-signin mb-5 ml-2 mr-2" >
-                    <div class="pl-2 pr-2 pt-4 mx-auto" style="font-size: large;">We've sent a confirmation SMS to your phone number.</div>
-                    <div class='pb-3 mx-auto' style="font-size: large;"><strong>Please provide the confirmation code to continue:</strong></div>
+                    <div class="col-lg-6 col-10 mx-auto text-center">
+                    <div class="pt-4" style="font-size: large;">We've sent a confirmation SMS to your phone number.</div>
+                    <div class="mb-4 mt-3" style="font-size: large;"><strong>Please provide the confirmation code to continue:</strong></div>
+                    </div>
                     <div class="row">
                         <div class="col-sm-9 col-md-7 col-lg-4 col-11 mx-auto">
                             <div class="mb-2">
@@ -179,15 +181,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-3 col-sm-1 col-8 mx-auto text-center">
-                            <a href="${pageContext.request.contextPath}/user-signup?resend=true">Resend code</a>
+                        <div class="col-lg-3 col-sm-5 col-8 mx-auto text-center mt-2">
+                            <div><a href="${pageContext.request.contextPath}/user-signup?resend=true">Resend code</a></div>
+                            <div class="mt-2 mb-3"><a href="${pageContext.request.contextPath}/change-number">Change number</a></div>
                         </div>
-                        <div class="col-lg-3 col-sm-1 col-8 mx-auto text-center">
-                            <a href="${pageContext.request.contextPath}/change-number">Change number</a>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 mx-auto mt-1 mb-4">
+                    <div class="col-lg-2 mx-auto mt-3 mb-4">
                         <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Confirm</button>
                     </div>
                 </div>
