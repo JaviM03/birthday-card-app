@@ -422,10 +422,28 @@ input.input100 {
     opacity: 1;
 }
 
+@media (max-width:1024px) and (min-width: 600px){
+    .sm-content-header{
+        margin-top:60px;
+    }
+}
+
+@media only screen and (max-width: 1024px){
+    .lg-content-header{
+        display:none;
+    }
+    .sm-content-header{
+        display: block !important;
+    }
+}
+
 @media only screen and (max-width: 600px) {
     .container-login100{
         margin-top:50px;
     }
+}
+
+@media screen and (min-width:599px) and (max-width: 1024px) {   
 }
 
 

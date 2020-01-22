@@ -46,12 +46,24 @@
         </nav>
 
 
-        <div class="pt-5" style="">
-            <img src="<c:url value="/resources/cards3.jpg" />" style="width: 100%; height: auto; ">
-            <div class="centered text-center" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-                <h1 class="display-4 font-weight-normal">Card headline</h1>
-                <p class="lead font-weight-normal">This is a referrence content only. It's only here to fill out the space and for general referrence.</p>
-                <a class="btn btn-outline-secondary" href="#">Start Your Calendar</a></div>
+        <div class="mt-5 header" style="">
+            <div class="lg-content-header">
+                <img src="<c:url value="/resources/cards3.jpg" />" style="width: 100%; height: auto; " class="header-image">
+                <div class="centered text-center header-text" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                    <h1 class="display-4 font-weight-normal">Card headline</h1>
+                    <p class="lead font-weight-normal">This is a referrence content only. It's only here to fill out the space and for general referrence.</p>
+                    <a class="btn btn-outline-secondary" href="#">Start Your Calendar</a>
+                </div>
+            </div>
+            <div class="sm-content-header container" style="display: none">
+                <div class="row">
+                    <div class="col-9 mx-auto text-center">
+                        <h1 class="display-4 font-weight-normal">Card headline</h1>
+                        <p class="lead font-weight-normal">This is a referrence content only. It's only here to fill out the space and for general referrence.</p>
+                        <a class="btn btn-outline-secondary" href="#">Start Your Calendar</a>
+                    </div>
+                </div>
+            </div>
         </div>
 
 
@@ -139,7 +151,7 @@
             </div>
         </section>
 
-            <div class="pb-5"></div>
+        <div class="pb-5"></div>
         <!-- Footer -->
         <footer class="secondary pt-3">
 
