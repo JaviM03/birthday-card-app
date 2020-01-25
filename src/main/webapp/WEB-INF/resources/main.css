@@ -438,14 +438,8 @@ input.input100 {
 }
 
 @media (min-height:500) and (max-height:768px){
-    .container-login100{
-        margin-top:80px !important;
-    }
 }
 @media (max-height:499){
-    .container-login100{
-        margin-top:80px !important;
-    }
 }
 
 @media only screen and (max-width: 600px) {
