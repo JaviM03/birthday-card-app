@@ -158,7 +158,6 @@
     </head>
     <body>
         <script src="<c:url value="/resources/font-awesome/js/all.js"/>"></script>
-        <!-- This snippet uses Font Awesome 5 Free as a dependency. You can download it at fontawesome.io! -->
         <div class="pt-2 pb-2 pl-3 color-hover" style="color:black;"><a href="${pageContext.request.contextPath}" style="color:black; display: flex; align-items: center;"><i class="fas fa-arrow-left fa-2x pr-1" style="color:lightgrey;"></i>Go Back</a></div>
         <div class="container">
             <form class="form-signin" id="form-register" method="POST" action="${pageContext.request.contextPath}/user-signup">

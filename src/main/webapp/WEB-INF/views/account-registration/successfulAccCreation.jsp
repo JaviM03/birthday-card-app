@@ -160,10 +160,15 @@
         <script src="<c:url value="/resources/font-awesome/js/all.js"/>"></script>
         <div class="container">
             <div class="row card card-signin mb-5 ml-2 mr-2 mt-5" >
-                <div class="mt-5 text-center" style="color:#AAABBC"><h3>Your account has been created.</h3></div>
-                    <div class="text-center mt-4 mb-2"><a href="${pageContext.request.contextPath}/login">Login</a></div>
-                    <div class="text-center mb-5"><a href="${pageContext.request.contextPath}/">Home</a></div>
+                <div class='mt-5 text-center'><h2>Thank you for joining us!</h2></div>
+                <div class="mt-2 text-center" style="color:#AAABBC"><h4>Your account has been created and you'll be shortly redirected to the dashboard.</h4></div>
+                <div class="text-center mb-5" style='font-size:22px'><a href="${pageContext.request.contextPath}/dashboard">Go now!</a></div>
             </div>
         </div>
+        <script>
+            window.setTimeout(function () {
+                window.location.href = '${pageContext.request.contextPath}/dashboard';
+            }, 8000);
+        </script>
     </body>
 </html>

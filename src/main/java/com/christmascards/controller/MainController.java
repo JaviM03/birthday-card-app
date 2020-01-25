@@ -7,6 +7,7 @@ package com.christmascards.controller;
 
 import com.christmascards.domain.User;
 import com.christmascards.service.UserService;
+import com.christmascards.util.LoginVerification;
 import java.io.IOException;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
@@ -38,7 +39,10 @@ public class MainController {
     }   
     
     @RequestMapping(value="/login")
-    public ModelAndView login(HttpServletRequest request, @RequestParam(name="attempt", required=false) Boolean attempt){
+    public ModelAndView login(HttpServletRequest request, HttpServletResponse response, @RequestParam(name="attempt", required=false) Boolean attempt) throws IOException{
+        if(LoginVerification.sessionCheck(request)){
+            response.sendRedirect(request.getContextPath()+"/dashboard");
+        }
         ModelAndView mv = new ModelAndView("login");
         if(attempt!=null){if(attempt){mv.addObject("failedLogin", true);}}
         return mv;
@@ -57,9 +61,15 @@ public class MainController {
     }
     
     @RequestMapping(value="/dashboard")
-    public ModelAndView dashboard(HttpServletRequest request, HttpServletResponse response){
-        ModelAndView mv = new ModelAndView("dashboard");
-        return mv;
+    public ModelAndView dashboard(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        if(LoginVerification.sessionCheck(request)){
+            ModelAndView mv = new ModelAndView("dashboard");
+            return mv;
+        }
+        else{
+            response.sendRedirect(request.getContextPath()+"/login");
+            return null;
+        }
     }
     
 }

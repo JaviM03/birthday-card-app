@@ -176,7 +176,7 @@
                         <div class="col-sm-9 col-md-7 col-lg-4 col-11 mx-auto">
                             <div class="mb-2">
                                 <div class="form-group">
-                                    <input type="text" id="inputCode" class="form-control" placeholder="SMS Code" name="code" required>
+                                    <input type="text" id="inputCode" class="form-control" placeholder="SMS Code" name="code" required autofocus>
                                 </div>
                             </div>
                         </div>

@@ -50,7 +50,8 @@ public class AccountRegistrationController {
             @RequestParam(name="failedAttempt", required=false) Boolean failedAttempt
     ){       
         ModelAndView mv = new ModelAndView("account-registration/phoneConfirmation");
-        User userSess = (User) request.getSession().getAttribute("user");
+        HttpSession session = request.getSession();
+        User userSess = (User) session.getAttribute("user");
         if(userSess!=null){
             if(resend != null){
                 if(resend){
@@ -73,7 +74,7 @@ public class AccountRegistrationController {
                     l.info("Change Number: "+number);
                     userSess.setPhoneNumber(number);                    
                     VerificationResult vr = tv.startVerification(number, "sms");
-                    request.getSession().setAttribute("user", userSess);
+                    session.setAttribute("user", userSess);
                     return mv;
                 }
             }
@@ -88,7 +89,6 @@ public class AccountRegistrationController {
         number = "+1"+number;
         String emailAndPhoneConfirm = userService.checkUserEmailAndPhone(email, number);
         if(emailAndPhoneConfirm.equals("none")){
-            HttpSession session = request.getSession();
             tv.startVerification(number, "sms");
             l.info("Initial Registration Number: "+number);
             User user = new User();
@@ -148,6 +148,8 @@ public class AccountRegistrationController {
         User user = (User) session.getAttribute("user");
         if(user!=null){
             ModelAndView mv = new ModelAndView("account-registration/successfulAccCreation");
+            User loggedUser = userService.authenticateUser(user.getEmail(), user.getUserPassword());
+            session.setAttribute("loggedUser", loggedUser);
             return mv;
         }
         else {
