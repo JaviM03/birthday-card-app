@@ -440,10 +440,13 @@ input.input100 {
 @media (min-height:500) and (max-height:768px){
 }
 @media (max-height:499){
+    .wrap-login100{
+        margin-top:100px !important;
+    }
 }
 
 @media only screen and (max-width: 600px) {
-    
+
 }
 
 @media screen and (min-width:599px) and (max-width: 1024px) {   

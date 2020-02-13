@@ -39,7 +39,7 @@ public class UserService {
         "First Name: "+user.getFirstName()+"<br>"+
         "Last Name: "+user.getLastName()+"<br>"+
         "Email: "+user.getEmail();
-        EmailSender.sendEmail("emailtohams@gmail.com", message, "Account created on Christmas card App", "christmascards254@gmail.com", System.getenv("EMAIL_PASSWORD"));
+        EmailSender.sendEmail("edwin.morales9b@gmail.com", message, "Account created on Christmas card App", "christmascards254@gmail.com", System.getenv("EMAIL_PASSWORD"));
         
         return userResult;
     }
