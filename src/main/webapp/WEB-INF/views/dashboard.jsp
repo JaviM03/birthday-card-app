@@ -37,6 +37,10 @@
             }
 
         </style>
+        <script src="<c:url value="/resources/moment.min.js"/>"></script>
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
         <link href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.css" rel="stylesheet"/>
         <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
 
@@ -159,8 +163,13 @@
                         </div>
                     </div>
                 </div>    <div class="app-main__outer">
+                    
                     <div class="app-main__inner">
-
+                            <c:if test="${emailSent}">
+                    <div class="alert alert-primary" role="alert">
+                        Email sent!
+                      </div>
+                    </c:if>
 
                         <div class="row">
                             <div class="col-md-12">
@@ -213,7 +222,9 @@
                                                         </td>
                                                         <td class="text-center"><div class="badge ${friend.friendIsRegistered?'badge-success':'badge-warning'}">${friend.friendIsRegistered?'Reday':'Pending'}</div></td>
                                                         <td class="text-center">
-                                                            <button type="button" id="PopoverCustomT-1" class="btn btn-primary btn-sm">Details</button>
+                                                            <button type="button" id="PopoverCustomT-1" class="btn btn-primary btn-sm" onclick="detailModal('${friend.friend.firstName} ${friend.friend.lastName}',
+                                                                        '<fmt:formatDate type="date" dateStyle="short" value="${friend.referredDate.time}"/>','<fmt:formatDate type="date" dateStyle="short" value="${friend.occasionDate.time}"/>' , '${friend.friend.addressLine1}',
+                                                                                    '${friend.friend.email}', '<fmt:formatDate type="date" dateStyle="short" value="${friend.lastEmailDate.time}"/>','${friend.userXFriendId}')">Details</button>
                                                         </td>
 
                                                     </tr>                                                    
@@ -323,8 +334,8 @@
                 </div>
             </div>
         </div>
-                        <!-- Add Contact Modal -->
-        <div class="modal fade" id="contactDetailModal" tabindex="-1" role="dialog" aria-labelledby="addContactModalLable" aria-hidden="true">
+                        <!------------ Contact Detail Modal ------------>
+        <div class="modal fade" id="contactDetailModal" tabindex="-1" role="dialog" aria-labelledby="contactDetailModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -333,42 +344,95 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form method="POST" action="${pageContext.request.contextPath}/addOccasion">
                         <div class="modal-body">
                             <div class="form-group">
                                 <div>
-                                    <div>Referred Date: </div>
-                                    <div id="contactDetailReferredDate"></div>
+                                    <div class='text-center'><strong>Referred Date:</strong> </div>
+                                    <div class='text-center' id="contactDetailReferredDate"></div>
                                 </div>     
                                 <div>
-                                    <div>Occasion Date: </div>
-                                    <div id="contactDetailOccasionDate"></div>
+                                    <div class='text-center'><strong>Occasion Date: </strong></div>
+                                    <div class='text-center' id="contactDetailOccasionDate"></div>
                                 </div>
                                 <div>
-                                    <div>Address: </div>
-                                    <div id="contactDetailAddress"></div>
+                                    <div class='text-center'><strong>Address: </strong></div>
+                                    <div class='text-center' id="contactDetailAddress"></div>
                                 </div>
                                 <div>
-                                    <div>Email: </div>
-                                    <div id="contactDetailEmail"></div>
+                                    <div class='text-center'><strong>Email: </strong></div>
+                                    <div class='text-center' id="contactDetailEmail"></div>
                                 </div>
                                 <div>
-                                    <div>Las email was sent on </div>
-                                    <div id="contactDetailLasEmail"></div>
+                                    <div class='text-center'><strong>Last email was sent on:</strong></div>
+                                    <div class='text-center' id="contactDetailLastEmail"></div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save</button>
+                            <form method="POST" action="${pageContext.request.contextPath}/sendEmail">
+                                <input type='hidden' name='friendId' id='modalFriendId' value=''>
+                                <button type="submit" class="btn btn-primary">Re-Send Email</button>
+                            </form>
                         </div>
 
                 </div>
             </div>
         </div>
                         <script>
+                            function detailModal(name, referredDate, occasionDate, address,
+                                    email, lastEmailDate, friendId){
+                                        console.info("Entre al modal");
+                                var labelDiv = document.getElementById("contactDetailModalLabel");
+                                while(labelDiv.firstChild){
+                                    labelDiv.removeChild(labelDiv.firstChild);
+                                }
+                                var labelContent = document.createTextNode(name);
+                                labelDiv.appendChild(labelContent);
+                                
+                                var labelDivRef = document.getElementById("contactDetailReferredDate");
+                                while(labelDivRef.firstChild){
+                                    labelDivRef.removeChild(labelDivRef.firstChild);
+                                }
+                                var labelContentRef = document.createTextNode(referredDate);
+                                labelDivRef.appendChild(labelContentRef);
+                                
+                                var labelDivOcc = document.getElementById("contactDetailOccasionDate");
+                                while(labelDivOcc.firstChild){
+                                    labelDivOcc.removeChild(labelDivOcc.firstChild);
+                                }
+                                var labelContentOcc = document.createTextNode(occasionDate);
+                                labelDivOcc.appendChild(labelContentOcc);
+                                
+                                var labelDivAddr = document.getElementById("contactDetailAddress");
+                                while(labelDivAddr.firstChild){
+                                    labelDivAddr.removeChild(labelDivAddr.firstChild);
+                                }
+                                var labelContentAddr = document.createTextNode(address);
+                                labelDivAddr.appendChild(labelContentAddr);
+                                
+                                var labelDivEmail = document.getElementById("contactDetailEmail");
+                                while(labelDivEmail.firstChild){
+                                    labelDivEmail.removeChild(labelDivEmail.firstChild);
+                                }
+                                var labelContentEmail = document.createTextNode(email);
+                                labelDivEmail.appendChild(labelContentEmail);
+                                
+                                var labelDivLast = document.getElementById("contactDetailLastEmail");
+                                while(labelDivLast.firstChild){
+                                    labelDivLast.removeChild(labelDivLast.firstChild);
+                                }
+                                var labelContentLast = document.createTextNode(lastEmailDate);
+                                labelDivLast.appendChild(labelContentLast);
+                                
+                                $("#modalFriendId").val(friendId);
+                                console.log($("#modalFriendId").val()+" FriendId: "+friendId);
+                                $("#contactDetailModal").modal('show');
+                                
+                            }
                             
+                     
                         </script>
         <script src="<c:url value="/resources/font-awesome/js/all.js"/>"></script>
         <script type="text/javascript" src="<c:url value="/resources/dashboard.js"/>"></script>

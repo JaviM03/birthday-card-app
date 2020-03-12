@@ -7,7 +7,10 @@ package com.christmascards.service;
 
 import org.springframework.stereotype.Service;
 import com.christmascards.domain.*;
+import com.christmascards.repository.UserRepository;
 import com.christmascards.repository.UserXFriendRepository;
+import com.christmascards.util.EmailSender;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -31,6 +34,9 @@ public class UserXFriendService {
     @Autowired
     UserXFriendRepository userXFriendRepository;
     
+    @Autowired
+    UserRepository userRepo;
+    
     public Page<UserXFriend> getUsersFriends(User user, String dateRange, Integer page){
         Calendar dateStart = Calendar.getInstance();
         Calendar dateEnd = Calendar.getInstance();
@@ -50,7 +56,7 @@ public class UserXFriendService {
         else{
             return userXFriendRepository.findByUserAndIsDeletedOrderByReferredDateDesc(user, Boolean.FALSE, new PageRequest(page, 10));
         }
-        return userXFriendRepository.findByUserAndIsDeletedAndReferredDateBetweenOrderByReferredDateDesc(user, Boolean.FALSE, dateStart, dateEnd, new PageRequest(page, 10));
+        return userXFriendRepository.findByUserAndIsDeletedAndReferredDateBetweenOrderByReferredDateDescUserXFriendIdDesc(user, Boolean.FALSE, dateStart, dateEnd, new PageRequest(page, 10));
     }
     
     
@@ -64,7 +70,7 @@ public class UserXFriendService {
         return userXFriendRepository.findByUserAndIsDeletedOrderByReferredDateDesc(searchUser, Boolean.FALSE, new PageRequest(page, 10));
     }
     
-    public boolean addNewUserFriend(UserXFriend friend, String occasionDate) throws ParseException{
+    public UserXFriend addNewUserFriend(UserXFriend friend, String occasionDate) throws ParseException, IOException{
         Calendar currentDate = Calendar.getInstance();
         Date date = format.parse(occasionDate);
         Calendar cal = Calendar.getInstance();
@@ -75,11 +81,30 @@ public class UserXFriendService {
         friend.setOccasionDate(cal);
         friend.setReferredDate(referredDate);
         UserXFriend savedFriend = userXFriendRepository.save(friend);
-        if(savedFriend != null){
-            return true;
+        sendFriendEmail(savedFriend.getFriend());
+        return savedFriend;
+    }
+    
+    public void sendFriendEmail(Friend friend) throws IOException{
+        System.out.println("SendEmail----");
+        String message = "Hey " + friend.getFirstName()+"! One of your friends just requested for you to join our site and update your info.";
+        EmailSender.sendEmail(friend.getEmail(), message, "Reminding you to update your info!", "christmascards254@gmail.com", System.getenv("EMAIL_PASSWORD"));
+        List<UserXFriend> friendsCatal = userXFriendRepository.findByFriend(friend);
+        Calendar date = Calendar.getInstance();
+        for(int i=0; i<friendsCatal.size();i++){
+            friendsCatal.get(i).setLastEmailDate(date);
+            userXFriendRepository.save(friendsCatal.get(i));
         }
-        else{
-            return false;
-        }
+    }
+    
+    public void sendFriendRemindingEmail(Integer userXFriendId) throws IOException{
+        
+        UserXFriend usXFriend = userXFriendRepository.findOne(userXFriendId);
+        String message = "Hey " + usXFriend.getFriend().getFirstName()+"! One of your friends wanted to remind you to join our site and update your info.";
+        EmailSender.sendEmail(usXFriend.getFriend().getEmail(), message, "Reminding you to update your info!", "christmascards254@gmail.com", System.getenv("EMAIL_PASSWORD"));
+        UserXFriend friend = userXFriendRepository.findOne(userXFriendId);
+        Calendar calendar = Calendar.getInstance();
+        friend.setLastEmailDate(calendar);
+        userXFriendRepository.save(friend);
     }
 }

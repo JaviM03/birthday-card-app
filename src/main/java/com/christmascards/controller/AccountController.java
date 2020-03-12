@@ -75,6 +75,7 @@ public class AccountController {
             User user = (User) request.getSession().getAttribute("loggedUser");
             Page<UserXFriend> friends = usXfService.getUsersFriends(user,(dateRange==null?"weekly":dateRange),currentPage);
             mv.addAllObjects(PaginAndSorting.dashboardPagingAndSorting(friends,request,dateRange));
+            System.out.println("First friend id"+friends.getContent().get(0).getUserXFriendId());
             mv.addObject("totalPages",friends.getTotalPages());
             mv.addObject("friends",friends.getContent());
             mv.addObject("username", user.getFirstName()+" "+user.getLastName());
@@ -94,6 +95,9 @@ public class AccountController {
             }
             else{
                 mv.addObject("dateRange","week");
+            }
+            if(request.getParameter("emailSent")!=null){
+                mv.addObject("emailSent",true);
             }
             return mv;
         }
@@ -123,8 +127,10 @@ public class AccountController {
             friendCatalogue.setOccasion(occasion);
             friendCatalogue.setFriend(friend);
             friendCatalogue.setUser(user);
-            if(usXfService.addNewUserFriend(friendCatalogue, date)){
+            UserXFriend savedFriendCata = usXfService.addNewUserFriend(friendCatalogue, date);
+            if(savedFriendCata!=null){
                 friendCreated = true;
+                usXfService.sendFriendEmail(friend);
             }
             else{
                 friendCreated = false;
@@ -136,11 +142,16 @@ public class AccountController {
         }
     }
     
-    //Variable para saber si hay página atras
-    //Variable para saber por qué página va el recorrido
-    //Variable para saber si hay página adelante
-    //Variable para saber si hay más de una página
-    
+    @RequestMapping(value="/sendEmail",method=RequestMethod.POST)
+    public void sendClientEmail(HttpServletRequest request, HttpServletResponse response, @RequestParam("friendId") Integer userXFriendId) throws IOException{
+        if(LoginVerification.sessionCheck(request)){
+            usXfService.sendFriendRemindingEmail(userXFriendId);
+            response.sendRedirect(request.getContextPath()+"/dashboard?emailSent=true");
+        }
+        else{
+            response.sendRedirect(request.getContextPath()+"/login"); 
+        }
+    }
     
     }
     

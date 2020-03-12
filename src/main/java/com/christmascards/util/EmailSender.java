@@ -51,10 +51,11 @@ public class EmailSender {
                         
 			message.setContent(mensaje,"text/html; charset=utf-8");
 			Transport.send(message);
-
+                            System.out.println("Email Enviado");
 			return "Email enviado";
 
 		} catch (MessagingException e) {
+                            System.out.println("Erro enviando email "+e.getMessage());
                         return "Error enviando mensaje";
 
 		}

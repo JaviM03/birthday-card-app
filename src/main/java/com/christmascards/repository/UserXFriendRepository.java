@@ -36,7 +36,9 @@ public interface UserXFriendRepository extends PagingAndSortingRepository<UserXF
     
     public Page<UserXFriend> findByUser(User user, Pageable pageable);
     
+    public List<UserXFriend> findByFriend(Friend friend);
+    
     public Page<UserXFriend> findByUserAndIsDeletedOrderByReferredDateDesc(User user, Boolean isDeteled, Pageable pageable);
     
-    public Page<UserXFriend> findByUserAndIsDeletedAndReferredDateBetweenOrderByReferredDateDesc(User user, Boolean isDeleted, Calendar referredDateStart, Calendar referredDateEnd, Pageable pageable);
+    public Page<UserXFriend> findByUserAndIsDeletedAndReferredDateBetweenOrderByReferredDateDescUserXFriendIdDesc(User user, Boolean isDeleted, Calendar referredDateStart, Calendar referredDateEnd, Pageable pageable);
 }

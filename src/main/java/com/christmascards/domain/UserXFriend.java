@@ -32,7 +32,7 @@ public class UserXFriend implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="user_friend_catalog_id")
-    private Integer userXFiendId;
+    private Integer userXFriendId;
     
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="user_id")
@@ -72,12 +72,12 @@ public class UserXFriend implements Serializable {
     public UserXFriend() {
     }
 
-    public Integer getUserXFiendId() {
-        return userXFiendId;
+    public Integer getUserXFriendId() {
+        return userXFriendId;
     }
 
-    public void setUserXFiendId(Integer userXFiendId) {
-        this.userXFiendId = userXFiendId;
+    public void setUserXFriendId(Integer userXFiendId) {
+        this.userXFriendId = userXFiendId;
     }
 
     public User getUser() {
