@@ -115,7 +115,7 @@ public class AccountController {
     
     @RequestMapping(value="/addOccasion", method=RequestMethod.POST)
     public void addFriend(HttpServletRequest request, HttpServletResponse response, @RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName,
-            @RequestParam("email") String email, @RequestParam("occasionDate") String date, @RequestParam("occasion") String occasion) throws ParseException, IOException{
+            @RequestParam("email") String email, @RequestParam("occasionDate") String date, @RequestParam("occasion") String occasion, @RequestParam("address") String address) throws ParseException, IOException{
         if(LoginVerification.sessionCheck(request)){
             User user = (User) request.getSession().getAttribute("loggedUser");
             UserXFriend friendCatalogue = new UserXFriend();
@@ -123,6 +123,7 @@ public class AccountController {
             friend.setFirstName(firstName);
             friend.setLastName(lastName);
             friend.setEmail(email);
+            friend.setAddressLine1(address);
             friend = friendService.saveFriend(friend);
             friendCatalogue.setOccasion(occasion);
             friendCatalogue.setFriend(friend);
