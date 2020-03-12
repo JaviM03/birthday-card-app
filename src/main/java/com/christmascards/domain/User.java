@@ -61,6 +61,9 @@ public class User {
     @Column(name="pass_salt")
     private String passSalt;
     
+    @Column(name="membership_type")
+    private String membershipType;
+    
     @Transient
     private Boolean phoneConfirmation;
     

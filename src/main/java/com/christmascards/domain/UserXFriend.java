@@ -6,6 +6,7 @@
 package com.christmascards.domain;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -43,6 +44,30 @@ public class UserXFriend implements Serializable {
     
     @Column(name="friend_is_registered")
     private Boolean friendIsRegistered;
+    
+    @Column(name="relationship")
+    private String relationship;
+    
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @Column(name="last_email_date")
+    private Calendar lastEmailDate;
+    
+    @Column(name="is_deleted")
+    private Boolean isDeleted;
+    
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @Column(name="referred_date")
+    private Calendar referredDate;
+    
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @Column(name="occasion_date")
+    private Calendar occasionDate;
+    
+    @Column(name="occasion")
+    private String occasion;
 
     public UserXFriend() {
     }
@@ -77,6 +102,54 @@ public class UserXFriend implements Serializable {
 
     public void setFriendIsRegistered(Boolean friendIsRegistered) {
         this.friendIsRegistered = friendIsRegistered;
+    }
+
+    public String getRelationship() {
+        return relationship;
+    }
+
+    public void setRelationship(String relationship) {
+        this.relationship = relationship;
+    }
+
+    public Calendar getLastEmailDate() {
+        return lastEmailDate;
+    }
+
+    public void setLastEmailDate(Calendar lastEmailDate) {
+        this.lastEmailDate = lastEmailDate;
+    }
+
+    public Boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
+    public Calendar getReferredDate() {
+        return referredDate;
+    }
+
+    public void setReferredDate(Calendar referredDate) {
+        this.referredDate = referredDate;
+    }
+
+    public Calendar getOccasionDate() {
+        return occasionDate;
+    }
+
+    public void setOccasionDate(Calendar occasionDate) {
+        this.occasionDate = occasionDate;
+    }
+
+    public String getOccasion() {
+        return occasion;
+    }
+
+    public void setOccasion(String occasion) {
+        this.occasion = occasion;
     }
     
     
