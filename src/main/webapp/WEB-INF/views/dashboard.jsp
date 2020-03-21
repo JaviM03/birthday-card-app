@@ -95,7 +95,7 @@
                                     <div class="widget-content-left">
                                         <div class="btn-group">
                                             <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="p-0 btn">
-                                                <img width="42" class="rounded-circle" src="<c:url value="/resources/imgs/default-profile2.jpg"/>" alt="">
+                                                <img width="42" class="rounded-circle" src="<c:url value="/resources/img/default-profile2.jpg"/>" alt="">
                                             </a>
                                         </div>
                                     </div>
@@ -200,7 +200,7 @@
                                                                 <div class="widget-content-wrapper">
                                                                     <div class="widget-content-left mr-3">
                                                                         <div class="widget-content-left">
-                                                                            <img width="40" class="rounded-circle" src="<c:url value="/resources/imgs/default-profile.jpg"/>" alt="">
+                                                                            <img width="40" class="rounded-circle" src="<c:url value="/resources/img/default-profile.jpg"/>" alt="">
                                                                         </div>
                                                                     </div>
                                                                     <div class="widget-content-left flex2">
