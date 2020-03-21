@@ -69,10 +69,10 @@ public class AccountRegistrationController {
             }
             else if(changeNumber != null){
                 if(changeNumber){
-                    if(number.contains("-")){number = number.replaceAll("-","");}
-                    number = "+1"+number;
-                    l.info("Change Number: "+number);
-                    userSess.setPhoneNumber(number);                    
+                    number = number.replace("[^0-9]", "");
+                    //number = "+1"+number;
+                    l.info("Changed Number: "+number);
+                    userSess.setPhoneNumber("+"+number);                    
                     VerificationResult vr = tv.startVerification(number, "sms");
                     session.setAttribute("user", userSess);
                     return mv;
@@ -85,11 +85,11 @@ public class AccountRegistrationController {
             
         }
         }
-        if(number.contains("-")){number.replaceAll("-","");}
-        number = "+1"+number;
+        number = number.replace("[^0-9]", "");
+        number = "+"+number;
         String emailAndPhoneConfirm = userService.checkUserEmailAndPhone(email, number);
         if(emailAndPhoneConfirm.equals("none")){
-            tv.startVerification(number, "sms");
+            VerificationResult vr = tv.startVerification(number, "sms");
             l.info("Initial Registration Number: "+number);
             User user = new User();
             user.setFirstName(firstName);
@@ -112,6 +112,7 @@ public class AccountRegistrationController {
         User user = (User) session.getAttribute("user");
         if(user != null){
             VerificationResult vr =  tv.checkVerification(user.getPhoneNumber(), code);
+            System.out.println("User number on confirmation: "+user.getPhoneNumber());
             if(vr.isValid()){
                 try{
                     userService.registerUser(user);

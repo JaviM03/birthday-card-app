@@ -13,6 +13,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="<c:url value="/resources/main.css" />">
         <link rel="stylesheet" href="<c:url value="/resources/bootstrap.css" />">
+        <link rel="stylesheet" href="<c:url value="/resources/tel-input/build/css/intlTelInput.css" />">
         <style type="text/css">
             :root {
                 --input-padding-x: 1.5rem;
@@ -196,9 +197,10 @@
                                         <label for="inputLastName">Last Name</label>
                                     </div>                                   
                                     <div class="form-label-group">
-                                        <input type="text" id="inputNumber" class="form-control" placeholder="Phone Number" pattern="([0-9]{3})-([0-9]{3})-([0-9]{4})" name="phoneNumber" title="US Phone Number Format" required>
+                                        <!--Pattern : pattern="([0-9]{3})-([0-9]{3})-([0-9]{4})"-->
+                                        <input type="text" id="inputNumber" class="form-control" placeholder="Phone Number" name="phoneNumber" title="US Phone Number Format" required>
                                         <label for="inputNumber">Phone Number</label> 
-                                        <div class="text-center"> Ex. 877-503-0830 </div>
+                                        <div class="text-center"> Ex. (+1) 877-503-0830 </div>
                                     </div>                                    
                                 </div>
                             </div>
@@ -217,6 +219,9 @@
                 </div>
             </form>
         </div>
+        <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+        <script src="<c:url value="/resources/tel-input/build/js/intlTelInput-jquery.min.js"/>"></script> 
+        <script src="<c:url value="/resources/tel-input/build/js/intlTelInput.js"/>"></script>
         <script>
             document.getElementById('form-register').addEventListener("submit", function (e) {
                 password = document.getElementById('inputPassword');
@@ -229,6 +234,12 @@
                     e.preventDefault();
                 }
             })
+            
+            //Phone input initialization
+            var input = document.querySelector("#telephone");
+            window.intlTelInput(input,({
+              // options here
+            }));
         </script>
     </body>
 </html>

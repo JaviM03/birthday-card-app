@@ -75,7 +75,6 @@ public class AccountController {
             User user = (User) request.getSession().getAttribute("loggedUser");
             Page<UserXFriend> friends = usXfService.getUsersFriends(user,(dateRange==null?"weekly":dateRange),currentPage);
             mv.addAllObjects(PaginAndSorting.dashboardPagingAndSorting(friends,request,dateRange));
-            System.out.println("First friend id"+friends.getContent().get(0).getUserXFriendId());
             mv.addObject("totalPages",friends.getTotalPages());
             mv.addObject("friends",friends.getContent());
             mv.addObject("username", user.getFirstName()+" "+user.getLastName());
