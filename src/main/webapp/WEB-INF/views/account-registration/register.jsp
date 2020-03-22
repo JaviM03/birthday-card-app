@@ -15,6 +15,41 @@
         <link rel="stylesheet" href="<c:url value="/resources/bootstrap.css" />">
         <link rel="stylesheet" href="<c:url value="/resources/tel-input/build/css/intlTelInput.css" />">
         <style type="text/css">
+            .input-phone {
+                float:right; 
+                width:345px;
+                height: 50px;
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;    
+                box-sizing: border-box; 
+            }
+           @media only screen and (max-width: 600px) {
+               .input-phone{
+                   width:400px;
+               }
+           }
+           @media only screen and (min-width: 992px) {
+               input-phone{
+               }
+           }
+        </style>
+        <style type="text/css">
+           
+            .intl-tel-input {
+                display: table-cell;
+              }
+              .intl-tel-input .selected-flag {
+                z-index: 4;
+              }
+              .intl-tel-input .country-list {
+                z-index: 5;
+              }
+              .input-group .intl-tel-input .form-control {
+                border-top-left-radius: 4px;
+                border-top-right-radius: 0;
+                border-bottom-left-radius: 4px;
+                border-bottom-right-radius: 0;
+              }
             :root {
                 --input-padding-x: 1.5rem;
                 --input-padding-y: .75rem;
@@ -193,15 +228,17 @@
                                         <label for="inputFirstName">First Name</label>
                                     </div>
                                     <div class="form-label-group">
-                                        <input type="text" id="inputLastName" class="form-control" placeholder="Last Name" name="lastName" required>
+                                        <input type="text" id="inputLastName" class="form-control" placeholder="Last Name" name="lastName"  required>
                                         <label for="inputLastName">Last Name</label>
-                                    </div>                                   
-                                    <div class="form-label-group">
-                                        <!--Pattern : pattern="([0-9]{3})-([0-9]{3})-([0-9]{4})"-->
+                                    </div>
+                                    <div class="text-center input-group" >
+                                        <input type="tel" class="form-control input-phone" id="inputPhone" style="" name="phoneNumber"  placeholder="Phone Number" required>   
+                                    </div>
+                                    <!--<div class="form-label-group">
                                         <input type="text" id="inputNumber" class="form-control" placeholder="Phone Number" name="phoneNumber" title="US Phone Number Format" required>
                                         <label for="inputNumber">Phone Number</label> 
                                         <div class="text-center"> Ex. (+1) 877-503-0830 </div>
-                                    </div>                                    
+                                    </div>-->                                    
                                 </div>
                             </div>
                         </div>
@@ -210,6 +247,17 @@
                     <div class="row">
                         <div class="col-lg-8 col-sm-8 col-8 mx-auto text-center" id="hr-container">
                             <div><hr></div>
+                            <c:if test="${emailAndPhoneAlreadyExist}">
+                                <div class="alert alert-warning" role="alert">
+                                    Your email or phone number (or both!) have already being used. If you forgot your password you can click 
+                                    <a href="${pageContext.request.contextPath}/forgot-password">here</a>.
+                                </div>
+                            </c:if>
+                            <c:if test="${invalidPhoneNumber}">
+                                <div class="alert alert-danger" role="alert">
+                                    Sorry we could not find that phone number! Please try again with a correct number.
+                                </div>
+                            </c:if>
                             Already have an account? <a href="${pageContext.request.contextPath}/login">Log in</a>
                         </div>
                     </div>
@@ -235,11 +283,11 @@
                 }
             })
             
-            //Phone input initialization
-            var input = document.querySelector("#telephone");
-            window.intlTelInput(input,({
-              // options here
-            }));
+             var phoneInput = document.querySelector("#inputPhone");
+             var iti = window.intlTelInput(phoneInput);
+                $("#form-register").submit(function(e){
+                    phoneInput.value = iti.getSelectedCountryData().dialCode + phoneInput.value;
+                })
         </script>
     </body>
 </html>

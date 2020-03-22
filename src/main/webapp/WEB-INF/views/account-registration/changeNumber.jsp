@@ -169,7 +169,7 @@
                         <div class="col-lg-2"></div>
                         <div class="col-lg-4 col-11 mx-auto">
                             <div class="form-label-group">
-                                <input type="text" id="inputNumber" class="form-control" placeholder="Phone Number" pattern="([0-9]{3})-([0-9]{3})-([0-9]{4})" name="phoneNumber" title="US Phone Number Format" required>
+                                <input type="text" id="inputNumber" class="form-control" placeholder="Phone Number"  name="phoneNumber"  required>
                                 <label for="inputNumber">Phone Number</label> 
                                 <div class="text-center"> Ex. 877-503-0830 </div>
                                 <input type="hidden" value="true" name="changeNumber">

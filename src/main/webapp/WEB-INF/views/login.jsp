@@ -48,7 +48,7 @@
             </div>
         </nav>
         <!-- !Navigation Bar -->
-        
+
         <div class="limiter" >
             <div class="container-login100" >
                 <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50">
@@ -56,7 +56,11 @@
                         <span class="login100-form-title p-b-33" style="font-family: 'Open Sans', sans-serif;">
                             Account Login
                         </span>
-
+                        <c:if test="${failedLogin}">
+                            <div class="alert alert-warning" role="alert">
+                                <div class="text-center">Wrong email or password.</div> 
+                            </div>
+                        </c:if>
                         <div class="wrap-input100">
                             <input class="input100" type="email" name="email" placeholder="Email" style="font-family: 'Open Sans', sans-serif;" required="">
                             <span class="focus-input100-1"></span>
@@ -81,6 +85,7 @@
                         </div>
                         -->
                         <div class="text-center pt-5">
+                            <div>
                             <span class="txt1" style="font-family: 'Open Sans', sans-serif;">
                                 Don't have an account?
                             </span>
@@ -88,6 +93,16 @@
                             <a href="${pageContext.request.contextPath}/signup" class="txt2 hov1" style="font-family: 'Open Sans', sans-serif;">
                                 Sign up
                             </a>
+                            </div>
+                                <div>    
+                            <span class="txt1" style="font-family: 'Open Sans', sans-serif;">
+                                Forgot your password?
+                            </span>
+
+                            <a href="${pageContext.request.contextPath}/forgot-password" class="txt2 hov1" style="font-family: 'Open Sans', sans-serif;">
+                                Click here
+                            </a>
+                                </div>
                         </div>
                     </form>
                 </div>

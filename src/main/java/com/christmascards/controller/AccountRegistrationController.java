@@ -55,7 +55,7 @@ public class AccountRegistrationController {
         if(userSess!=null){
             if(resend != null){
                 if(resend){
-                    l.info("Resend Number: "+userSess.getPhoneNumber());
+                   l.info("Resend Number: "+userSess.getPhoneNumber());
                    tv.startVerification(userSess.getPhoneNumber() , "sms");
                    mv.addObject("newAttempt", true);
                    return mv;
@@ -87,10 +87,16 @@ public class AccountRegistrationController {
         }
         number = number.replace("[^0-9]", "");
         number = "+"+number;
+        l.info("Initial Registration Number: "+number);
         String emailAndPhoneConfirm = userService.checkUserEmailAndPhone(email, number);
         if(emailAndPhoneConfirm.equals("none")){
             VerificationResult vr = tv.startVerification(number, "sms");
-            l.info("Initial Registration Number: "+number);
+            if(!vr.isValid()){
+                System.out.println(vr.getErrors()[0]);
+                mv = new ModelAndView("account-registration/register");
+                mv.addObject("invalidPhoneNumber", true);
+                return mv;
+            }
             User user = new User();
             user.setFirstName(firstName);
             user.setEmail(email);
@@ -102,7 +108,9 @@ public class AccountRegistrationController {
             return mv;
         }
         else {
-            return new ModelAndView("account-registration/register");
+            mv = new ModelAndView("account-registration/register");
+            mv.addObject("emailAndPhoneAlreadyExist", true);
+            return mv;
         }
     }
     

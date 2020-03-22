@@ -76,6 +76,7 @@ public class UserService {
     @Transactional
     public User authenticateUser(String email, String password){
         User foundUser = userRepo.findFirstByEmail(email);
+        if(foundUser == null){return null;}
         if (PasswordUtils.verifyUserPassword(password, foundUser.getUserPassword(), foundUser.getPassSalt())){
             return foundUser;
         }
