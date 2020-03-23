@@ -232,7 +232,8 @@
                                         <label for="inputLastName">Last Name</label>
                                     </div>
                                     <div class="text-center input-group" >
-                                        <input type="tel" class="form-control input-phone" id="inputPhone" style="" name="phoneNumber"  placeholder="Phone Number" required>   
+                                        <input type="tel" class="form-control input-phone" id="inputPhone" placeholder="Phone Number" required>
+                                        <input type="hidden" id="phoneForm" name="phoneNumber"  placeholder="Phone Number"> 
                                     </div>
                                     <!--<div class="form-label-group">
                                         <input type="text" id="inputNumber" class="form-control" placeholder="Phone Number" name="phoneNumber" title="US Phone Number Format" required>
@@ -286,8 +287,11 @@
              var phoneInput = document.querySelector("#inputPhone");
              var iti = window.intlTelInput(phoneInput);
                 $("#form-register").submit(function(e){
-                    phoneInput.value = iti.getSelectedCountryData().dialCode + phoneInput.value;
+                    var phoneForm = document.querySelector("#phoneForm");
+                    phoneForm.value = iti.getSelectedCountryData().dialCode + phoneInput.value;
+                 
                 })
+                
         </script>
     </body>
 </html>
