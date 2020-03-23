@@ -25,7 +25,7 @@
             }
            @media only screen and (max-width: 600px) {
                .input-phone{
-                  width:275px;
+                  width:285px;
                }
            }
            @media only screen and (min-width: 992px) {
