@@ -5,7 +5,7 @@
  */
 package com.christmascards.util;
 
-import com.christmascards.domain.UserXFriend;
+import com.christmascards.domain.ReferredOccasion;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -17,10 +17,10 @@ import org.springframework.data.domain.Page;
  */
 public class PaginAndSorting {
     
-    public static Map<String,Object> dashboardPagingAndSorting(Page<UserXFriend> friendsList, HttpServletRequest request, String dateRange){
+    public static Map<String,Object> dashboardPagingAndSorting(Page<ReferredOccasion> usersReferred, HttpServletRequest request, String dateRange){
         Map<String,Object> valuesMap = new HashMap();
-        Integer resultsPage = friendsList.getNumber();
-        Integer totalPageCount = friendsList.getTotalPages();
+        Integer resultsPage = usersReferred.getNumber();
+        Integer totalPageCount = usersReferred.getTotalPages();
         /*Este es if es en el caso que la página sea la primera, revisamos si hay más páginas y si es así agregamos los resultados al mapa*/
         if(resultsPage==0){
             valuesMap.put("firstPage", true);

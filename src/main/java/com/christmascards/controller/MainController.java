@@ -60,21 +60,15 @@ public class MainController {
         }
     }
     
-    @RequestMapping(value="/dashboard")
-    public ModelAndView dashboard(HttpServletRequest request, HttpServletResponse response) throws IOException{
-        if(LoginVerification.sessionCheck(request)){
-            ModelAndView mv = new ModelAndView("dashboard");
-            return mv;
-        }
-        else{
-            response.sendRedirect(request.getContextPath()+"/login");
-            return null;
-        }
-    }
     
     @RequestMapping(value="/forgot-password")
     public ModelAndView forgotPassword(HttpServletRequest request, HttpServletResponse response){
         return new ModelAndView("password-reset");
+    }
+    
+    @RequestMapping(value="/referral")
+    public ModelAndView referralPoint(HttpServletRequest request, HttpServletResponse response, @RequestParam(name="id")String id){
+        return new ModelAndView("");
     }
     
 }

@@ -12,6 +12,7 @@ import com.christmascards.domain.User;
 import com.christmascards.util.EmailSender;
 import com.christmascards.util.PasswordUtils;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,20 +28,39 @@ public class UserService {
     @Autowired
     UserRepository userRepo;
     
+    String senderEmail = "christmascards254@gmail.com";
+    
     //Saves an user on the DB after confirmation of phone number has been completed and sends an email to desired email address
     @Transactional
     public User registerUser(final User user) throws IOException{
+        //Record the users password and hash it with auto-generated salt | Then save the user
         String salt = PasswordUtils.getSalt(30);
         String securePass = PasswordUtils.generateSecurePassword(user.getUserPassword(),salt);
         user.setUserPassword(securePass);
         user.setPassSalt(salt);
         User userResult = userRepo.saveAndFlush(user);
+        
+        //After User is registered we will send a welcome email to them and to the administration, to inform that a new account has being created
         String message = "An account has just been registered. <br>"+
         "First Name: "+user.getFirstName()+"<br>"+
         "Last Name: "+user.getLastName()+"<br>"+
         "Email: "+user.getEmail();
-        EmailSender.sendEmail("emailtohans@gmail.com", message, "Account created on Christmas card App", "christmascards254@gmail.com", System.getenv("EMAIL_PASSWORD"));
-        
+        EmailSender.sendHTMLEmail("emailforhans@gmail.com", message, "Account created on Christmas card App");
+        ArrayList<String> personalizationParameters = new ArrayList();
+        ArrayList<String> personalizationValues = new ArrayList();
+        personalizationParameters.add("User_Name");
+        personalizationValues.add(user.getFirstName());
+        personalizationParameters.add("Sender_Name");
+        personalizationValues.add("ChristmasCard App");
+        personalizationParameters.add("Sender_Address");
+        personalizationValues.add("Pk Street Something Something");
+        personalizationParameters.add("Sender_City");
+        personalizationValues.add("Miami");
+        personalizationParameters.add("Sender_State");
+        personalizationValues.add("Florida");
+        personalizationParameters.add("Sender_Zip");
+        personalizationValues.add("4122");
+        EmailSender.sendEmail(user.getEmail(), "d-caa160ce04714770a9ee0d78be44f13a", personalizationParameters, personalizationValues);
         return userResult;
     }
     

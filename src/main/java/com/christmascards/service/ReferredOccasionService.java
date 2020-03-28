@@ -34,12 +34,11 @@ public class ReferredOccasionService {
     @Autowired
     ReferredOccasionRepository ror;
     
-    Integer pageSize = 10;
+    Integer PAGESIZE = 10;
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
     String referalUrl = "https://christmas-card-app2.herokuapp.com/referal?id=";
     ArrayList<String> personalizInitialPrameters = new ArrayList(Arrays.asList("Sender_Name","Sender_Address","Sender_City","Sender_State","Sender_Zip"));
     ArrayList<String> personalizInitialValues = new ArrayList(Arrays.asList("ChristmasCardApp","Specific Address","City","State","Zip Code"));
-    String senderEmail = "christmascards254@gmail.com";
     
     public Page<ReferredOccasion> getUsersReferredOccasions(User user, String dateRange, Integer page){
         Calendar dateStart = Calendar.getInstance();
@@ -49,7 +48,7 @@ public class ReferredOccasionService {
         dateStart.clear(Calendar.SECOND);
         dateStart.clear(Calendar.MILLISECOND);
         if(dateRange == null){
-            return ror.findByUserAndIsDeletedOrderByReferredDateDescReferredOccasionId(user, Boolean.FALSE, new PageRequest(page, pageSize));
+            return ror.findByUserAndIsDeletedOrderByReferredDateDescReferredOccasionId(user, Boolean.FALSE, new PageRequest(page, PAGESIZE));
         }
         if(dateRange.equals("monthly")){
             dateStart.set(Calendar.DAY_OF_MONTH, 1);
@@ -58,18 +57,20 @@ public class ReferredOccasionService {
             dateStart.set(Calendar.DAY_OF_WEEK, dateEnd.getFirstDayOfWeek());
         }
         else{
-            return ror.findByUserAndIsDeletedOrderByReferredDateDescReferredOccasionId(user, Boolean.FALSE, new PageRequest(page, pageSize));
+            return ror.findByUserAndIsDeletedOrderByReferredDateDescReferredOccasionId(user, Boolean.FALSE, new PageRequest(page, PAGESIZE));
         }
-        
-        return ror.findByUserAndIsDeletedAndReferredDateBetweenOrderByReferredDateDescReferredOccasionId(user, Boolean.FALSE, dateStart, dateEnd, new PageRequest(page, pageSize));
+        return ror.findByUserAndIsDeletedAndReferredDateBetweenOrderByReferredDateDescReferredOccasionId(user, Boolean.FALSE, dateStart, dateEnd, new PageRequest(page, PAGESIZE));
     }
     
-   public ReferredOccasion addnewUserReferredOccasionWithEmailRequested(ReferredOccasion referredOccasion, String occasionDate) throws ParseException, IOException{
+   public ReferredOccasion addnewUserReferredOccasion(ReferredOccasion referredOccasion, String occasionDate, Boolean emailRequested) throws ParseException, IOException{
         Calendar currentDate = Calendar.getInstance();
-        Date date = format.parse(occasionDate);
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        referredOccasion.setOccasionDate(cal);
+        if(occasionDate != null){
+            Date date = format.parse(occasionDate);
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date);
+            referredOccasion.setOccasionDate(cal);
+        }
+
         referredOccasion.setReferredDate(currentDate);
         referredOccasion.setDateHasBeingFilled(Boolean.FALSE);
         referredOccasion.setIsDeleted(Boolean.FALSE);
@@ -101,11 +102,14 @@ public class ReferredOccasionService {
         ArrayList<String> personalizationValues = new ArrayList();
         personalizationValues.addAll(personalizInitialValues);
         personalizationValues.add(user.getFirstName() + user.getLastName());
-        personalizationValues.add(referredOccasion.getFirstName());
+        personalizationValues.add(referredOccasion.getFriendFirstName());
         personalizationValues.add(referalUrl+refToken);
         personalizationValues.add(referredOccasion.getOccasion());
-       
-        EmailSender.sendEmail(referredOccasion.getEmail(),senderEmail, "d-6f962eb4504e47c28c749af83061b2e4", personalizationParameters,personalizationValues);
+       if(emailRequested!=null){
+           if(emailRequested){
+            EmailSender.sendEmail(referredOccasion.getEmail(), "d-6f962eb4504e47c28c749af83061b2e4", personalizationParameters,personalizationValues);
+           }
+       }
         referredOccasion.setLastEmailDate(currentDate);
         return ror.save(referredOccasion);
    }
@@ -124,11 +128,11 @@ public class ReferredOccasionService {
         ArrayList<String> personalizationValues = new ArrayList();
         personalizationValues.addAll(personalizInitialValues);
         personalizationValues.add(user.getFirstName() + user.getLastName());
-        personalizationValues.add(referredOccasion.getFirstName());
+        personalizationValues.add(referredOccasion.getFriendFirstName());
         personalizationValues.add(referalUrl+referredOccasion.getReferrenceToken());
         personalizationValues.add(referredOccasion.getOccasion());
        
-        EmailSender.sendEmail(referredOccasion.getEmail(),senderEmail, "d-6f962eb4504e47c28c749af83061b2e4", personalizationParameters,personalizationValues);
+        EmailSender.sendEmail(referredOccasion.getEmail(), "d-6f962eb4504e47c28c749af83061b2e4", personalizationParameters,personalizationValues);
         referredOccasion.setLastEmailDate(currentDate);
         ror.save(referredOccasion);
    }
