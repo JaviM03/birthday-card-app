@@ -59,7 +59,7 @@ public class ReferredOccasionService {
         else{
             return ror.findByUserAndIsDeletedOrderByReferredDateDescReferredOccasionIdDesc(user, Boolean.FALSE, new PageRequest(page, PAGESIZE));
         }
-        return ror.findByUserAndIsDeletedAndReferredDateBetweenOrderByReferredDateDescReferredOccasionId(user, Boolean.FALSE, dateStart, dateEnd, new PageRequest(page, PAGESIZE));
+        return ror.findByUserAndIsDeletedAndReferredDateBetweenOrderByReferredDateDescReferredOccasionIdDesc(user, Boolean.FALSE, dateStart, dateEnd, new PageRequest(page, PAGESIZE));
     }
     
    public ReferredOccasion addnewUserReferredOccasion(ReferredOccasion referredOccasion, String occasionDate, Boolean emailRequested) throws ParseException, IOException{
@@ -112,7 +112,7 @@ public class ReferredOccasionService {
         personalizationValues.add(referredOccasion.getOccasion());
        if(emailRequested!=null){
            if(emailRequested){
-            EmailSender.sendEmail(referredOccasion.getEmail(), "d-6f962eb4504e47c28c749af83061b2e4", personalizationParameters,personalizationValues);
+            String response = EmailSender.sendEmail(referredOccasion.getEmail(), referredOccasion.getUser().getEmail(), "d-6f962eb4504e47c28c749af83061b2e4", personalizationParameters,personalizationValues);
            }
        }
         referredOccasion.setLastEmailDate(currentDate);
@@ -137,7 +137,7 @@ public class ReferredOccasionService {
         personalizationValues.add(referalUrl+referredOccasion.getReferrenceToken());
         personalizationValues.add(referredOccasion.getOccasion());
        
-        EmailSender.sendEmail(referredOccasion.getEmail(), "d-6f962eb4504e47c28c749af83061b2e4", personalizationParameters,personalizationValues);
+        EmailSender.sendEmail(referredOccasion.getEmail(), referredOccasion.getUser().getEmail(), "d-6f962eb4504e47c28c749af83061b2e4", personalizationParameters,personalizationValues);
         referredOccasion.setLastEmailDate(currentDate);
         ror.save(referredOccasion);
    }

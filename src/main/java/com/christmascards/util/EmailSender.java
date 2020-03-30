@@ -23,12 +23,11 @@ import java.util.ArrayList;
  */
 public class EmailSender {
     
-    public static String EMAILFROM = "christmascards254@gmail.com";
     
-    public static String sendEmail(String to, String template,
+    public static String sendEmail(String to, String from, String template,
             ArrayList<String> personalizationParameters, ArrayList<String> personalizationValues) throws IOException{ 
                 System.out.println("Send Email with Template selected");
-                Email fromEmail = new Email(EMAILFROM);
+                Email fromEmail = new Email(from);
                 Email toEmail = new Email(to);
                 Mail mail = new Mail();
                 mail.setFrom(fromEmail);
@@ -47,7 +46,7 @@ public class EmailSender {
                     request.setBody(mail.build());
                     Response response = sg.api(request);
                     System.out.println("Mensaje al usuario enviado. " + response.getStatusCode());
-                    return "Email enviado";
+                    return response.getStatusCode()+"";
                   } catch (IOException ex) {
                       System.out.println(ex.getMessage());
                     return "Error enviando mensaje";
@@ -55,7 +54,7 @@ public class EmailSender {
     
                 }
     
-    public static String sendHTMLEmail (String to, String mensaje, String subject) throws IOException{
+    public static String sendHTMLEmail (String to, String from, String mensaje, String subject) throws IOException{
         /*String respuesta;   
         Properties props = new Properties();
 		props.put("mail.smtp.host", "smtp.gmail.com");
@@ -93,7 +92,7 @@ public class EmailSender {
                         return "Error enviando mensaje";
 
 		}*/
-                Email fromEmail = new Email(EMAILFROM);
+                Email fromEmail = new Email(from);
                 Email toEmail = new Email(to);
                 Content content = new Content("text/html", mensaje);
                 Mail mail = new Mail(fromEmail, subject, toEmail, content);
@@ -107,7 +106,7 @@ public class EmailSender {
                     System.out.println("Email statusCode: " + response.getStatusCode());
                     System.out.println("Email responseBody: " + response.getBody());
                     System.out.println("Email responseHeaders: " + response.getHeaders());
-                    return "Email enviado";
+                    return response.getStatusCode()+"";
                   } catch (IOException ex) {
                       System.out.println(ex.getMessage());
                     return "Error enviando mensaje";

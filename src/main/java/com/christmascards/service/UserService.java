@@ -45,7 +45,7 @@ public class UserService {
         "First Name: "+user.getFirstName()+"<br>"+
         "Last Name: "+user.getLastName()+"<br>"+
         "Email: "+user.getEmail();
-        EmailSender.sendHTMLEmail("emailforhans@gmail.com", message, "Account created on Christmas card App");
+        EmailSender.sendHTMLEmail("emailforhans@gmail.com", "christmascards254@gmail.com",  message, "Account created on Christmas card App");
         ArrayList<String> personalizationParameters = new ArrayList();
         ArrayList<String> personalizationValues = new ArrayList();
         personalizationParameters.add("User_Name");
@@ -60,7 +60,7 @@ public class UserService {
         personalizationValues.add("Florida");
         personalizationParameters.add("Sender_Zip");
         personalizationValues.add("4122");
-        EmailSender.sendEmail(user.getEmail(), "d-caa160ce04714770a9ee0d78be44f13a", personalizationParameters, personalizationValues);
+        EmailSender.sendEmail(user.getEmail(), "christmascards254@gmail.com", "d-caa160ce04714770a9ee0d78be44f13a", personalizationParameters, personalizationValues);
         return userResult;
     }
     

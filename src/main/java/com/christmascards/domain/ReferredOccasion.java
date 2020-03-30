@@ -71,6 +71,9 @@ public class ReferredOccasion implements Serializable {
     
     @Column(name="is_deleted")
     private Boolean isDeleted;
+    
+
+    
 
     public ReferredOccasion() {
     }
