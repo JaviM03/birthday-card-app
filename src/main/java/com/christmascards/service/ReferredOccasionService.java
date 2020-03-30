@@ -110,12 +110,18 @@ public class ReferredOccasionService {
         personalizationValues.add(referredOccasion.getFriendFirstName());
         personalizationValues.add(referalUrl+refToken);
         personalizationValues.add(referredOccasion.getOccasion());
+        String response = "";
        if(emailRequested!=null){
            if(emailRequested){
-            String response = EmailSender.sendEmail(referredOccasion.getEmail(), referredOccasion.getUser().getEmail(), "d-6f962eb4504e47c28c749af83061b2e4", personalizationParameters,personalizationValues);
+            response = EmailSender.sendEmail(referredOccasion.getEmail(), referredOccasion.getUser().getEmail(), "d-6f962eb4504e47c28c749af83061b2e4", personalizationParameters,personalizationValues);
            }
        }
+       if(response.equals("202")){
         referredOccasion.setLastEmailDate(currentDate);
+       }
+       else{
+           referredOccasion.setEmailCanBeResent(Boolean.TRUE);
+       }
         return ror.save(referredOccasion);
    }
    
@@ -136,9 +142,15 @@ public class ReferredOccasionService {
         personalizationValues.add(referredOccasion.getFriendFirstName());
         personalizationValues.add(referalUrl+referredOccasion.getReferrenceToken());
         personalizationValues.add(referredOccasion.getOccasion());
+       String response = "";
        
-        EmailSender.sendEmail(referredOccasion.getEmail(), referredOccasion.getUser().getEmail(), "d-6f962eb4504e47c28c749af83061b2e4", personalizationParameters,personalizationValues);
-        referredOccasion.setLastEmailDate(currentDate);
+        response = EmailSender.sendEmail(referredOccasion.getEmail(), referredOccasion.getUser().getEmail(), "d-6f962eb4504e47c28c749af83061b2e4", personalizationParameters,personalizationValues);
+        if(response.equals("202")){
+            referredOccasion.setLastEmailDate(currentDate);
+        }
+        else{
+            referredOccasion.setEmailCanBeResent(Boolean.TRUE);
+        }
         ror.save(referredOccasion);
    }
    
