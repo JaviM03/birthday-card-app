@@ -31,6 +31,8 @@ public class MainController {
     
     Logger l = Logger.getLogger("logger");
     
+    public static String REFERREDCODE;
+    
     @RequestMapping(value="/")
     public ModelAndView index(){
         ModelAndView mv = new ModelAndView();
@@ -41,7 +43,12 @@ public class MainController {
     @RequestMapping(value="/login")
     public ModelAndView login(HttpServletRequest request, HttpServletResponse response, @RequestParam(name="attempt", required=false) Boolean attempt) throws IOException{
         if(LoginVerification.sessionCheck(request)){
-            response.sendRedirect(request.getContextPath()+"/dashboard");
+            if(REFERREDCODE==null){
+                response.sendRedirect(request.getContextPath()+"/dashboard");
+            }
+            else{
+                response.sendRedirect(request.getContextPath()+"/referral/info");
+            }
         }
         ModelAndView mv = new ModelAndView("login");
         if(attempt!=null){if(attempt){mv.addObject("failedLogin", true);}}
@@ -53,7 +60,12 @@ public class MainController {
         User user = us.authenticateUser(email, password);
         if(user!=null){
             request.getSession().setAttribute("loggedUser", user);
-            response.sendRedirect(request.getContextPath()+"/dashboard");
+            if(REFERREDCODE==null){
+                response.sendRedirect(request.getContextPath()+"/dashboard");
+            }
+            else{
+                response.sendRedirect(request.getContextPath()+"/referral/info");
+            }
         }
         else{
             response.sendRedirect(request.getContextPath()+"/login?attempt=true");
@@ -66,9 +78,6 @@ public class MainController {
         return new ModelAndView("password-reset");
     }
     
-    @RequestMapping(value="/referral")
-    public ModelAndView referralPoint(HttpServletRequest request, HttpServletResponse response, @RequestParam(name="id")String id){
-        return new ModelAndView("");
-    }
+   
     
 }

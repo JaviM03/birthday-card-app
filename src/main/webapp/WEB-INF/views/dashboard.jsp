@@ -16,7 +16,7 @@
         <title>Christmas Card App</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
         <meta name="msapplication-tap-highlight" content="no">
-        <link rel="stylesheet" href="<c:url value="/resources/dashboard.css" />">
+        <link rel="stylesheet" href="<c:url value="/resources/dashboard.css" />">   
         <style>
             .hamburger-box .hamburger-inner,
             .hamburger-box .hamburger-inner::before,
@@ -47,7 +47,7 @@
         <script src="<c:url value="/resources/moment.min.js"/>"></script>
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
         <link href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.css" rel="stylesheet"/>
         <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
 
@@ -158,13 +158,13 @@
                         </div>
                     </div>
                 </div>    <div class="app-main__outer">
-                    
+
                     <div class="app-main__inner">
-                            <c:if test="${emailSent}">
-                    <div class="alert alert-primary" role="alert">
-                        Email sent!
-                      </div>
-                    </c:if>
+                        <c:if test="${emailSent}">
+                            <div class="alert alert-primary" role="alert">
+                                Email sent!
+                            </div>
+                        </c:if>
 
                         <div class="row">
                             <div class="col-md-12">
@@ -192,7 +192,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <c:forEach items="${friends}" var="friend" varStatus="index">
+                                                <c:forEach items="${referrals}" var="referral" varStatus="index">
                                                     <tr>                                               
 
                                                         <td class="text-muted">
@@ -204,22 +204,22 @@
                                                                         </div>
                                                                     </div>
                                                                     <div class="widget-content-left flex2">
-                                                                        <div class="widget-heading">${friend.friend.firstName} ${friend.friend.lastName}</div>
-                                                                        <div class="widget-subheading opacity-7">${friend.relationship?friend.relationship:'Aquintance'}</div>
+                                                                        <div class="widget-heading">${referral.friendFirstName} ${referral.friendLastName}</div>
+                                                                        <div class="widget-subheading opacity-7">${referral.relationship?referral.relationship:'Aquintance'}</div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </td>
-                                                        <td class="text-center"><fmt:formatDate type="date" dateStyle="short" value="${friend.occasionDate.time}"/></td>
-                                                        <td class="text-center">${friend.occasion}</td>
+                                                        <td class="text-center"><fmt:formatDate type="date" dateStyle="short" value="${referral.occasionDate.time}"/></td>
+                                                        <td class="text-center">${referral.occasion}</td>
                                                         <td class="text-center">
                                                             City
                                                         </td>
-                                                        <td class="text-center"><div class="badge ${friend.friendIsRegistered?'badge-success':'badge-warning'}">${friend.friendIsRegistered?'Reday':'Pending'}</div></td>
+                                                        <td class="text-center"><div class="badge ${referral.infoHasBeingFilled?'badge-success':'badge-warning'}">${referral.infoHasBeingFilled?'Ready':'Pending'}</div></td>
                                                         <td class="text-center">
-                                                            <button type="button" id="PopoverCustomT-1" class="btn btn-primary btn-sm" onclick="detailModal('${friend.friend.firstName} ${friend.friend.lastName}',
-                                                                        '<fmt:formatDate type="date" dateStyle="short" value="${friend.referredDate.time}"/>','<fmt:formatDate type="date" dateStyle="short" value="${friend.occasionDate.time}"/>' , '${friend.friend.addressLine1}',
-                                                                                    '${friend.friend.email}', '<fmt:formatDate type="date" dateStyle="short" value="${friend.lastEmailDate.time}"/>','${friend.userXFriendId}')">Details</button>
+                                                            <button type="button" id="PopoverCustomT-1" class="btn btn-primary btn-sm" onclick="detailModal('${referral.friendFirstName} ${referral.friendLastName}',
+                                                                            '<fmt:formatDate type="date" dateStyle="short" value="${referral.referredDate.time}"/>', '<fmt:formatDate type="date" dateStyle="short" value="${referral.occasionDate.time}"/>', '${referral.address}',
+                                                                            '${referral.email}', '<fmt:formatDate type="date" dateStyle="short" value="${referral.lastEmailDate.time}"/>', '${referral.referredOccasionId}', ${referral.emailCanBeResent})">Details</button>
                                                         </td>
 
                                                     </tr>                                                    
@@ -234,14 +234,14 @@
                                                     <a class="page-link" href="${lastPageUrl}" tabindex="-1">Previous</a>
                                                 </li>
                                                 <li class="page-item ${firstPage?'active':''}"><a class="page-link" href="${firstPageUrl}">${firstPageNumber!=null?firstPageNumber:1}</a></li>
-                                                <c:if test="${secondPageExist}">
+                                                    <c:if test="${secondPageExist}">
                                                     <li class="page-item ${secondPage?'active':''}">
                                                         <a class="page-link" href="${secondPageUrl}">${secondPageNumber}</a>
                                                     </li>
                                                 </c:if>
                                                 <c:if test="${thirdPageExist}">
                                                     <li class="page-item ${thirdPage?'active':''}"><a class="page-link" href="${thirdPageUrl}">${thirdPageNumber}</a></li>
-                                                </c:if>
+                                                    </c:if>
                                                 <li class="page-item ${nextPageExist?'':'disabled'}">
                                                     <a class="page-link" href="${nextPageUrl}">Next</a>
                                                 </li>
@@ -312,14 +312,18 @@
                                 <input type="text" autocomplete="off" class="form-control" placeholder="First Name" id="firstNameModal" name="firstName" maxLength="12" required/>
                                 <label for="lastNameModal">Last Name</label>
                                 <input type="text" autocomplete="off" class="form-control" placeholder="Last Name" id="lastNameModal" name="lastName" maxLength="12"/>
-                                <label for="firstNameModal">Address <font color="red">*</font></label>
-                                <input type="text" autocomplete="off" class="form-control" placeholder="Address" id="firstNameModal" name="address"  required/>
+                                <label for="firstNameModal">Address</label>
+                                <input type="text" autocomplete="off" class="form-control" placeholder="Address" id="firstNameModal" name="address" />
                                 <label for="emailAddressModal">Email Address <font color="red">*</font></label>
                                 <input type="email" autocomplete="off" class="form-control" placeholder="Email Address" id="emailAddressModal" name="email" required/>
-                                <label for="dateModal">Date <font color="red">*</font></label>
+                                <label for="dateModal">Date</label>
                                 <input type="date" class="form-control" id="dateModal" name="occasionDate"/>
                                 <label for="occasionModal">Occasion <font color="red">*</font></label>
-                                <input type="text" autocomplete="off" class="form-control" placeholder="Occasion" id="ocassionModal" maxLength="12" name="occasion" required/> 
+                                <input type="text" autocomplete="off" class="form-control" placeholder="Occasion" id="ocassionModal" maxLength="12" name="occasion" required/>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="sendEmailModal" name="sendEmail" checked>
+                                    <label class="form-check-label" for="sendEmailModal">Request the rest of the information by email</label>
+                                </div>
                             </div>
                         </div>
 
@@ -331,7 +335,7 @@
                 </div>
             </div>
         </div>
-                        <!------------ Contact Detail Modal ------------>
+        <!------------ Contact Detail Modal ------------>
         <div class="modal fade" id="contactDetailModal" tabindex="-1" role="dialog" aria-labelledby="contactDetailModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -341,96 +345,100 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <div>
-                                    <div class='text-center'><strong>Referred Date:</strong> </div>
-                                    <div class='text-center' id="contactDetailReferredDate"></div>
-                                </div>     
-                                <div>
-                                    <div class='text-center'><strong>Occasion Date: </strong></div>
-                                    <div class='text-center' id="contactDetailOccasionDate"></div>
-                                </div>
-                                <div>
-                                    <div class='text-center'><strong>Address: </strong></div>
-                                    <div class='text-center' id="contactDetailAddress"></div>
-                                </div>
-                                <div>
-                                    <div class='text-center'><strong>Email: </strong></div>
-                                    <div class='text-center' id="contactDetailEmail"></div>
-                                </div>
-                                <div>
-                                    <div class='text-center'><strong>Last email was sent on:</strong></div>
-                                    <div class='text-center' id="contactDetailLastEmail"></div>
-                                </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <div>
+                                <div class='text-center'><strong>Referred Date:</strong> </div>
+                                <div class='text-center' id="contactDetailReferredDate"></div>
+                            </div>     
+                            <div>
+                                <div class='text-center'><strong>Occasion Date: </strong></div>
+                                <div class='text-center' id="contactDetailOccasionDate"></div>
+                            </div>
+                            <div>
+                                <div class='text-center'><strong>Address: </strong></div>
+                                <div class='text-center' id="contactDetailAddress"></div>
+                            </div>
+                            <div>
+                                <div class='text-center'><strong>Email: </strong></div>
+                                <div class='text-center' id="contactDetailEmail"></div>
+                            </div>
+                            <div>
+                                <div class='text-center'><strong>Last email was sent on:</strong></div>
+                                <div class='text-center' id="contactDetailLastEmail"></div>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <form method="POST" action="${pageContext.request.contextPath}/sendEmail">
-                                <input type='hidden' name='friendId' id='modalFriendId' value=''>
-                                <button type="submit" class="btn btn-primary">Re-Send Email</button>
-                            </form>
-                        </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <form method="POST" action="${pageContext.request.contextPath}/sendEmail">
+                            <input type='hidden' name='friendId' id='modalFriendId' value=''>
+                            <button type="submit" class="btn btn-primary" id="buttonSubmit">Re-Send Email</button>
+                        </form>
+                    </div>
 
                 </div>
             </div>
         </div>
-                        <script>
-                            function detailModal(name, referredDate, occasionDate, address,
-                                    email, lastEmailDate, friendId){
-                                        console.info("Entre al modal");
-                                var labelDiv = document.getElementById("contactDetailModalLabel");
-                                while(labelDiv.firstChild){
-                                    labelDiv.removeChild(labelDiv.firstChild);
-                                }
-                                var labelContent = document.createTextNode(name);
-                                labelDiv.appendChild(labelContent);
-                                
-                                var labelDivRef = document.getElementById("contactDetailReferredDate");
-                                while(labelDivRef.firstChild){
-                                    labelDivRef.removeChild(labelDivRef.firstChild);
-                                }
-                                var labelContentRef = document.createTextNode(referredDate);
-                                labelDivRef.appendChild(labelContentRef);
-                                
-                                var labelDivOcc = document.getElementById("contactDetailOccasionDate");
-                                while(labelDivOcc.firstChild){
-                                    labelDivOcc.removeChild(labelDivOcc.firstChild);
-                                }
-                                var labelContentOcc = document.createTextNode(occasionDate);
-                                labelDivOcc.appendChild(labelContentOcc);
-                                
-                                var labelDivAddr = document.getElementById("contactDetailAddress");
-                                while(labelDivAddr.firstChild){
-                                    labelDivAddr.removeChild(labelDivAddr.firstChild);
-                                }
-                                var labelContentAddr = document.createTextNode(address);
-                                labelDivAddr.appendChild(labelContentAddr);
-                                
-                                var labelDivEmail = document.getElementById("contactDetailEmail");
-                                while(labelDivEmail.firstChild){
-                                    labelDivEmail.removeChild(labelDivEmail.firstChild);
-                                }
-                                var labelContentEmail = document.createTextNode(email);
-                                labelDivEmail.appendChild(labelContentEmail);
-                                
-                                var labelDivLast = document.getElementById("contactDetailLastEmail");
-                                while(labelDivLast.firstChild){
-                                    labelDivLast.removeChild(labelDivLast.firstChild);
-                                }
-                                var labelContentLast = document.createTextNode(lastEmailDate);
-                                labelDivLast.appendChild(labelContentLast);
-                                
-                                $("#modalFriendId").val(friendId);
-                                console.log($("#modalFriendId").val()+" FriendId: "+friendId);
-                                $("#contactDetailModal").modal('show');
-                                
-                            }
-                            
-                     
-                        </script>
+        <script>
+            function detailModal(name, referredDate, occasionDate, address,
+                    email, lastEmailDate, friendId, emailCanBeResent) {
+                        
+                var labelDiv = document.getElementById("contactDetailModalLabel");
+                while (labelDiv.firstChild) {
+                    labelDiv.removeChild(labelDiv.firstChild);
+                }
+                var labelContent = document.createTextNode(name);
+                labelDiv.appendChild(labelContent);
+
+                var labelDivRef = document.getElementById("contactDetailReferredDate");
+                while (labelDivRef.firstChild) {
+                    labelDivRef.removeChild(labelDivRef.firstChild);
+                }
+                var labelContentRef = document.createTextNode(referredDate);
+                labelDivRef.appendChild(labelContentRef);
+
+                var labelDivOcc = document.getElementById("contactDetailOccasionDate");
+                while (labelDivOcc.firstChild) {
+                    labelDivOcc.removeChild(labelDivOcc.firstChild);
+                }
+                var labelContentOcc = document.createTextNode(occasionDate);
+                labelDivOcc.appendChild(labelContentOcc);
+
+                var labelDivAddr = document.getElementById("contactDetailAddress");
+                while (labelDivAddr.firstChild) {
+                    labelDivAddr.removeChild(labelDivAddr.firstChild);
+                }
+                var labelContentAddr = document.createTextNode(address);
+                labelDivAddr.appendChild(labelContentAddr);
+
+                var labelDivEmail = document.getElementById("contactDetailEmail");
+                while (labelDivEmail.firstChild) {
+                    labelDivEmail.removeChild(labelDivEmail.firstChild);
+                }
+                var labelContentEmail = document.createTextNode(email);
+                labelDivEmail.appendChild(labelContentEmail);
+
+                var labelDivLast = document.getElementById("contactDetailLastEmail");
+                while (labelDivLast.firstChild) {
+                    labelDivLast.removeChild(labelDivLast.firstChild);
+                }
+                var labelContentLast = document.createTextNode(lastEmailDate);
+                labelDivLast.appendChild(labelContentLast);
+                
+                if(!emailCanBeResent){
+                    document.getElementById('buttonSubmit').style.visibility = 'hidden';
+                }
+
+                $("#modalFriendId").val(friendId);
+                console.log($("#modalFriendId").val() + " FriendId: " + friendId);
+                $("#contactDetailModal").modal('show');
+
+            }
+
+
+        </script>
         <script src="<c:url value="/resources/font-awesome/js/all.js"/>"></script>
         <script type="text/javascript" src="<c:url value="/resources/dashboard.js"/>"></script>
     </body>

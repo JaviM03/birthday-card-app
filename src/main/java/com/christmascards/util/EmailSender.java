@@ -25,27 +25,9 @@ public class EmailSender {
     
     public static String EMAILFROM = "christmascards254@gmail.com";
     
-    public static String sendEmail (String to, String mensaje, String subject, final String email, final String password) throws IOException{       
-                Email fromEmail = new Email(email);
-                Email toEmail = new Email(to);
-                Content content = new Content("text/plain", mensaje);
-                Mail mail = new Mail(fromEmail, subject, toEmail, content);
-                SendGrid sg = new SendGrid(System.getenv("SENDGRID_API_KEY"));
-                Request request = new Request();
-                try {
-                    request.setMethod(Method.POST);
-                    request.setEndpoint("mail/send");
-                    request.setBody(mail.build());
-                    Response response = sg.api(request);
-                    return "Email enviado";
-                  } catch (IOException ex) {
-                      System.out.println(ex.getMessage());
-                    return "Error enviando mensaje";
-                  }
-                }
-    
     public static String sendEmail(String to, String template,
-            ArrayList<String> personalizationParameters, ArrayList<String> personalizationValues) throws IOException{       
+            ArrayList<String> personalizationParameters, ArrayList<String> personalizationValues) throws IOException{ 
+                System.out.println("Send Email with Template selected");
                 Email fromEmail = new Email(EMAILFROM);
                 Email toEmail = new Email(to);
                 Mail mail = new Mail();

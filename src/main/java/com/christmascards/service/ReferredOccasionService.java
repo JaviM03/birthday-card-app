@@ -36,7 +36,7 @@ public class ReferredOccasionService {
     
     Integer PAGESIZE = 10;
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-    String referalUrl = "https://christmas-card-app2.herokuapp.com/referal?id=";
+    String referalUrl = "https://christmas-card-app2.herokuapp.com/referral?id=";
     ArrayList<String> personalizInitialPrameters = new ArrayList(Arrays.asList("Sender_Name","Sender_Address","Sender_City","Sender_State","Sender_Zip"));
     ArrayList<String> personalizInitialValues = new ArrayList(Arrays.asList("ChristmasCardApp","Specific Address","City","State","Zip Code"));
     
@@ -48,7 +48,7 @@ public class ReferredOccasionService {
         dateStart.clear(Calendar.SECOND);
         dateStart.clear(Calendar.MILLISECOND);
         if(dateRange == null){
-            return ror.findByUserAndIsDeletedOrderByReferredDateDescReferredOccasionId(user, Boolean.FALSE, new PageRequest(page, PAGESIZE));
+            return ror.findByUserAndIsDeletedOrderByReferredDateDescReferredOccasionIdDesc(user, Boolean.FALSE, new PageRequest(page, PAGESIZE));
         }
         if(dateRange.equals("monthly")){
             dateStart.set(Calendar.DAY_OF_MONTH, 1);
@@ -57,7 +57,7 @@ public class ReferredOccasionService {
             dateStart.set(Calendar.DAY_OF_WEEK, dateEnd.getFirstDayOfWeek());
         }
         else{
-            return ror.findByUserAndIsDeletedOrderByReferredDateDescReferredOccasionId(user, Boolean.FALSE, new PageRequest(page, PAGESIZE));
+            return ror.findByUserAndIsDeletedOrderByReferredDateDescReferredOccasionIdDesc(user, Boolean.FALSE, new PageRequest(page, PAGESIZE));
         }
         return ror.findByUserAndIsDeletedAndReferredDateBetweenOrderByReferredDateDescReferredOccasionId(user, Boolean.FALSE, dateStart, dateEnd, new PageRequest(page, PAGESIZE));
     }
@@ -65,14 +65,19 @@ public class ReferredOccasionService {
    public ReferredOccasion addnewUserReferredOccasion(ReferredOccasion referredOccasion, String occasionDate, Boolean emailRequested) throws ParseException, IOException{
         Calendar currentDate = Calendar.getInstance();
         if(occasionDate != null){
-            Date date = format.parse(occasionDate);
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(date);
-            referredOccasion.setOccasionDate(cal);
+            try{
+                Date date = format.parse(occasionDate);
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(date);
+                referredOccasion.setOccasionDate(cal);
+            }
+            catch(Exception e){
+                System.out.println(e.getMessage());
+            }
         }
 
         referredOccasion.setReferredDate(currentDate);
-        referredOccasion.setDateHasBeingFilled(Boolean.FALSE);
+        referredOccasion.setInfoHasBeingFilled(Boolean.FALSE);
         referredOccasion.setIsDeleted(Boolean.FALSE);
         String refToken = "";
         int i = 0;
@@ -101,7 +106,7 @@ public class ReferredOccasionService {
         User user = referredOccasion.getUser();
         ArrayList<String> personalizationValues = new ArrayList();
         personalizationValues.addAll(personalizInitialValues);
-        personalizationValues.add(user.getFirstName() + user.getLastName());
+        personalizationValues.add(user.getFirstName() + " " + user.getLastName());
         personalizationValues.add(referredOccasion.getFriendFirstName());
         personalizationValues.add(referalUrl+refToken);
         personalizationValues.add(referredOccasion.getOccasion());
@@ -135,6 +140,18 @@ public class ReferredOccasionService {
         EmailSender.sendEmail(referredOccasion.getEmail(), "d-6f962eb4504e47c28c749af83061b2e4", personalizationParameters,personalizationValues);
         referredOccasion.setLastEmailDate(currentDate);
         ror.save(referredOccasion);
+   }
+   
+   public ReferredOccasion findReferalDetail(String referralCode){
+       return ror.findFirstByReferrenceToken(referralCode);
+   }
+   
+   public ReferredOccasion findReferedOccasion(Integer id){
+       return ror.findOne(id);
+   }
+   
+   public ReferredOccasion saveReferedOccasion(ReferredOccasion refOccasion){
+       return ror.save(refOccasion);
    }
    
 }

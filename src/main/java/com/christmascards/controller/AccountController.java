@@ -74,7 +74,7 @@ public class AccountController {
             Page<ReferredOccasion> usersReferred = refService.getUsersReferredOccasions(user,(dateRange==null?"weekly":dateRange),currentPage);
             mv.addAllObjects(PaginAndSorting.dashboardPagingAndSorting(usersReferred,request,dateRange));
             mv.addObject("totalPages",usersReferred.getTotalPages());
-            mv.addObject("friends",usersReferred.getContent());
+            mv.addObject("referrals",usersReferred.getContent());
             mv.addObject("username", user.getFirstName()+" "+user.getLastName());
             currentPage = 0;
             dateRange = "weekly";
@@ -113,7 +113,7 @@ public class AccountController {
     @RequestMapping(value="/addOccasion", method=RequestMethod.POST)
     public void addFriend(HttpServletRequest request, HttpServletResponse response, @RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName,
             @RequestParam("email") String email, @RequestParam("occasionDate") String date, @RequestParam("occasion") String occasion, @RequestParam("address") String address,
-            @RequestParam("sendEmail") Boolean sendEmail) throws ParseException, IOException{
+            @RequestParam("sendEmail") String sendEmail) throws ParseException, IOException{
         if(LoginVerification.sessionCheck(request)){
             User user = (User) request.getSession().getAttribute("loggedUser");
             
@@ -125,7 +125,9 @@ public class AccountController {
             referredOccasion.setOccasion(occasion);
             referredOccasion.setUser(user);
             
-            ReferredOccasion returnedOccasion = refService.addnewUserReferredOccasion(referredOccasion, date, sendEmail);
+            System.out.println("Send Email is: "+ sendEmail);
+            
+            ReferredOccasion returnedOccasion = refService.addnewUserReferredOccasion(referredOccasion, date, Boolean.TRUE);
             if(returnedOccasion!=null){
                 referralCreated = true;
             }

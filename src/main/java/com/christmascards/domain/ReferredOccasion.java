@@ -21,7 +21,7 @@ public class ReferredOccasion implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="referred_occasion_id")
-    private Integer id;
+    private Integer referredOccasionId;
     
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="user_id")
@@ -54,7 +54,7 @@ public class ReferredOccasion implements Serializable {
     private String referrenceToken;
     
     @Column(name="date_has_being_filled")
-    private Boolean dateHasBeingFilled;
+    private Boolean infoHasBeingFilled;
     
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -75,12 +75,12 @@ public class ReferredOccasion implements Serializable {
     public ReferredOccasion() {
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getReferredOccasionId() {
+        return referredOccasionId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setReferredOccasionId(Integer referredOccasionId) {
+        this.referredOccasionId = referredOccasionId;
     }
 
     public User getUser() {
@@ -155,13 +155,14 @@ public class ReferredOccasion implements Serializable {
         this.referrenceToken = referrenceToken;
     }
 
-    public Boolean getDateHasBeingFilled() {
-        return dateHasBeingFilled;
+    public Boolean getInfoHasBeingFilled() {
+        return infoHasBeingFilled;
     }
 
-    public void setDateHasBeingFilled(Boolean dateHasBeingFilled) {
-        this.dateHasBeingFilled = dateHasBeingFilled;
+    public void setInfoHasBeingFilled(Boolean infoHasBeingFilled) {
+        this.infoHasBeingFilled = infoHasBeingFilled;
     }
+
 
     public Calendar getLastEmailDate() {
         return lastEmailDate;
