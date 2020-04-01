@@ -121,7 +121,7 @@ public class AccountController {
             referredOccasion.setFriendFirstName(firstName);
             referredOccasion.setFriendLastName(lastName);
             referredOccasion.setEmail(email);
-            referredOccasion.setAddress(address);
+            referredOccasion.setAddressLine1(address);
             referredOccasion.setOccasion(occasion);
             referredOccasion.setUser(user);
             

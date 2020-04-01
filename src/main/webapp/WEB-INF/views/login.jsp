@@ -61,6 +61,11 @@
                                 <div class="text-center">Wrong email or password.</div> 
                             </div>
                         </c:if>
+                        <c:if test="${referalCode}">
+                            <div class="alert alert-warning" role="alert">
+                                <div class="text-center">Sorry, your referral token does not match with our existing data.</div> 
+                            </div>
+                        </c:if>
                         <div class="wrap-input100">
                             <input class="input100" type="email" name="email" placeholder="Email" style="font-family: 'Open Sans', sans-serif;" required="">
                             <span class="focus-input100-1"></span>

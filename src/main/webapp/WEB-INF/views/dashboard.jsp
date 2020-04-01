@@ -218,7 +218,7 @@
                                                         <td class="text-center"><div class="badge ${referral.infoHasBeingFilled?'badge-success':'badge-warning'}">${referral.infoHasBeingFilled?'Ready':'Pending'}</div></td>
                                                         <td class="text-center">
                                                             <button type="button" id="PopoverCustomT-1" class="btn btn-primary btn-sm" onclick="detailModal('${referral.friendFirstName} ${referral.friendLastName}',
-                                                                            '<fmt:formatDate type="date" dateStyle="short" value="${referral.referredDate.time}"/>', '<fmt:formatDate type="date" dateStyle="short" value="${referral.occasionDate.time}"/>', '${referral.address}',
+                                                                            '<fmt:formatDate type="date" dateStyle="short" value="${referral.referredDate.time}"/>', '<fmt:formatDate type="date" dateStyle="short" value="${referral.occasionDate.time}"/>', '${referral.addressLine1}',
                                                                             '${referral.email}', '<fmt:formatDate type="date" dateStyle="short" value="${referral.lastEmailDate.time}"/>', '${referral.referredOccasionId}', ${referral.emailCanBeResent})">Details</button>
                                                         </td>
 
@@ -316,7 +316,7 @@
                                 <input type="text" autocomplete="off" class="form-control" placeholder="Address" id="firstNameModal" name="address" />
                                 <label for="emailAddressModal">Email Address <font color="red">*</font></label>
                                 <input type="email" autocomplete="off" class="form-control" placeholder="Email Address" id="emailAddressModal" name="email" required/>
-                                <label for="dateModal">Date</label>
+                                <label for="dateModal">Date</label> 
                                 <input type="date" class="form-control" id="dateModal" name="occasionDate"/>
                                 <label for="occasionModal">Occasion <font color="red">*</font></label>
                                 <input type="text" autocomplete="off" class="form-control" placeholder="Occasion" id="ocassionModal" maxLength="12" name="occasion" required/>

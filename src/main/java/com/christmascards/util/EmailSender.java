@@ -46,6 +46,7 @@ public class EmailSender {
                     request.setBody(mail.build());
                     Response response = sg.api(request);
                     System.out.println("Mensaje al usuario enviado. " + response.getStatusCode());
+                    System.out.println("Body del return: " + response.getBody());
                     return response.getStatusCode()+"";
                   } catch (IOException ex) {
                       System.out.println(ex.getMessage());

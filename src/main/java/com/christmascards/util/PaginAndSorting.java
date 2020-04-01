@@ -59,8 +59,9 @@ public class PaginAndSorting {
                 valuesMap.put("firstPageNumber",resultsPage-1);
             }
             //Estamos al final de las páginas, en la posición de las páginas 2
-            else if(totalPageCount.equals(resultsPage+1) && totalPageCount.equals(1)){
+            else if(totalPageCount.equals(resultsPage+1) && totalPageCount.equals(2)){
                 valuesMap.put("secondPage",true);
+                valuesMap.put("secondPageExist",true);
                 valuesMap.put("lastPageUrl",request.getContextPath()+"/dashboard?dateRange="+dateRange+"&page="+(resultsPage-1));
                 valuesMap.put("firstPageUrl",request.getContextPath()+"/dashboard?dateRange="+dateRange+"&page="+(resultsPage-1));
                 valuesMap.put("secondPageNumber",resultsPage+1);

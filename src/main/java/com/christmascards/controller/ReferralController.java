@@ -37,9 +37,15 @@ public class ReferralController {
     public ModelAndView referralPoint(HttpServletRequest request, HttpServletResponse response, @RequestParam(name="id")String id) throws IOException{
         
         if(LoginVerification.sessionCheck(request)){
-            if(refOccService.findReferalDetail(id)!=null){
-                MainController.REFERREDCODE = id;
-                response.sendRedirect(request.getContextPath()+"/referral/info");
+            ReferredOccasion refOccasion = refOccService.findReferalDetail(id);
+            if(refOccasion!=null){
+                if(refOccasion.getInfoHasBeingFilled()){
+                 response.sendRedirect(request.getContextPath()+"/login?referred=true");   
+                }
+                else{
+                    MainController.REFERREDCODE = id;
+                    return new ModelAndView("referral/referralForm");
+                }
             }
             else{
                 response.sendRedirect(request.getContextPath()+"/login?referralCode=false");
@@ -48,8 +54,7 @@ public class ReferralController {
         else{
         if(refOccService.findReferalDetail(id)!=null){
                 MainController.REFERREDCODE = id;
-                System.out.println("Refered Code = " + MainController.REFERREDCODE);
-                return new ModelAndView("referral/referralLandingPage");
+                return new ModelAndView("referral/referralForm");
         }
         else{
             response.sendRedirect(request.getContextPath()+"/");
@@ -58,34 +63,23 @@ public class ReferralController {
         return null;
     }
     
-    @RequestMapping(value="/referral/info")
-    public ModelAndView referralForm(HttpServletRequest request, HttpServletResponse response) throws IOException{
-        
-        if(LoginVerification.sessionCheck(request)){
-           
-            if(MainController.REFERREDCODE!=null){
-                ReferredOccasion refOccasion = refOccService.findReferalDetail(MainController.REFERREDCODE);
-                ModelAndView mv = new ModelAndView("referral/referralForm");
-                mv.addObject("refOccasion",refOccasion);
-                return mv;
-            }
-            else{
-                response.sendRedirect(request.getContextPath()+"/dashboard");
-            }
-        }
-        else{
-            response.sendRedirect(request.getContextPath()+"/login");
-        }
-        return null;
-    }
     
     @RequestMapping(value="/referred-information")
     public ModelAndView referralInformation(HttpServletRequest request, HttpServletResponse response, @RequestParam(name="referredOccasionId") Integer id,
-            @RequestParam(name="occasionDate") String occasionDate, @RequestParam(name="address") String address) throws IOException, ParseException{
+            @RequestParam(name="occasionDate") String occasionDate, @RequestParam(name="addressLine1") String addressLine1,
+            @RequestParam(name="addressLine2", required = false) String addressLine2, @RequestParam(name="zipCode") String zipCode,
+            @RequestParam(name="country") String country, @RequestParam(name="state") String state,
+            @RequestParam(name="city") String city) throws IOException, ParseException{
+        
         if(LoginVerification.sessionCheck(request)){
             if(MainController.REFERREDCODE!=null){
                 ReferredOccasion refOccasion = refOccService.findReferedOccasion(id);
-                refOccasion.setAddress(address);
+                refOccasion.setAddressLine1(addressLine1);
+                refOccasion.setAddressLine2(addressLine2);
+                refOccasion.setZipCode(zipCode);
+                refOccasion.setCity(city);
+                refOccasion.setCountry(country);
+                refOccasion.setState(state);
                 Date date= format.parse(occasionDate);
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(date);

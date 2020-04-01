@@ -41,7 +41,8 @@ public class MainController {
     }   
     
     @RequestMapping(value="/login")
-    public ModelAndView login(HttpServletRequest request, HttpServletResponse response, @RequestParam(name="attempt", required=false) Boolean attempt) throws IOException{
+    public ModelAndView login(HttpServletRequest request, HttpServletResponse response, @RequestParam(name="attempt", required=false) Boolean attempt,
+            @RequestParam(name="referralCode", required=false) Boolean referralCode, @RequestParam(name="referred", required=false) Boolean alreadyReferred) throws IOException{
         if(LoginVerification.sessionCheck(request)){
             if(REFERREDCODE==null){
                 response.sendRedirect(request.getContextPath()+"/dashboard");
@@ -52,6 +53,8 @@ public class MainController {
         }
         ModelAndView mv = new ModelAndView("login");
         if(attempt!=null){if(attempt){mv.addObject("failedLogin", true);}}
+        if(alreadyReferred!=null){if(alreadyReferred){mv.addObject("alreadyReferred", true);}}
+        if(referralCode!=null){if(referralCode){mv.addObject("referralCode", true);}}
         return mv;
     }
     

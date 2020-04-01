@@ -23,33 +23,33 @@
                 -moz-box-sizing: border-box;    
                 box-sizing: border-box; 
             }
-           @media only screen and (max-width: 600px) {
-               .input-phone{
-                  width:285px;
-               }
-           }
-           @media only screen and (min-width: 992px) {
-               input-phone{
-               }
-           }
+            @media only screen and (max-width: 600px) {
+                .input-phone{
+                    width:285px;
+                }
+            }
+            @media only screen and (min-width: 992px) {
+                input-phone{
+                }
+            }
         </style>
         <style type="text/css">
-           
+
             .intl-tel-input {
                 display: table-cell;
-              }
-              .intl-tel-input .selected-flag {
+            }
+            .intl-tel-input .selected-flag {
                 z-index: 4;
-              }
-              .intl-tel-input .country-list {
+            }
+            .intl-tel-input .country-list {
                 z-index: 5;
-              }
-              .input-group .intl-tel-input .form-control {
+            }
+            .input-group .intl-tel-input .form-control {
                 border-top-left-radius: 4px;
                 border-top-right-radius: 0;
                 border-bottom-left-radius: 4px;
                 border-bottom-right-radius: 0;
-              }
+            }
             :root {
                 --input-padding-x: 1.5rem;
                 --input-padding-y: .75rem;
@@ -205,19 +205,39 @@
                         <div class="col-sm-9 col-md-7 col-lg-4 col-11 mx-auto">
                             <div>
                                 <div class="mb-3">
-                                    <div class="form-label-group">
-                                        <input type="text" id="address" class="form-control" placeholder="Address" name="address" required autofocus>
-                                        <label for="address">Address</label>
-                                    </div>                                  
+                                    <label for="countryId">Country <font color="red">*</font></label>
+                                    <select name="country" class="countries form-control" id="countryId"  required>
+                                        <option value="">Select Country</option>
+                                    </select>
+                                    <label for="stateId">State <font color="red">*</font></label>
+                                    <select name="state" class="states" id="stateId"  required>
+                                        <option value="">Select State</option>
+                                    </select>
+                                    <label for="cityId">City <font color="red">*</font></label>
+                                    <select name="city" class="cities" id="cityId" required>
+                                        <option value="">Select City</option>
+                                    </select>
                                 </div>                           
                             </div>
                         </div>
                         <div class="col-sm-9 col-md-7 col-lg-4 col-11 mx-auto">
                             <div class="mb-5">
                                 <div class="">
+                                    <div class="form-label-group">
+                                        <input type="text" id="addressline1" class="form-control" placeholder="Address Line 1" name="addressLine1" required autofocus>
+                                        <label for="addressline1">Address Line 1 <font color="red">*</font></label>
+                                    </div>
+                                    <div class="form-label-group">
+                                        <input type="text" id="addressLine2" class="form-control" placeholder="Address Line 2" name="addressLine2">
+                                        <label for="addressLine2">Address Line 2</label>
+                                    </div>
+                                    <div class="form-label-group">
+                                        <input type="text" id="zipCode" class="form-control" placeholder="Zip Code" name="zipCode" requireds>
+                                        <label for="zipCode">Zip Code <font color="red">*</font></label>
+                                    </div> 
                                     <div class="form-label-group ">
                                         <input type="date" id="occasionDate" class="form-control" placeholder="Occasion Date" name="occasionDate" required >
-                                        <label for="occasionDate">Submit</label>
+                                        <label for="occasionDate">Occasion Date <font color="red">*</font></label>
                                     </div>
                                     <input type="hidden" value="${refOccasion.referredOccasionId}" name="referredOccasionId">
                                 </div>
@@ -226,7 +246,7 @@
                         <div class="col-lg-1"></div>
                     </div>                       
                     <div class="col-lg-2 mx-auto mt-1 mb-5">
-                        <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign up</button>
+                        <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Submit</button>
                     </div>
                 </div>
             </form>
@@ -234,5 +254,6 @@
         <script src="https://code.jquery.com/jquery-latest.min.js"></script>
         <script src="<c:url value="/resources/tel-input/build/js/intlTelInput-jquery.min.js"/>"></script> 
         <script src="<c:url value="/resources/tel-input/build/js/intlTelInput.js"/>"></script>
+        <script src="//geodata.solutions/includes/countrystatecity.js"></script>
     </body>
 </html>

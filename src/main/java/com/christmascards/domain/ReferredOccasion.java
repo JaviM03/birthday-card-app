@@ -47,8 +47,8 @@ public class ReferredOccasion implements Serializable {
     @Column(name="relationship", length=36)
     private String relationship;
     
-    @Column(name="address", length=120)
-    private String address;
+    @Column(name="address_line1", length=120)
+    private String addressLine1;
     
     @Column(name="referrence_token", length=120, unique = true)
     private String referrenceToken;
@@ -72,7 +72,20 @@ public class ReferredOccasion implements Serializable {
     @Column(name="is_deleted")
     private Boolean isDeleted;
     
-
+    @Column(name="address_line2")
+    private String addressLine2;
+    
+    @Column(name="zip_code")
+    private String zipCode;
+    
+    @Column(name="country")
+    private String country;
+    
+    @Column(name="\"state\"")
+    private String state;
+    
+    @Column(name="city")
+    private String city;
     
 
     public ReferredOccasion() {
@@ -141,15 +154,7 @@ public class ReferredOccasion implements Serializable {
     public void setRelationship(String relationship) {
         this.relationship = relationship;
     }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
+    
     public String getReferrenceToken() {
         return referrenceToken;
     }
@@ -199,6 +204,55 @@ public class ReferredOccasion implements Serializable {
         this.isDeleted = isDeleted;
     }
 
+    public String getAddressLine1() {
+        return addressLine1;
+    }
+
+    public void setAddressLine1(String addressLine1) {
+        this.addressLine1 = addressLine1;
+    }
+
+    public String getAddressLine2() {
+        return addressLine2;
+    }
+
+    public void setAddressLine2(String addressLine2) {
+        this.addressLine2 = addressLine2;
+    }
+
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    
     
     
 }
