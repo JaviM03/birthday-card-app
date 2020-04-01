@@ -35,15 +35,17 @@ public class ReferralController {
     
     @RequestMapping(value="/referral")
     public ModelAndView referralPoint(HttpServletRequest request, HttpServletResponse response, @RequestParam(name="id")String id) throws IOException{
-        
+        ReferredOccasion refOccasion = refOccService.findReferalDetail(id);
         if(LoginVerification.sessionCheck(request)){
-            ReferredOccasion refOccasion = refOccService.findReferalDetail(id);
+            
             if(refOccasion!=null){
                 if(refOccasion.getInfoHasBeingFilled()){
                  response.sendRedirect(request.getContextPath()+"/login?referred=true");   
                 }
                 else{
                     MainController.REFERREDCODE = id;
+                    ModelAndView mv = new ModelAndView("referral/referralForm");
+                    mv.addObject("refOccasion", refOccasion);
                     return new ModelAndView("referral/referralForm");
                 }
             }
@@ -52,8 +54,10 @@ public class ReferralController {
             }
         }
         else{
-        if(refOccService.findReferalDetail(id)!=null){
+        if(refOccasion!=null){
                 MainController.REFERREDCODE = id;
+                ModelAndView mv = new ModelAndView("referral/referralForm");
+                mv.addObject("refOccasion", refOccasion);
                 return new ModelAndView("referral/referralForm");
         }
         else{

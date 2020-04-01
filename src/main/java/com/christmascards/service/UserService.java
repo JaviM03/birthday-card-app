@@ -30,9 +30,9 @@ public class UserService {
     
     String senderEmail = "christmascards254@gmail.com";
     /* Hans API */
-    //String welcomeMessageTemplateId = "d-7079eb579209441ea6148739f0d1a095";
+    String welcomeMessageTemplateId = "d-7079eb579209441ea6148739f0d1a095";
     /* Edwin API*/
-    String welcomeMessageTemplateId = "d-caa160ce04714770a9ee0d78be44f13a";
+    //String welcomeMessageTemplateId = "d-caa160ce04714770a9ee0d78be44f13a";
     
     //Saves an user on the DB after confirmation of phone number has been completed and sends an email to desired email address
     @Transactional

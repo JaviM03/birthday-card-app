@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Sign Up</title>
+        <title>Fill Your Info</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="<c:url value="/resources/main.css" />">
         <link rel="stylesheet" href="<c:url value="/resources/bootstrap.css" />">
@@ -210,11 +210,11 @@
                                         <option value="">Select Country</option>
                                     </select>
                                     <label for="stateId">State <font color="red">*</font></label>
-                                    <select name="state" class="states" id="stateId"  required>
+                                    <select name="state" class="states form-control" id="stateId"  required>
                                         <option value="">Select State</option>
                                     </select>
                                     <label for="cityId">City <font color="red">*</font></label>
-                                    <select name="city" class="cities" id="cityId" required>
+                                    <select name="city" class="cities form-control" id="cityId" required>
                                         <option value="">Select City</option>
                                     </select>
                                 </div>                           

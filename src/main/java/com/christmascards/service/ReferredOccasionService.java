@@ -40,9 +40,9 @@ public class ReferredOccasionService {
     ArrayList<String> personalizInitialPrameters = new ArrayList(Arrays.asList("Sender_Name","Sender_Address","Sender_City","Sender_State","Sender_Zip"));
     ArrayList<String> personalizInitialValues = new ArrayList(Arrays.asList("ChristmasCardApp","Specific Address","City","State","Zip Code"));
     /* Hans API*/
-    //String referralMessageTemplateId = "d-8b7f245fed484c6d866480d80578555a";
+    String referralMessageTemplateId = "d-8b7f245fed484c6d866480d80578555a";
     /* Edwin API*/
-    String referralMessageTemplateId = "d-6f962eb4504e47c28c749af83061b2e4";
+    //String referralMessageTemplateId = "d-6f962eb4504e47c28c749af83061b2e4";
     
     public Page<ReferredOccasion> getUsersReferredOccasions(User user, String dateRange, Integer page){
         Calendar dateStart = Calendar.getInstance();
