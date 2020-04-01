@@ -224,7 +224,7 @@
                             <div class="mb-5">
                                 <div class="">
                                     <div class="form-label-group">
-                                        <input type="text" id="addressline1" class="form-control" placeholder="Address Line 1" name="addressLine1" required autofocus>
+                                        <input type="text" id="addressline1" class="form-control" placeholder="Address Line 1" name="addressLine1" required>
                                         <label for="addressline1">Address Line 1 <font color="red">*</font></label>
                                     </div>
                                     <div class="form-label-group">
