@@ -232,7 +232,7 @@
                                         <label for="addressLine2">Address Line 2</label>
                                     </div>
                                     <div class="form-label-group">
-                                        <input type="text" id="zipCode" class="form-control" placeholder="Zip Code" name="zipCode" requireds>
+                                        <input type="text" id="zipCode" class="form-control" placeholder="Zip Code" name="zipCode" required>
                                         <label for="zipCode">Zip Code <font color="red">*</font></label>
                                     </div> 
                                     <div class="form-label-group ">
