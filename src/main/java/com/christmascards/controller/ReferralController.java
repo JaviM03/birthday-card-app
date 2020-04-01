@@ -43,10 +43,11 @@ public class ReferralController {
                  response.sendRedirect(request.getContextPath()+"/login?referred=true");   
                 }
                 else{
+                    System.out.println("Entre al primer if: "+ refOccasion.getOccasion());
                     MainController.REFERREDCODE = id;
                     ModelAndView mv = new ModelAndView("referral/referralForm");
                     mv.addObject("refOccasion", refOccasion);
-                    return new ModelAndView("referral/referralForm");
+                    return mv;
                 }
             }
             else{
@@ -55,10 +56,11 @@ public class ReferralController {
         }
         else{
         if(refOccasion!=null){
+            System.out.println("Entre al segundo if: "+refOccasion.getOccasion());
                 MainController.REFERREDCODE = id;
                 ModelAndView mv = new ModelAndView("referral/referralForm");
                 mv.addObject("refOccasion", refOccasion);
-                return new ModelAndView("referral/referralForm");
+                return mv;
         }
         else{
             response.sendRedirect(request.getContextPath()+"/");
@@ -75,7 +77,6 @@ public class ReferralController {
             @RequestParam(name="country") String country, @RequestParam(name="state") String state,
             @RequestParam(name="city") String city) throws IOException, ParseException{
         
-        if(LoginVerification.sessionCheck(request)){
             if(MainController.REFERREDCODE!=null){
                 ReferredOccasion refOccasion = refOccService.findReferedOccasion(id);
                 refOccasion.setAddressLine1(addressLine1);
@@ -97,10 +98,7 @@ public class ReferralController {
                 response.sendRedirect(request.getContextPath()+"/login");
             }
             
-        }
-        else{
-           response.sendRedirect(request.getContextPath()+"/login");
-        }
+
         return null;
     }
 }
