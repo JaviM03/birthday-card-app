@@ -51,7 +51,58 @@
         <link href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.css" rel="stylesheet"/>
         <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+        <script src="<c:url value="/resources/papaparse.min.js"/>"></script>    
+        <script type="text/javascript">
+            $(document).ajaxStop(function(){
+                window.location.reload();
+            });
+            $(document).ready(function(){
 
+              $('#submit-file').on("click",function(e){
+                          e.preventDefault();
+                          $('#files').parse({
+                                  config: {
+                                          delimiter: "auto",
+                                          complete: insertToDB,
+                                  },
+                                  before: function(file, inputElem)
+                                  {
+                                          //console.log("Parsing file...", file);
+                                  },
+                                  error: function(err, file)
+                                  {
+                                          //console.log("ERROR:", err, file);
+                                  },
+                                  complete: function()
+                                  {
+                                          //console.log("Done with all files");
+                                  }
+                          });
+              });
+              
+
+                  function insertToDB(results){
+
+                          var data = results.data;
+                         //ajax to w ork with
+                            $.ajax({
+                                url: `${pageContext.request.contextPath}/addByCSV/`,
+                                            type: 'POST',
+                                            data: {csv: JSON.stringify(data)},
+                                            success: function () {
+                                                //document.getElementById("test").innerHTML = "Funciono";
+                                                //console.log(csv);
+                                            },
+                                            error: function(xhr,status,error){
+//                                                console.log(xhr.responseText);
+//                                                document.getElementById("test").innerHTML = "No Funciono";
+                                            }
+                            });
+                          
+                  }
+            });
+          </script>
     </head>
     <body>
         <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
@@ -157,8 +208,9 @@
                             </ul>
                         </div>
                     </div>
-                </div>    <div class="app-main__outer">
-
+                </div>    
+                                        
+                <div class="app-main__outer">
                     <div class="app-main__inner">
                         <c:if test="${emailSent}">
                             <div class="alert alert-primary" role="alert">
@@ -251,7 +303,7 @@
                                 </div>
                             </div>
                         </div>
-
+                                                
 
                     </div>
                     <div class="app-wrapper-footer">
@@ -304,6 +356,30 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
+                    
+                    <!--modal buttons-->
+                    
+                    <div class="mt-4 mb-2 row" >
+                        <div class="col-sm-12">
+                          <div class="text-center">
+                            <button class="btn-wide btn btn-secondary btn-add ml-4" style="" data-toggle="modal" data-target="#addContactCSV" data-dismiss="modal">Import (CSV)</button>                            
+                            <!--<button class="btn btn-primary btn-sm" style="" data-toggle="modal" data-target="#addContactCSV" data-dismiss="modal">Import (CSV)</button>-->
+                          </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-2 mb-4 row">
+                        <div class="col-sm-12">
+                          <div class="text-center">
+                            <button class="btn-wide btn btn-secondary btn-add ml-4" style="" data-toggle="modal" data-target="#addContactManual" data-dismiss="modal">Add contact Manually</button>
+                            <!--<button class="btn-wide btn btn-secondary btn-add ml-4" style="" data-toggle="modal" data-target="#addContactManual" data-dismiss="modal">Add contact Manually</button>-->
+                          </div>
+                        </div>
+                    </div>
+                    
+                    
+                    
+                    <!--
                     <form method="POST" action="${pageContext.request.contextPath}/addOccasion">
                         <div class="modal-body">
                             <div class="form-group">
@@ -332,9 +408,13 @@
                             <button type="submit" class="btn btn-primary">Save</button>
                         </div>
                     </form>
+                        -->
+                        
+                        
                 </div>
             </div>
         </div>
+                        
         <!------------ Contact Detail Modal ------------>
         <div class="modal fade" id="contactDetailModal" tabindex="-1" role="dialog" aria-labelledby="contactDetailModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -380,7 +460,113 @@
 
                 </div>
             </div>
+                            
         </div>
+                            
+         <!-- Add Contact Manual-->
+        <div class="modal fade" id="addContactManual" tabindex="-1" role="dialog" aria-labelledby="addContactModalLable" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add Contact</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    
+                    <form method="POST" action="${pageContext.request.contextPath}/addOccasion">
+                        <div class="modal-body">
+                            <div class="form-group">
+
+                                <label for="firstNameModal">First Name <font color="red">*</font></label>
+                                <input type="text" autocomplete="off" class="form-control" placeholder="First Name" id="firstNameModal" name="firstName" maxLength="12" required/>
+                                <label for="lastNameModal">Last Name</label>
+                                <input type="text" autocomplete="off" class="form-control" placeholder="Last Name" id="lastNameModal" name="lastName" maxLength="12"/>
+                                <label for="firstNameModal">Address</label>
+                                <input type="text" autocomplete="off" class="form-control" placeholder="Address" id="firstNameModal" name="address" />
+                                <label for="emailAddressModal">Email Address <font color="red">*</font></label>
+                                <input type="email" autocomplete="off" class="form-control" placeholder="Email Address" id="emailAddressModal" name="email" required/>
+                                <label for="dateModal">Date</label> 
+                                <input type="date" class="form-control" id="dateModal" name="occasionDate"/>
+                                <label for="occasionModal">Occasion <font color="red">*</font></label>
+                                <input type="text" autocomplete="off" class="form-control" placeholder="Occasion" id="ocassionModal" maxLength="12" name="occasion" required/>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="sendEmailModal" name="sendEmail" checked>
+                                    <label class="form-check-label" for="sendEmailModal">Request the rest of the information by email</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
+                    
+                    <!-- Addcontact Form to move 
+                    <form method="POST" action="${pageContext.request.contextPath}/addOccasion">
+                        <div class="modal-body">
+                            <div class="form-group">
+
+                                <label for="firstNameModal">First Name <font color="red">*</font></label>
+                                <input type="text" autocomplete="off" class="form-control" placeholder="First Name" id="firstNameModal" name="firstName" maxLength="12" required/>
+                                <label for="lastNameModal">Last Name</label>
+                                <input type="text" autocomplete="off" class="form-control" placeholder="Last Name" id="lastNameModal" name="lastName" maxLength="12"/>
+                                <label for="firstNameModal">Address <font color="red">*</font></label>
+                                <input type="text" autocomplete="off" class="form-control" placeholder="Address" id="firstNameModal" name="address"  required/>
+                                <label for="emailAddressModal">Email Address <font color="red">*</font></label>
+                                <input type="email" autocomplete="off" class="form-control" placeholder="Email Address" id="emailAddressModal" name="email" required/>
+                                <label for="dateModal">Date <font color="red">*</font></label>
+                                <input type="date" class="form-control" id="dateModal" name="occasionDate"/>
+                                <label for="occasionModal">Occasion <font color="red">*</font></label>
+                                <input type="text" autocomplete="off" class="form-control" placeholder="Occasion" id="ocassionModal" maxLength="12" name="occasion" required/> 
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form> -->
+                        
+          
+                </div>
+            </div>
+        </div>
+                        
+        <!-- Add Contact By CSV -->
+        <div class="modal fade" id="addContactCSV" tabindex="-1" role="dialog" aria-labelledby="addContactModalLable" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add Contact</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    
+                    <!--csv form -->
+                    <form>
+                        <div class="modal-body">
+                            <div class="form-group">
+					<div class="form-group">
+                                                      <label for="files">Upload a CSV formatted file:</label>
+                                                      <input type="file" id="files"  class="form-control" accept=".csv" required />
+                                                    </div>                             
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" id="submit-file" class="btn btn-primary">Upload File</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>                   
+                            
+                            
+                            
         <script>
             function detailModal(name, referredDate, occasionDate, address,
                     email, lastEmailDate, friendId, emailCanBeResent) {

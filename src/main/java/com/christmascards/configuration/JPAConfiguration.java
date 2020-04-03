@@ -44,9 +44,10 @@ public class JPAConfiguration {
 	public DataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setDriverClassName("org.postgresql.Driver");
-		dataSource.setUrl("jdbc:postgresql://ec2-174-129-33-88.compute-1.amazonaws.com:5432/ddspagk7fk5kaj?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory");
-		dataSource.setUsername("ppmcaqnxnrsiee");
-		dataSource.setPassword("fac440f2f980913cbfcf81731101bcbd97502299ae6377f3156b4f3c94dcd83a");
+		dataSource.setUrl("jdbc:postgresql://localhost:5432/birthdayapp");
+                //dataSource.setUrl("jdbc:mysql://localhost:3306/SISNNA");
+		dataSource.setUsername("postgres");
+		dataSource.setPassword("root");
 		return (DataSource) dataSource;
 	}
 	
