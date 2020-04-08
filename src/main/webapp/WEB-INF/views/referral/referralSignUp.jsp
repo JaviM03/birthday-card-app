@@ -213,7 +213,7 @@
                             <div class="form-label-group">                               
                                 <input type="password" id="inputPassword" class="form-control" placeholder="Password"  name="password"  required>  
                                 <label for="inputPassword">Password</label> 
-                                <input type="hidden" value="${id}" name="changeNumber">
+                                <input type="hidden" value="${referredOccasionId}" name="id">
                             </div>
                         </div>
                         <div class="col-lg-2">                           

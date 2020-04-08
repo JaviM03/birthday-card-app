@@ -161,7 +161,7 @@
         <div class="container">
             <div class="row card card-signin mb-5 ml-2 mr-2 mt-5" >
                 <div class='mt-5 text-center'><h2>Thank you for joining us!</h2></div>
-                <div class="mt-2 text-center" style="color:#AAABBC"><h4>Your account has been created and you'll be shortly redirected to the dashboard.</h4></div>
+                <div class="mt-2 text-center" style="color:#AAABBC"><h4>Your account has been created. You'll be shortly redirected to the dashboard.</h4></div>
                 <div class="text-center mb-5" style='font-size:22px'><a href="${pageContext.request.contextPath}/dashboard">Go now!</a></div>
             </div>
         </div>

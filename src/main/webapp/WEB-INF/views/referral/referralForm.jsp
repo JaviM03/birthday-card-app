@@ -5,11 +5,12 @@
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Fill Your Info</title>
+        <title>Share Your Date</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="<c:url value="/resources/main.css" />">
         <link rel="stylesheet" href="<c:url value="/resources/bootstrap.css" />">
@@ -194,7 +195,7 @@
     </head>
     <body>
         <script src="<c:url value="/resources/font-awesome/js/all.js"/>"></script>
-        <div class="pt-2 pb-2 pl-3 color-hover" style="color:black;"><a href="${pageContext.request.contextPath}" style="color:black; display: flex; align-items: center;"><i class="fas fa-arrow-left fa-2x pr-1" style="color:lightgrey;"></i>Go Back</a></div>
+        <div class="pt-2 pb-2 pl-3 color-hover" style="color:black;"><a href="${pageContext.request.contextPath}" style="color:black; display: flex; align-items: center;"><i class="fas fa-arrow-left fa-2x pr-1" style="color:lightgrey;"></i>Go To Home</a></div>
         <div class="container">
             <form class="form-signin" id="form-register" method="POST" action="${pageContext.request.contextPath}/referred-information">
                 <div class="row card card-signin mb-5 ml-2 mr-2" >
@@ -236,7 +237,8 @@
                                         <label for="zipCode">Zip Code <font color="red">*</font></label>
                                     </div> 
                                     <div class="form-label-group ">
-                                        <input type="date" id="occasionDate" class="form-control" placeholder="Occasion Date" name="occasionDate" required >
+                                        <input type="date" id="occasionDate" class="form-control" placeholder="Occasion Date" name="occasionDate"
+                                               value="<fmt:formatDate value="${refOccasion.occasionDate.time}" pattern="yyyy-MM-dd" type="date" />" required >
                                         <label for="occasionDate">Occasion Date <font color="red">*</font></label>
                                     </div>
                                     <input type="hidden" value="${refOccasion.referredOccasionId}" name="referredOccasionId">

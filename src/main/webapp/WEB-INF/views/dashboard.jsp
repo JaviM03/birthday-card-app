@@ -49,31 +49,77 @@
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
         <link href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.css" rel="stylesheet"/>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js" ></script>
         <script src="<c:url value="/resources/jquery-ui-1.12.1.custom/jquery-ui.min.js"/>"></script>
         <link href="<c:url value="/resources/jquery-ui-1.12.1.custom/jquery-ui.min.css"/>" rel="stylesheet"/>
+        <script src="<c:url value="/resources/papaparse.min.js"/>"></script> 
         <script>
-           $( function() {
+            //Function for asigning sugestions to occasion input on modal
+            $(function () {
                 var availableTags = [
-                  "Birthday",
-                  "Wedding",
-                  "Birth",
-                  "Welcome",
-                  "Goodbye",
-                  "Christmas"
+                    "Birthday",
+                    "Wedding",
+                    "Birth",
+                    "Welcome",
+                    "Goodbye",
+                    "Christmas"
                 ];
-                console.log(availableTags);
-                $( "#ocassionModal" ).autocomplete({
+                $("#ocassionModal").autocomplete({
                     source: availableTags
-                  });
-                  $("#ocassionModal").autocomplete("option", "appendTo", "#ocassionFormModal")
-                } );
-                
-                
+                });
+                $("#ocassionModal").autocomplete("option", "appendTo", "#ocassionFormModal")
+            });
+            $(document).ajaxStop(function () {
+                window.location.reload();
+            });
+
+            $(document).ready(function () {
+                $('#submit-file').on("click", function (e) {
+                    e.preventDefault();
+                    $('#files').parse({
+                        config: {
+                            delimiter: "auto",
+                            complete: insertToDB,
+                        },
+                        before: function (file, inputElem)
+                        {
+                            //console.log("Parsing file...", file);
+                        },
+                        error: function (err, file)
+                        {
+                            //console.log("ERROR:", err, file);
+                        },
+                        complete: function ()
+                        {
+                            //console.log("Done with all files");
+                        }
+                    });
+                });
+
+                function insertToDB(results) {
+                    var data = results.data;
+                    //ajax to w ork with
+                    $.ajax({
+                        url: '${pageContext.request.contextPath}/addByCSV',
+                                type: 'POST',
+                        data: {csv: JSON.stringify(data)},
+                        success: function () {
+                            //document.getElementById("test").innerHTML = "Funciono";
+                            //console.log(csv);
+                        },
+                        error: function (xhr, status, error) {
+//                                                console.log(xhr.responseText);
+//                                                document.getElementById("test").innerHTML = "No Funciono";
+                        }
+                    });
+
+                }
+            });
+
         </script>
     </head>
     <body>
-       
+
         <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
             <div class="app-header header-shadow" style="background-color: #0062cc; color: white;">
                 <div class="app-header__logo">
@@ -114,7 +160,7 @@
                                 <div class="widget-content-wrapper">
                                     <div class="widget-content-left">
                                         <div class="btn-group">
-                                                <img width="42" class="rounded-circle" src="<c:url value="/resources/img/default-profile2.jpg"/>" alt="">
+                                            <img width="42" class="rounded-circle" src="<c:url value="/resources/img/default-profile2.jpg"/>" alt="">
                                         </div>
                                     </div>
                                     <div class="widget-content-left  ml-3 header-user-info">
@@ -321,6 +367,26 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
+                    <!--modal buttons-->
+
+                    <div class="mt-4 mb-2 row" >
+                        <div class="col-sm-12">
+                            <div class="text-center">
+                                <button class="btn-wide btn btn-secondary btn-add ml-4" style="" data-toggle="modal" data-target="#addContactCSV" data-dismiss="modal">Import (CSV)</button>                            
+                                <!--<button class="btn btn-primary btn-sm" style="" data-toggle="modal" data-target="#addContactCSV" data-dismiss="modal">Import (CSV)</button>-->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-2 mb-4 row">
+                        <div class="col-sm-12">
+                            <div class="text-center">
+                                <button class="btn-wide btn btn-secondary btn-add ml-4" style="" data-toggle="modal" data-target="#addContactManual" data-dismiss="modal">Add contact Manually</button>
+                                <!--<button class="btn-wide btn btn-secondary btn-add ml-4" style="" data-toggle="modal" data-target="#addContactManual" data-dismiss="modal">Add contact Manually</button>-->
+                            </div>
+                        </div>
+                    </div>
+                    <!--
                     <form method="POST" action="${pageContext.request.contextPath}/addOccasion" id="ocassionFormModal">
                         <div class="modal-body">
                             <div class="form-group">
@@ -348,10 +414,85 @@
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-primary">Save</button>
                         </div>
+                    </form>-->
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Contact Manual-->
+        <div class="modal fade" id="addContactManual" tabindex="-1" role="dialog" aria-labelledby="addContactModalLable" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add Contact</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <form method="POST" action="${pageContext.request.contextPath}/addOccasion">
+                        <div class="modal-body">
+                            <div class="form-group">
+
+                                <label for="firstNameModal">First Name <font color="red">*</font></label>
+                                <input type="text" autocomplete="off" class="form-control" placeholder="First Name" id="firstNameModal" name="firstName" maxLength="12" required/>
+                                <label for="lastNameModal">Last Name</label>
+                                <input type="text" autocomplete="off" class="form-control" placeholder="Last Name" id="lastNameModal" name="lastName" maxLength="12"/>
+                                <label for="firstNameModal">Address</label>
+                                <input type="text" autocomplete="off" class="form-control" placeholder="Address" id="firstNameModal" name="address" />
+                                <label for="emailAddressModal">Email Address <font color="red">*</font></label>
+                                <input type="email" autocomplete="off" class="form-control" placeholder="Email Address" id="emailAddressModal" name="email" required/>
+                                <label for="dateModal">Date</label> 
+                                <input type="date" class="form-control" id="dateModal" name="occasionDate"/>
+                                <label for="occasionModal">Occasion <font color="red">*</font></label>
+                                <input type="text" autocomplete="off" class="form-control" placeholder="Occasion" id="ocassionModal" maxLength="12" name="occasion" required/>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="sendEmailModal" name="sendEmail" checked>
+                                    <label class="form-check-label" for="sendEmailModal">Request the rest of the information by email</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
                     </form>
                 </div>
             </div>
         </div>
+
+        <!-- Add Contact By CSV -->
+        <div class="modal fade" id="addContactCSV" tabindex="-1" role="dialog" aria-labelledby="addContactModalLable" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add Contact</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <!--csv form -->
+                    <form>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <label for="files">Upload a CSV formatted file:</label>
+                                    <input type="file" id="files"  class="form-control" accept=".csv" required />
+                                </div>                             
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" id="submit-file" class="btn btn-primary">Upload File</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>      
+        
         <!------------ Contact Detail Modal ------------>
         <div class="modal fade" id="contactDetailModal" tabindex="-1" role="dialog" aria-labelledby="contactDetailModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -400,62 +541,62 @@
         </div>
         <script src="<c:url value="/resources/font-awesome/js/all.js"/>"></script>
         <script type="text/javascript" src="<c:url value="/resources/dashboard.js"/>"></script>
-       
+
         <script>
-            function detailModal(name, referredDate, occasionDate, address,
-                    email, lastEmailDate, friendId, emailCanBeResent) {
-                        
-                var labelDiv = document.getElementById("contactDetailModalLabel");
-                while (labelDiv.firstChild) {
-                    labelDiv.removeChild(labelDiv.firstChild);
-                }
-                var labelContent = document.createTextNode(name);
-                labelDiv.appendChild(labelContent);
+                                                                function detailModal(name, referredDate, occasionDate, address,
+                                                                        email, lastEmailDate, friendId, emailCanBeResent) {
 
-                var labelDivRef = document.getElementById("contactDetailReferredDate");
-                while (labelDivRef.firstChild) {
-                    labelDivRef.removeChild(labelDivRef.firstChild);
-                }
-                var labelContentRef = document.createTextNode(referredDate);
-                labelDivRef.appendChild(labelContentRef);
+                                                                    var labelDiv = document.getElementById("contactDetailModalLabel");
+                                                                    while (labelDiv.firstChild) {
+                                                                        labelDiv.removeChild(labelDiv.firstChild);
+                                                                    }
+                                                                    var labelContent = document.createTextNode(name);
+                                                                    labelDiv.appendChild(labelContent);
 
-                var labelDivOcc = document.getElementById("contactDetailOccasionDate");
-                while (labelDivOcc.firstChild) {
-                    labelDivOcc.removeChild(labelDivOcc.firstChild);
-                }
-                var labelContentOcc = document.createTextNode(occasionDate);
-                labelDivOcc.appendChild(labelContentOcc);
+                                                                    var labelDivRef = document.getElementById("contactDetailReferredDate");
+                                                                    while (labelDivRef.firstChild) {
+                                                                        labelDivRef.removeChild(labelDivRef.firstChild);
+                                                                    }
+                                                                    var labelContentRef = document.createTextNode(referredDate);
+                                                                    labelDivRef.appendChild(labelContentRef);
 
-                var labelDivAddr = document.getElementById("contactDetailAddress");
-                while (labelDivAddr.firstChild) {
-                    labelDivAddr.removeChild(labelDivAddr.firstChild);
-                }
-                var labelContentAddr = document.createTextNode(address);
-                labelDivAddr.appendChild(labelContentAddr);
+                                                                    var labelDivOcc = document.getElementById("contactDetailOccasionDate");
+                                                                    while (labelDivOcc.firstChild) {
+                                                                        labelDivOcc.removeChild(labelDivOcc.firstChild);
+                                                                    }
+                                                                    var labelContentOcc = document.createTextNode(occasionDate);
+                                                                    labelDivOcc.appendChild(labelContentOcc);
 
-                var labelDivEmail = document.getElementById("contactDetailEmail");
-                while (labelDivEmail.firstChild) {
-                    labelDivEmail.removeChild(labelDivEmail.firstChild);
-                }
-                var labelContentEmail = document.createTextNode(email);
-                labelDivEmail.appendChild(labelContentEmail);
+                                                                    var labelDivAddr = document.getElementById("contactDetailAddress");
+                                                                    while (labelDivAddr.firstChild) {
+                                                                        labelDivAddr.removeChild(labelDivAddr.firstChild);
+                                                                    }
+                                                                    var labelContentAddr = document.createTextNode(address);
+                                                                    labelDivAddr.appendChild(labelContentAddr);
 
-                var labelDivLast = document.getElementById("contactDetailLastEmail");
-                while (labelDivLast.firstChild) {
-                    labelDivLast.removeChild(labelDivLast.firstChild);
-                }
-                var labelContentLast = document.createTextNode(lastEmailDate);
-                labelDivLast.appendChild(labelContentLast);
-                
-                if(!emailCanBeResent){
-                    document.getElementById('buttonSubmit').style.visibility = 'hidden';
-                }
+                                                                    var labelDivEmail = document.getElementById("contactDetailEmail");
+                                                                    while (labelDivEmail.firstChild) {
+                                                                        labelDivEmail.removeChild(labelDivEmail.firstChild);
+                                                                    }
+                                                                    var labelContentEmail = document.createTextNode(email);
+                                                                    labelDivEmail.appendChild(labelContentEmail);
 
-                $("#modalFriendId").val(friendId);
-                console.log($("#modalFriendId").val() + " FriendId: " + friendId);
-                $("#contactDetailModal").modal('show');
+                                                                    var labelDivLast = document.getElementById("contactDetailLastEmail");
+                                                                    while (labelDivLast.firstChild) {
+                                                                        labelDivLast.removeChild(labelDivLast.firstChild);
+                                                                    }
+                                                                    var labelContentLast = document.createTextNode(lastEmailDate);
+                                                                    labelDivLast.appendChild(labelContentLast);
 
-            }
+                                                                    if (!emailCanBeResent) {
+                                                                        document.getElementById('buttonSubmit').style.visibility = 'hidden';
+                                                                    }
+
+                                                                    $("#modalFriendId").val(friendId);
+                                                                    console.log($("#modalFriendId").val() + " FriendId: " + friendId);
+                                                                    $("#contactDetailModal").modal('show');
+
+                                                                }
 
 
         </script>       

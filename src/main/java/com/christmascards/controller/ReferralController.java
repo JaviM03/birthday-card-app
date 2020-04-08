@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import com.christmascards.domain.*;
+import com.christmascards.service.UserService;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  *
@@ -31,6 +33,9 @@ public class ReferralController {
     @Autowired
     ReferredOccasionService refOccService;
     
+    @Autowired
+    UserService us;
+    
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
     
     @RequestMapping(value="/referral")
@@ -39,16 +44,13 @@ public class ReferralController {
         if(LoginVerification.sessionCheck(request)){
             
             if(refOccasion!=null){
+                ModelAndView mv = new ModelAndView("referral/referralForm");
                 if(refOccasion.getInfoHasBeingFilled()){
-                 response.sendRedirect(request.getContextPath()+"/login?referred=true");   
+                 mv.addObject("infoHasBeingFilled", true);
                 }
-                else{
-                    System.out.println("Entre al primer if: "+ refOccasion.getOccasion());
                     MainController.REFERREDCODE = id;
-                    ModelAndView mv = new ModelAndView("referral/referralForm");
                     mv.addObject("refOccasion", refOccasion);
-                    return mv;
-                }
+                    return mv;               
             }
             else{
                 response.sendRedirect(request.getContextPath()+"/login?referralCode=false");
@@ -56,7 +58,6 @@ public class ReferralController {
         }
         else{
         if(refOccasion!=null){
-            System.out.println("Entre al segundo if: "+refOccasion.getOccasion());
                 MainController.REFERREDCODE = id;
                 ModelAndView mv = new ModelAndView("referral/referralForm");
                 mv.addObject("refOccasion", refOccasion);
@@ -91,14 +92,48 @@ public class ReferralController {
                 refOccasion.setOccasionDate(cal);
                 refOccasion.setInfoHasBeingFilled(Boolean.TRUE);
                 refOccService.saveReferedOccasion(refOccasion);
-                MainController.REFERREDCODE = null;
-                return new ModelAndView("referral/referralSuccess");
+                //MainController.REFERREDCODE = null;
+                if(refOccService.referalHasAccount(refOccasion)){
+                    return new ModelAndView("referral/referralSuccessWithExistingAccount");
+                }
+                else{
+                    ModelAndView mv = new ModelAndView("referral/referralSuccess");
+                    mv.addObject("referredOccasionId",id);
+                    return mv;
+                }
             }
             else{
-                response.sendRedirect(request.getContextPath()+"/login");
+                response.sendRedirect(request.getContextPath());
             }
             
 
         return null;
+    }
+    
+    
+    @RequestMapping(value="/referral/register", method = RequestMethod.POST)
+    public ModelAndView referralRegisterPOST(HttpServletRequest request, HttpServletResponse response, @RequestParam(name="id")Integer id,
+            @RequestParam(name="password") String password) throws IOException{
+        ReferredOccasion refOcc = refOccService.findReferedOccasion(id);
+        if(refOcc == null){
+            response.sendRedirect(request.getContextPath());
+            return null;
+        }
+        User user = new User();
+        user.setEmail(refOcc.getEmail());
+        user.setFirstName(refOcc.getFriendFirstName());
+        user.setLastName(refOcc.getFriendLastName());
+        user.setUserPassword(password);
+        user = us.registerUser(user);
+        request.getSession().setAttribute("loggedUser", user);
+        return new ModelAndView("account-registration/successfulAccCreation");
+    }
+    
+    @RequestMapping(value="/referral/register", method = RequestMethod.GET)
+    public ModelAndView referralRegisterGET(HttpServletRequest request, HttpServletResponse response, @RequestParam(name="id")Integer id) throws IOException{
+        ModelAndView mv = new ModelAndView("referral/referralSignUp");
+        System.out.println("");
+        mv.addObject("referredOccasionId",id);
+        return mv;
     }
 }

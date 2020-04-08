@@ -152,7 +152,12 @@ public class AccountController {
         }
     }
     
-    
+    @RequestMapping(value="/logout", method=RequestMethod.GET)
+    public void logout(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        request.getSession().setAttribute("loggedUser", null);
+        response.sendRedirect(request.getContextPath()+"/login");
+    }
+  
     }
     
 

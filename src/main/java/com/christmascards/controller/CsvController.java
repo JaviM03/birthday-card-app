@@ -54,9 +54,10 @@ public class CsvController extends HttpServlet {
 
 
     @RequestMapping(value="/addByCSV", method=RequestMethod.POST)
-    public void addCSV(@RequestParam("csv") String[][] csvMatrix,HttpServletRequest request, HttpServletResponse response) throws ParseException, IOException{        if(LoginVerification.sessionCheck(request)){
+    public void addCSV(@RequestParam("csv") String[][] csvMatrix,HttpServletRequest request, HttpServletResponse response) throws ParseException, IOException{        
+        if(LoginVerification.sessionCheck(request)){
             User user = (User) request.getSession().getAttribute("loggedUser");
-
+            l.info("Entre al CSV Controller");
             ReferredOccasion referredOccasion = new ReferredOccasion();
             ReferredOccasion returnedOccasion = new ReferredOccasion();
             //ReferredOccasion savedFriendCata = null;

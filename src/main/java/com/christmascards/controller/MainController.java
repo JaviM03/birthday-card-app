@@ -63,12 +63,8 @@ public class MainController {
         User user = us.authenticateUser(email, password);
         if(user!=null){
             request.getSession().setAttribute("loggedUser", user);
-            if(REFERREDCODE==null){
-                response.sendRedirect(request.getContextPath()+"/dashboard");
-            }
-            else{
-                response.sendRedirect(request.getContextPath()+"/referral/info");
-            }
+            response.sendRedirect(request.getContextPath()+"/dashboard");
+            
         }
         else{
             response.sendRedirect(request.getContextPath()+"/login?attempt=true");

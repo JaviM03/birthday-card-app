@@ -56,43 +56,6 @@ public class EmailSender {
                 }
     
     public static String sendHTMLEmail (String to, String from, String mensaje, String subject) throws IOException{
-        /*String respuesta;   
-        Properties props = new Properties();
-		props.put("mail.smtp.host", "smtp.gmail.com");
-		props.put("mail.smtp.socketFactory.port", "465");
-		props.put("mail.smtp.socketFactory.class",
-				"javax.net.ssl.SSLSocketFactory");
-		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.port", "465");
-
-		Session session = Session.getDefaultInstance(props,
-			new javax.mail.Authenticator() {
-                                @Override
-				protected PasswordAuthentication getPasswordAuthentication() {
-					return new PasswordAuthentication(email,password);
-				}
-			});
-                
-                	try {
-
-			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(email));
-			message.setRecipients(Message.RecipientType.TO,
-					InternetAddress.parse(to));
-			message.setSubject("User Created on Christmas App");
-                        
-                        
-                        
-			message.setContent(mensaje,"text/html; charset=utf-8");
-			Transport.send(message);
-                            System.out.println("Email Enviado");
-			return "Email enviado";
-
-		} catch (MessagingException e) {
-                            System.out.println("Erro enviando email "+e.getMessage());
-                        return "Error enviando mensaje";
-
-		}*/
                 Email fromEmail = new Email(from);
                 Email toEmail = new Email(to);
                 Content content = new Content("text/html", mensaje);
