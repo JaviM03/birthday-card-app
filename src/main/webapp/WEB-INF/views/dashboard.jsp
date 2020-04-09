@@ -101,7 +101,7 @@
                     //ajax to w ork with
                     $.ajax({
                         url: '${pageContext.request.contextPath}/addByCSV',
-                                type: 'POST',
+                        type: 'POST',
                         data: {csv: JSON.stringify(data)},
                         success: function () {
                             //document.getElementById("test").innerHTML = "Funciono";
@@ -218,6 +218,12 @@
                                         Friend List
                                     </a>
                                 </li>
+                                <li>
+                                    <a href="${pageContext.request.contextPath}/logout" class="mm-active">
+                                        <i class="metismenu-icon pe-7s-id"></i>
+                                        Friend List
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -251,7 +257,8 @@
                                                     <th class="text-center">Occasion</th>
                                                     <th class="text-center">City</th>
                                                     <th class="text-center">Status</th>
-                                                    <th class="text-center"></th>
+                                                    <th class="text-center" style="width:7%"></th>
+                                                    <th class="text-center" style="width:5%"></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -282,9 +289,12 @@
                                                         <td class="text-center">
                                                             <button type="button" id="PopoverCustomT-1" class="btn btn-primary btn-sm" onclick="detailModal('${referral.friendFirstName} ${referral.friendLastName}',
                                                                             '<fmt:formatDate type="date" dateStyle="short" value="${referral.referredDate.time}"/>', '<fmt:formatDate type="date" dateStyle="short" value="${referral.occasionDate.time}"/>', '${referral.addressLine1}',
-                                                                            '${referral.email}', '<fmt:formatDate type="date" dateStyle="short" value="${referral.lastEmailDate.time}"/>', '${referral.referredOccasionId}', ${referral.emailCanBeResent})">Details</button>
+                                                                            '${referral.email}', '<fmt:formatDate type="date" dateStyle="short" value="${referral.lastEmailDate.time}"/>', '${referral.referredOccasionId}', ${referral.emailCanBeResent})">Details</button>                                                                            
                                                         </td>
-
+                                                        <td>
+                                                            <button type="button" id="deleteRow" class="btn btn-danger btn-sm ml-1" onclick="deleteModal('${referral.referredOccasionId}', '${referral.friendFirstName} ${referral.friendLastName}',
+                                                                '${referral.occasion}', '<fmt:formatDate type="date" dateStyle="short" value="${referral.occasionDate.time}"/>')">&times;</button>
+                                                        </td>
                                                     </tr>                                                    
                                                 </c:forEach>
                                             </tbody>
@@ -386,35 +396,6 @@
                             </div>
                         </div>
                     </div>
-                    <!--
-                    <form method="POST" action="${pageContext.request.contextPath}/addOccasion" id="ocassionFormModal">
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label for="firstNameModal">First Name <font color="red">*</font></label>
-                                <input type="text" autocomplete="off" class="form-control" placeholder="First Name" id="firstNameModal" name="firstName" maxLength="12" required/>
-                                <label for="lastNameModal">Last Name</label>
-                                <input type="text" autocomplete="off" class="form-control" placeholder="Last Name" id="lastNameModal" name="lastName" maxLength="12"/>
-                                <label for="firstNameModal">Address</label>
-                                <input type="text" autocomplete="off" class="form-control" placeholder="Address" id="firstNameModal" name="address" />
-                                <label for="emailAddressModal">Email Address <font color="red">*</font></label>
-                                <input type="email" autocomplete="off" class="form-control" placeholder="Email Address" id="emailAddressModal" name="email" required/>
-                                <label for="occasionModal">Occasion <font color="red">*</font></label>
-                                <input type="text" autocomplete="off" class="form-control" placeholder="Occasion" id="ocassionModal" value="Christmas" maxLength="12" name="occasion" required/>
-                                <label for="dateModal">Date</label> 
-                                <input type="date" class="form-control" id="dateModal" value="2020-12-25" name="occasionDate"/>
-                                
-                                <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" id="sendEmailModal" name="sendEmail" checked>
-                                    <label class="form-check-label" for="sendEmailModal">Request the rest of the information by email</label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save</button>
-                        </div>
-                    </form>-->
                 </div>
             </div>
         </div>
@@ -430,7 +411,7 @@
                         </button>
                     </div>
 
-                    <form method="POST" action="${pageContext.request.contextPath}/addOccasion">
+                    <form method="POST" action="${pageContext.request.contextPath}/referral/add">
                         <div class="modal-body">
                             <div class="form-group">
 
@@ -491,8 +472,41 @@
                     </form>
                 </div>
             </div>
-        </div>      
-        
+        </div> 
+
+        <!-- Delete Referral Modal -->
+        <div class="modal fade" id="deleteReferalModal" tabindex="-1" role="dialog" aria-labelledby="addContactModalLable" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <form method="POST" action="${pageContext.request.contextPath}/referral/delete">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteReferalModalLabel">Do you really want to delete this record?</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="row mt-4 mb-3">
+                        <div class="col-6 text-center"><strong>Name:</strong></div>
+                        <div class="col-6 text-center" id="deleteReferalModalReferralName"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 text-center"><strong>Occasion:</strong></div>
+                        <div class="col-6 text-center" id="deleteReferalModalOccasion"></div>
+                    </div>
+                    <div class="row mt-3 mb-4">
+                        <div class="col-6 text-center"><strong>Date:</strong></div>
+                        <div class="col-6 text-center" id="deleteReferalModalDate"></div>
+                    </div>
+                    <input type="hidden" name="id" value="" id="deleteModalInputId">
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" id="submit-file" class="btn btn-danger">Delete</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>   
+
         <!------------ Contact Detail Modal ------------>
         <div class="modal fade" id="contactDetailModal" tabindex="-1" role="dialog" aria-labelledby="contactDetailModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -593,9 +607,35 @@
                                                                     }
 
                                                                     $("#modalFriendId").val(friendId);
-                                                                    console.log($("#modalFriendId").val() + " FriendId: " + friendId);
                                                                     $("#contactDetailModal").modal('show');
 
+                                                                }
+                                                                
+                                                                function deleteModal(id, name, occasion, date){
+                                                                    var idInput = document.getElementById("deleteModalInputId").value = id;
+                                                                    
+                                                                    var nameDivLabel = document.getElementById("deleteReferalModalReferralName")
+                                                                    while(nameDivLabel.firstChild){
+                                                                        nameDivLabel.removeChild(nameDivLabel.firstChild);
+                                                                    }
+                                                                    var nameLabel = document.createTextNode(name);
+                                                                    nameDivLabel.appendChild(nameLabel);
+                                                                    
+                                                                    var occasionDivLabel = document.getElementById("deleteReferalModalOccasion");
+                                                                    while(occasionDivLabel.firstChild){
+                                                                        occasionDivLabel.removeChild(occasionDivLabel.firstChild);
+                                                                    }
+                                                                    var occasionLabel = document.createTextNode(occasion);
+                                                                    occasionDivLabel.appendChild(occasionLabel);
+                                                                    
+                                                                    var dateDivLabel = document.getElementById("deleteReferalModalDate");
+                                                                    while(dateDivLabel.firstChild){
+                                                                        dateDivLabel.removeChild(dateDivLabel.firstChild);
+                                                                    }
+                                                                    var dateLabel = document.createTextNode(date);
+                                                                    dateDivLabel.appendChild(dateLabel);
+                                                                    console.log(idInput);
+                                                                    $("#deleteReferalModal").modal('show');
                                                                 }
 
 
