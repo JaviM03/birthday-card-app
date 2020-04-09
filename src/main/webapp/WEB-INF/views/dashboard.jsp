@@ -411,7 +411,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form method="POST" action="${pageContext.request.contextPath}/addOccasion" id="ocassionFormModal">
+                    <form method="POST" action="${pageContext.request.contextPath}/referral/add" id="ocassionFormModal">
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="firstNameModal">First Name <font color="red">*</font></label>
