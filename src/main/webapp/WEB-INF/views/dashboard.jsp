@@ -220,8 +220,8 @@
                                 </li>
                                 <li>
                                     <a href="${pageContext.request.contextPath}/logout" class="mm-active">
-                                        <i class="metismenu-icon pe-7s-id"></i>
-                                        Friend List
+                                        <i class="fas fa-sign-out-alt"></i>
+                                        Logout
                                     </a>
                                 </li>
                             </ul>
