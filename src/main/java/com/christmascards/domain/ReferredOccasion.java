@@ -87,7 +87,14 @@ public class ReferredOccasion implements Serializable {
     @Column(name="city")
     private String city;
     
-
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @Column(name="last_edited_date")
+    private Calendar lastEditedDate;
+    
+    @Column(name="last_edited_by")
+    private String lastEditedBy;
+    
     public ReferredOccasion() {
     }
 
@@ -252,7 +259,27 @@ public class ReferredOccasion implements Serializable {
         this.city = city;
     }
 
+    public Calendar getLastEditedDate() {
+        return lastEditedDate;
+    }
+
+    public void setLastEditedDate(Calendar lastEditedDate) {
+        this.lastEditedDate = lastEditedDate;
+    }
+
+    public String getLastEditedBy() {
+        return lastEditedBy;
+    }
+
+    public void setLastEditedBy(String lastEditedBy) {
+        this.lastEditedBy = lastEditedBy;
+    }
     
+   
     
+    enum Edited{
+        USER,
+        REFERRED
+    }
     
 }

@@ -64,6 +64,9 @@ public class User {
     @Column(name="membership_type")
     private String membershipType;
     
+    @Column(name="time_zone")
+    private String timeZone;
+    
     @Transient
     private Boolean phoneConfirmation;
     
@@ -148,6 +151,22 @@ public class User {
 
     public void setPassSalt(String passSalt) {
         this.passSalt = passSalt;
+    }
+
+    public String getMembershipType() {
+        return membershipType;
+    }
+
+    public void setMembershipType(String membershipType) {
+        this.membershipType = membershipType;
+    }
+
+    public String getTimeZone() {
+        return timeZone;
+    }
+
+    public void setTimeZone(String timeZone) {
+        this.timeZone = timeZone;
     }
     
     
