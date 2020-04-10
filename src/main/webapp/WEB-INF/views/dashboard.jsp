@@ -289,7 +289,8 @@
                                                         <td class="text-center">
                                                             <button type="button" id="PopoverCustomT-1" class="btn btn-primary btn-sm" onclick="detailModal('${referral.friendFirstName} ${referral.friendLastName}',
                                                                             '<fmt:formatDate type="date" dateStyle="short" value="${referral.referredDate.time}"/>', '<fmt:formatDate type="date" dateStyle="short" value="${referral.occasionDate.time}"/>', '${referral.addressLine1}',
-                                                                            '${referral.email}', '<fmt:formatDate type="date" dateStyle="short" value="${referral.lastEmailDate.time}"/>', '${referral.referredOccasionId}', ${referral.emailCanBeResent})">Details</button>                                                                            
+                                                                            '${referral.email}', '<fmt:formatDate type="date" dateStyle="short" value="${referral.lastEmailDate.time}"/>', '${referral.referredOccasionId}','${referral.lastEditedBy}',
+                                                                            '<fmt:formatDate type="both" dateStyle="short" value="${referral.lastEditedDate.time}"/>', '${referral.emailCanBeResent}')">Details</button>                                                                            
                                                         </td>
                                                         <td>
                                                             <button type="button" id="deleteRow" class="btn btn-danger btn-sm ml-1" onclick="deleteModal('${referral.referredOccasionId}', '${referral.friendFirstName} ${referral.friendLastName}',
@@ -426,7 +427,7 @@
                                 <input type="text" autocomplete="off" class="form-control" placeholder="Occasion" id="ocassionModal" value="Christmas" maxLength="12" name="occasion" required/>
                                 <label for="dateModal">Date</label> 
                                 <input type="date" class="form-control" id="dateModal" value="2020-12-25" name="occasionDate"/>
-
+                                <input type="hidden" name="timeZone" value="" id="timeZoneInput"/>
                                 <div class="form-check">
                                     <input type="checkbox" class="form-check-input" id="sendEmailModal" name="sendEmail" checked>
                                     <label class="form-check-label" for="sendEmailModal">Request the rest of the information by email</label>
@@ -434,7 +435,7 @@
                             </div>
                         </div>
 
-                        <div class="modal-footer">
+                        <div class="modal-footer">                            
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-primary">Save</button>
                         </div>
@@ -540,9 +541,9 @@
                                 <div class='text-center' id="contactDetailLastEmail"></div>
                             </div>
                         </div>
+                        <div class="text-left mt-3"> Last edited by <b id="lastEditedBy"></b>, <em id="lastEditedOn"></em></div>
                     </div>
-
-                    <div class="modal-footer">
+                    <div class="modal-footer ">                       
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <form method="POST" action="${pageContext.request.contextPath}/sendEmail">
                             <input type='hidden' name='friendId' id='modalFriendId' value=''>
@@ -558,7 +559,7 @@
 
         <script>
                                                                 function detailModal(name, referredDate, occasionDate, address,
-                                                                        email, lastEmailDate, friendId, emailCanBeResent) {
+                                                                        email, lastEmailDate, friendId, lastEditedBy, lastEditedOn, emailCanBeResent) {
 
                                                                     var labelDiv = document.getElementById("contactDetailModalLabel");
                                                                     while (labelDiv.firstChild) {
@@ -601,11 +602,25 @@
                                                                     }
                                                                     var labelContentLast = document.createTextNode(lastEmailDate);
                                                                     labelDivLast.appendChild(labelContentLast);
-
+                                                                    
+                                                                    var labelDivLastEditedBy = document.getElementById("lastEditedBy");
+                                                                    while (labelDivLastEditedBy.firstChild) {
+                                                                        labelDivLastEditedBy.removeChild(labelDivLastEditedBy.firstChild);
+                                                                    }
+                                                                    var labelContentLastEditedBy = document.createTextNode(lastEditedBy);
+                                                                    labelDivLastEditedBy.appendChild(labelContentLastEditedBy);
+                                                                    
+                                                                    var labelDivLastEditedOn = document.getElementById("lastEditedOn");
+                                                                    while (labelDivLastEditedOn.firstChild) {
+                                                                        labelDivLastEditedOn.removeChild(labelDivLastEditedOn.firstChild);
+                                                                    }
+                                                                    var labelContentLastEditedOn = document.createTextNode(moment(lastEditedOn,"DD/MM/YYYY hh:mm:ss").fromNow());
+                                                                    labelDivLastEditedOn.appendChild(labelContentLastEditedOn);
+                                                                    
                                                                     if (!emailCanBeResent) {
                                                                         document.getElementById('buttonSubmit').style.visibility = 'hidden';
                                                                     }
-
+                                                                    console.log("Last Edited By: " + lastEditedBy + "   Last Edited on: " + lastEditedOn);
                                                                     $("#modalFriendId").val(friendId);
                                                                     $("#contactDetailModal").modal('show');
 
@@ -634,10 +649,16 @@
                                                                     }
                                                                     var dateLabel = document.createTextNode(date);
                                                                     dateDivLabel.appendChild(dateLabel);
-                                                                    console.log(idInput);
                                                                     $("#deleteReferalModal").modal('show');
                                                                 }
-
+                                                                
+                                                                //Add time zone parameter to 
+                                                                $(function () {
+                                                                    
+                                                                    var dateVar = new Date();
+                                                                    var timezone = dateVar.getTimezoneOffset()/60 * (-1);
+                                                                    document.getElementById("timeZoneInput").value = timezone;
+                                                                });
 
         </script>       
     </body>
