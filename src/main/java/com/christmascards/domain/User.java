@@ -6,6 +6,7 @@
 package com.christmascards.domain;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -63,6 +64,12 @@ public class User {
     
     @Column(name="membership_type")
     private String membershipType;
+    
+    @Column(name = "last_login")
+    private Date lastLogin;
+
+    @Column(name = "reset_token")
+    private String resetToken;
     
     @Transient
     private Boolean phoneConfirmation;
@@ -148,6 +155,14 @@ public class User {
 
     public void setPassSalt(String passSalt) {
         this.passSalt = passSalt;
+    }
+    
+    public String getResetToken() {
+        return resetToken;
+    }
+
+    public void setResetToken(String resetToken) {
+        this.resetToken = resetToken;
     }
     
     

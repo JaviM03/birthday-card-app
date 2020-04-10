@@ -45,25 +45,47 @@
 
         </style>
         <script src="<c:url value="/resources/moment.min.js"/>"></script>
-        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="<c:url value="/resources/jquery.min.js"/>"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
         <link href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.css" rel="stylesheet"/>
         <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+        <script src="<c:url value="/resources/jquery-ui-1.12.1.custom/jquery-ui.min.js"/>"></script>
+        <link href="<c:url value="/resources/jquery-ui-1.12.1.custom/jquery-ui.min.css"/>" rel="stylesheet"/>
+        <script>
+           $( function() {
+                var availableTags = [
+                  "Birthday",
+                  "Wedding",
+                  "Birth",
+                  "Welcome",
+                  "Goodbye",
+                  "Christmas"
+                ];
+                console.log(availableTags);
+                $( "#ocassionModal" ).autocomplete({
+                    source: availableTags
+                  });
+                  $("#ocassionModal").autocomplete("option", "appendTo", "#ocassionFormModal")
+                } );
+                
+                
+        </script>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script src="<c:url value="/resources/papaparse.min.js"/>"></script>    
         <script type="text/javascript">
-            $(document).ajaxStop(function(){
+            /*$(document).ajaxStop(function(){
                 window.location.reload();
-            });
+            });*/
+            
             $(document).ready(function(){
 
               $('#submit-file').on("click",function(e){
                           e.preventDefault();
                           $('#files').parse({
                                   config: {
-                                          delimiter: "auto",
+                                          delimiter: "",
                                           complete: insertToDB,
                                   },
                                   before: function(file, inputElem)
@@ -72,7 +94,9 @@
                                   },
                                   error: function(err, file)
                                   {
-                                          //console.log("ERROR:", err, file);
+                                          console.log("ERROR:", err, file);
+                                          $("#alert_ajax_error").show();
+
                                   },
                                   complete: function()
                                   {
@@ -85,18 +109,24 @@
                   function insertToDB(results){
 
                           var data = results.data;
+                          console.log(results);
+                          //var testv = JSON.stringify(data);
+                          //console.log(testv);
                          //ajax to w ork with
                             $.ajax({
-                                url: `${pageContext.request.contextPath}/addByCSV/`,
+                                url: '${pageContext.request.contextPath}/addByCSV/',
                                             type: 'POST',
                                             data: {csv: JSON.stringify(data)},
                                             success: function () {
                                                 //document.getElementById("test").innerHTML = "Funciono";
-                                                //console.log(csv);
+                                                console.log(data);
+                                                window.location.reload();
                                             },
                                             error: function(xhr,status,error){
-//                                                console.log(xhr.responseText);
-//                                                document.getElementById("test").innerHTML = "No Funciono";
+                                                console.log(xhr.responseText);
+                                                //document.getElementById("test").innerHTML = "No Funciono";
+                                                $("#alert_ajax_error").show();
+
                                             }
                             });
                           
@@ -105,6 +135,7 @@
           </script>
     </head>
     <body>
+       
         <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
             <div class="app-header header-shadow" style="background-color: #0062cc; color: white;">
                 <div class="app-header__logo">
@@ -145,9 +176,7 @@
                                 <div class="widget-content-wrapper">
                                     <div class="widget-content-left">
                                         <div class="btn-group">
-                                            <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="p-0 btn">
                                                 <img width="42" class="rounded-circle" src="<c:url value="/resources/img/default-profile2.jpg"/>" alt="">
-                                            </a>
                                         </div>
                                     </div>
                                     <div class="widget-content-left  ml-3 header-user-info">
@@ -217,7 +246,6 @@
                                 Email sent!
                             </div>
                         </c:if>
-
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="main-card mb-3 card">
@@ -351,7 +379,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Add Contact</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Add Referral</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -376,40 +404,6 @@
                           </div>
                         </div>
                     </div>
-                    
-                    
-                    
-                    <!--
-                    <form method="POST" action="${pageContext.request.contextPath}/addOccasion">
-                        <div class="modal-body">
-                            <div class="form-group">
-
-                                <label for="firstNameModal">First Name <font color="red">*</font></label>
-                                <input type="text" autocomplete="off" class="form-control" placeholder="First Name" id="firstNameModal" name="firstName" maxLength="12" required/>
-                                <label for="lastNameModal">Last Name</label>
-                                <input type="text" autocomplete="off" class="form-control" placeholder="Last Name" id="lastNameModal" name="lastName" maxLength="12"/>
-                                <label for="firstNameModal">Address</label>
-                                <input type="text" autocomplete="off" class="form-control" placeholder="Address" id="firstNameModal" name="address" />
-                                <label for="emailAddressModal">Email Address <font color="red">*</font></label>
-                                <input type="email" autocomplete="off" class="form-control" placeholder="Email Address" id="emailAddressModal" name="email" required/>
-                                <label for="dateModal">Date</label> 
-                                <input type="date" class="form-control" id="dateModal" name="occasionDate"/>
-                                <label for="occasionModal">Occasion <font color="red">*</font></label>
-                                <input type="text" autocomplete="off" class="form-control" placeholder="Occasion" id="ocassionModal" maxLength="12" name="occasion" required/>
-                                <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" id="sendEmailModal" name="sendEmail" checked>
-                                    <label class="form-check-label" for="sendEmailModal">Request the rest of the information by email</label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save</button>
-                        </div>
-                    </form>
-                        -->
-                        
                         
                 </div>
             </div>
@@ -474,10 +468,9 @@
                         </button>
                     </div>
                     
-                    <form method="POST" action="${pageContext.request.contextPath}/addOccasion">
+                    <form method="POST" action="${pageContext.request.contextPath}/addOccasion" id="ocassionFormModal">
                         <div class="modal-body">
                             <div class="form-group">
-
                                 <label for="firstNameModal">First Name <font color="red">*</font></label>
                                 <input type="text" autocomplete="off" class="form-control" placeholder="First Name" id="firstNameModal" name="firstName" maxLength="12" required/>
                                 <label for="lastNameModal">Last Name</label>
@@ -486,10 +479,11 @@
                                 <input type="text" autocomplete="off" class="form-control" placeholder="Address" id="firstNameModal" name="address" />
                                 <label for="emailAddressModal">Email Address <font color="red">*</font></label>
                                 <input type="email" autocomplete="off" class="form-control" placeholder="Email Address" id="emailAddressModal" name="email" required/>
-                                <label for="dateModal">Date</label> 
-                                <input type="date" class="form-control" id="dateModal" name="occasionDate"/>
                                 <label for="occasionModal">Occasion <font color="red">*</font></label>
-                                <input type="text" autocomplete="off" class="form-control" placeholder="Occasion" id="ocassionModal" maxLength="12" name="occasion" required/>
+                                <input type="text" autocomplete="off" class="form-control" placeholder="Occasion" id="ocassionModal" value="Christmas" maxLength="12" name="occasion" required/>
+                                <label for="dateModal">Date</label> 
+                                <input type="date" class="form-control" id="dateModal" value="2020-12-25" name="occasionDate"/>
+                                
                                 <div class="form-check">
                                     <input type="checkbox" class="form-check-input" id="sendEmailModal" name="sendEmail" checked>
                                     <label class="form-check-label" for="sendEmailModal">Request the rest of the information by email</label>
@@ -503,33 +497,6 @@
                         </div>
                     </form>
                     
-                    <!-- Addcontact Form to move 
-                    <form method="POST" action="${pageContext.request.contextPath}/addOccasion">
-                        <div class="modal-body">
-                            <div class="form-group">
-
-                                <label for="firstNameModal">First Name <font color="red">*</font></label>
-                                <input type="text" autocomplete="off" class="form-control" placeholder="First Name" id="firstNameModal" name="firstName" maxLength="12" required/>
-                                <label for="lastNameModal">Last Name</label>
-                                <input type="text" autocomplete="off" class="form-control" placeholder="Last Name" id="lastNameModal" name="lastName" maxLength="12"/>
-                                <label for="firstNameModal">Address <font color="red">*</font></label>
-                                <input type="text" autocomplete="off" class="form-control" placeholder="Address" id="firstNameModal" name="address"  required/>
-                                <label for="emailAddressModal">Email Address <font color="red">*</font></label>
-                                <input type="email" autocomplete="off" class="form-control" placeholder="Email Address" id="emailAddressModal" name="email" required/>
-                                <label for="dateModal">Date <font color="red">*</font></label>
-                                <input type="date" class="form-control" id="dateModal" name="occasionDate"/>
-                                <label for="occasionModal">Occasion <font color="red">*</font></label>
-                                <input type="text" autocomplete="off" class="form-control" placeholder="Occasion" id="ocassionModal" maxLength="12" name="occasion" required/> 
-                            </div>
-                        </div>
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save</button>
-                        </div>
-                    </form> -->
-                        
-          
                 </div>
             </div>
         </div>
@@ -563,10 +530,20 @@
                     </form>
                 </div>
             </div>
-        </div>                   
+        </div>
+        
+        <!-- ajax alert error -->
+        <div class="alert alert-warning alert-dismissible" role="alert" style="display:none" id="alert_ajax_error">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span>
+            </button>
+            <strong>Warning!</strong> Better check yourself, you're not looking too good.
+          </div>
                             
                             
                             
+        <script src="<c:url value="/resources/font-awesome/js/all.js"/>"></script>
+        <script type="text/javascript" src="<c:url value="/resources/dashboard.js"/>"></script>
+       
         <script>
             function detailModal(name, referredDate, occasionDate, address,
                     email, lastEmailDate, friendId, emailCanBeResent) {
@@ -624,8 +601,6 @@
             }
 
 
-        </script>
-        <script src="<c:url value="/resources/font-awesome/js/all.js"/>"></script>
-        <script type="text/javascript" src="<c:url value="/resources/dashboard.js"/>"></script>
+        </script>       
     </body>
 </html>

@@ -254,6 +254,7 @@
         <script src="https://code.jquery.com/jquery-latest.min.js"></script>
         <script src="<c:url value="/resources/tel-input/build/js/intlTelInput-jquery.min.js"/>"></script> 
         <script src="<c:url value="/resources/tel-input/build/js/intlTelInput.js"/>"></script>
+        <script src="<c:url value="/resources/tel-input/build/js/intlTelInput.js"/>"></script>
         <script src="//geodata.solutions/includes/countrystatecity.js"></script>
     </body>
 </html>

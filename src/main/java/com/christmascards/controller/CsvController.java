@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.christmascards.controller;
 
 import com.christmascards.domain.ReferredOccasion;
@@ -26,11 +21,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
-/**
- *
- * @author DMNGZ
- */
 @Controller
 @MultipartConfig
 public class CsvController extends HttpServlet {
@@ -54,7 +44,8 @@ public class CsvController extends HttpServlet {
     
     
     @RequestMapping(value="/addByCSV", method=RequestMethod.POST)
-    public void addCSV(@RequestParam("csv") String[][] csvMatrix,HttpServletRequest request, HttpServletResponse response) throws ParseException, IOException{        if(LoginVerification.sessionCheck(request)){
+    public void addCSV(@RequestParam("csv") String[][] csvMatrix,HttpServletRequest request, HttpServletResponse response) throws ParseException, IOException{        
+        if(LoginVerification.sessionCheck(request)){
             User user = (User) request.getSession().getAttribute("loggedUser");
 
             ReferredOccasion referredOccasion = new ReferredOccasion();
@@ -69,14 +60,17 @@ public class CsvController extends HttpServlet {
                     //we`ll only care about their position from the 6 parameters
                     j=i%6;
                     temp=csvMatrix[i][0];
+                    //Replacing the " [ ] in the text. 
+                    temp=((csvMatrix[i][0].replace("\"", "")).replace("[", "")).replace("]", "");
+                    
+                    /*
                     //Removing [" from every first name
                     if(j==0) temp = csvMatrix[i][0].substring(2);
-
                     //Removing "] or "]] from the occasion
                     if(j==5){
                         if(i==csvMatrix.length-1)temp=csvMatrix[i][0].substring(0, csvMatrix[i][0].length()-3); // if it is the very last occasion we need to remove "]]
                         else temp=csvMatrix[i][0].substring(0, csvMatrix[i][0].length()-2); // if it is a regular occasion we remove "]
-                    }
+                    }*/
 
                     switch(j){
                         case 0: referredOccasion.setFriendFirstName(temp);
@@ -87,13 +81,12 @@ public class CsvController extends HttpServlet {
                                 break;
                         case 3:referredOccasion.setEmail(temp);
                                 break;
-                        case 4:date=temp;
+                        case 4:referredOccasion.setOccasion(temp);
                                 break;        
-                        case 5: referredOccasion.setOccasion(temp);
+                        case 5: date=temp;
                                 referredOccasion.setUser(user);
-                                
+                                //add to arraylist the referred occasion
                                 returnedOccasion = refService.addnewUserReferredOccasion(referredOccasion, date, Boolean.TRUE);
-                                
                                 
                                 if(returnedOccasion!=null){
                                     friendCreated = true;
@@ -103,11 +96,14 @@ public class CsvController extends HttpServlet {
                                 }                                
                                   referredOccasion=new ReferredOccasion();
                                   returnedOccasion = new ReferredOccasion();
+                                  temp=null;
                                 
                                 break; 
                     }
-                }// for end                  
+                }// for end
             
+                //save everything in batch
+                
             response.sendRedirect(request.getContextPath()+"/dashboard"); 
         }
         else{
