@@ -21,6 +21,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
@@ -91,6 +92,8 @@ public class ReferralController {
                 cal.setTime(date);
                 refOccasion.setOccasionDate(cal);
                 refOccasion.setInfoHasBeingFilled(Boolean.TRUE);
+                refOccasion.setLastEditedBy(refOccasion.getFriendFirstName());
+                refOccasion.setLastEditedDate(Calendar.getInstance(TimeZone.getTimeZone(refOccasion.getUser().getTimeZone())));
                 refOccService.saveReferedOccasion(refOccasion);
                 //MainController.REFERREDCODE = null;
                 if(refOccService.referalHasAccount(refOccasion)){

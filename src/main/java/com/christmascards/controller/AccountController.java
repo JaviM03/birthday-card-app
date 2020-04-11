@@ -18,9 +18,13 @@ import com.christmascards.domain.*;
 import com.christmascards.service.ReferredOccasionService;
 import com.christmascards.util.PaginAndSorting;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.data.domain.Page;
@@ -46,6 +50,7 @@ public class AccountController {
     Integer currentPage = 0;
     Boolean gotRequestedNextPage;
     String dateRange = "weekly";
+    SimpleDateFormat htmlDateFmt = new SimpleDateFormat("yyyy-MM-dd");
     
     
     @RequestMapping(value="/dashboard", method=RequestMethod.GET)
@@ -96,6 +101,9 @@ public class AccountController {
             if(request.getParameter("emailSent")!=null){
                 mv.addObject("emailSent",true);
             }
+            if(request.getParameter("friendEdited")!=null){
+                mv.addObject("friendEdited", true);
+            }
             return mv;
         }
         else{
@@ -113,7 +121,7 @@ public class AccountController {
     @RequestMapping(value="/referral/add", method=RequestMethod.POST)
     public void addFriend(HttpServletRequest request, HttpServletResponse response, @RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName,
             @RequestParam("email") String email, @RequestParam("occasionDate") String date, @RequestParam("occasion") String occasion, @RequestParam("address") String address,
-            @RequestParam("sendEmail") String sendEmail) throws ParseException, IOException{
+            @RequestParam("sendEmail") String sendEmail, @RequestParam(value = "timeZone") String timeZoneStr) throws ParseException, IOException{
         if(LoginVerification.sessionCheck(request)){
             User user = (User) request.getSession().getAttribute("loggedUser");
             
@@ -124,8 +132,19 @@ public class AccountController {
             referredOccasion.setAddressLine1(address);
             referredOccasion.setOccasion(occasion);
             referredOccasion.setUser(user);
-            
-            System.out.println("Send Email is: "+ sendEmail);
+            referredOccasion.setLastEditedBy("Me");
+            if(user.getTimeZone()==null){
+                int timeZone = Integer.parseInt(timeZoneStr);
+                if (timeZone >= 0) {
+                    timeZoneStr = "+" + timeZone;
+                }
+                user.setTimeZone("GMT" + timeZoneStr);
+                TimeZone tz = TimeZone.getTimeZone("GMT" + timeZoneStr);
+                System.out.println(tz.getDisplayName());
+                System.out.println(tz.getRawOffset());
+            }
+            referredOccasion.setLastEditedDate(Calendar.getInstance(TimeZone.getTimeZone(user.getTimeZone())));
+            System.out.println(Calendar.getInstance(TimeZone.getTimeZone(user.getTimeZone())).getTime());
             
             ReferredOccasion returnedOccasion = refService.addnewUserReferredOccasion(referredOccasion, date, Boolean.TRUE);
             if(returnedOccasion!=null){
@@ -135,6 +154,44 @@ public class AccountController {
                 referralCreated = false;
             }
        response.sendRedirect(request.getContextPath()+"/dashboard"); 
+        }
+        else{
+            response.sendRedirect(request.getContextPath()+"/login"); 
+        }
+    }
+    
+    @RequestMapping(value="/referral/update", method=RequestMethod.POST)
+    public void updateReferal(HttpServletRequest request, HttpServletResponse response, @RequestParam(name="firstName", required = false) String firstName, 
+            @RequestParam(name = "lastName", required = false) String lastName, @RequestParam(name = "email", required = false) String email, 
+            @RequestParam(name = "occasionDate", required = false) String date, @RequestParam(name = "occasion", required = false) String occasion, 
+            @RequestParam(name = "address", required = false) String address, @RequestParam(name = "referredOccasionId")Integer id) throws ParseException, IOException{
+        if(LoginVerification.sessionCheck(request)){
+            User user = (User) request.getSession().getAttribute("loggedUser");
+            ReferredOccasion refOccasion = refService.findReferedOccasion(id);
+            if(firstName!=null){
+                refOccasion.setFriendFirstName(firstName);
+            }
+            if(lastName!=null){
+                refOccasion.setFriendLastName(lastName);
+            }
+            if(email!=null){
+                refOccasion.setEmail(email);
+            }
+            if(date!=null){
+                Date jDate = htmlDateFmt.parse(date);
+                Calendar cal = Calendar.getInstance();
+                 cal.setTime(jDate);
+                refOccasion.setOccasionDate(cal);
+            }
+            if(occasion!=null){
+                refOccasion.setOccasion(occasion);
+            }
+            if(address!=null){
+                refOccasion.setAddressLine1(address);
+            }
+            refOccasion.setLastEditedBy("Me");
+            refOccasion.setLastEditedDate(Calendar.getInstance(TimeZone.getTimeZone(user.getTimeZone())));
+            response.sendRedirect(request.getContextPath()+"/dashboard?friendEdited=true"); 
         }
         else{
             response.sendRedirect(request.getContextPath()+"/login"); 
