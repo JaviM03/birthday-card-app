@@ -34,6 +34,9 @@ public class ReferredOccasionService {
     @Autowired
     ReferredOccasionRepository ror;
     
+    @Autowired
+    UserService us;
+    
     Integer PAGESIZE = 10;
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
     String referalUrl = "https://christmas-card-app2.herokuapp.com/referral?id=";
@@ -129,6 +132,58 @@ public class ReferredOccasionService {
         return ror.save(referredOccasion);
    }
    
+   public ReferredOccasion addnewUserReferredOccasion(ReferredOccasion referredOccasion,  Boolean emailRequested) throws ParseException, IOException{
+        Calendar currentDate = Calendar.getInstance();
+
+        referredOccasion.setReferredDate(currentDate);
+        referredOccasion.setInfoHasBeingFilled(Boolean.FALSE);
+        referredOccasion.setIsDeleted(Boolean.FALSE);
+        String refToken = "";
+        int i = 0;
+        while(i<100){ 
+            Random random = ThreadLocalRandom.current();
+            byte[] r = new byte[32];
+            random.nextBytes(r);
+            refToken = Base64.getUrlEncoder().encodeToString(r);
+            if(refToken.length()>120){
+                refToken = refToken.substring(0, 119);
+            }
+            if(ror.findFirstByReferrenceToken(refToken)==null){
+                break;
+            }
+            i++;
+        }
+        referredOccasion.setReferrenceToken(refToken);
+        
+        ArrayList<String> personalizationParameters = new ArrayList();
+        personalizationParameters.addAll(personalizInitialPrameters);
+        personalizationParameters.add("User_Name");
+        personalizationParameters.add("Friend_Name");
+        personalizationParameters.add("Referal_URL");
+        personalizationParameters.add("Occasion");
+
+        User user = referredOccasion.getUser();
+        ArrayList<String> personalizationValues = new ArrayList();
+        personalizationValues.addAll(personalizInitialValues);
+        personalizationValues.add(user.getFirstName() + " " + user.getLastName());
+        personalizationValues.add(referredOccasion.getFriendFirstName());
+        personalizationValues.add(referalUrl+refToken);
+        personalizationValues.add(referredOccasion.getOccasion());
+        String response = "";
+       if(emailRequested!=null){
+           if(emailRequested){
+            response = EmailSender.sendEmail(referredOccasion.getEmail(), referredOccasion.getUser().getEmail(), referralMessageTemplateId, personalizationParameters,personalizationValues);
+           }
+       }
+       if(response.equals("202")){
+        referredOccasion.setLastEmailDate(currentDate);
+       }
+       else{
+           referredOccasion.setEmailCanBeResent(Boolean.TRUE);
+       }
+        return ror.save(referredOccasion);
+   }
+   
    public void sendRemindingEmail(Integer referredOccasionId) throws IOException{
        Calendar currentDate = Calendar.getInstance();
        ReferredOccasion referredOccasion = ror.findOne(referredOccasionId);
@@ -156,6 +211,11 @@ public class ReferredOccasionService {
             referredOccasion.setEmailCanBeResent(Boolean.TRUE);
         }
         ror.save(referredOccasion);
+   }
+   
+   public boolean referalHasAccount(ReferredOccasion ref){
+       
+       return us.checkUserEmail(ref.getEmail());
    }
    
    public ReferredOccasion findReferalDetail(String referralCode){

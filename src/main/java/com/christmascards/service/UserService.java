@@ -68,7 +68,7 @@ public class UserService {
         return userResult;
     }
     
-    //Checks if phone number and email have already beign used, which if true would mean that the user alreeady has an account
+    //Checks if phone number and email have already being used, which if true would mean that the user alreeady has an account
     //"none" means no results were found for both, "both" means both email and phone number were found on an already existing account
     //"phone" means phone number was found on an already existing account, "email" means email was found on an already existing account
     @Transactional
@@ -94,6 +94,17 @@ public class UserService {
             }
         }
         return response;
+    }
+    //True means email was found on an existing account
+    @Transactional
+    public boolean checkUserEmail(String email){
+        List<User> searchByEmail = userRepo.findByEmail(email);
+        if(searchByEmail!=null){
+            if(!searchByEmail.isEmpty()){
+                return true;
+            }
+        }
+        return false;
     }
     
     //Authenticate user using its email, password and DB saved password salt 

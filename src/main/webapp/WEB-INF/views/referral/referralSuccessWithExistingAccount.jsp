@@ -1,6 +1,6 @@
 <%-- 
-    Document   : successfulAccCreation
-    Created on : 20/01/2020, 11:15:18 AM
+    Document   : referralSuccessWithExistingAccount
+    Created on : 3/04/2020, 02:21:28 PM
     Author     : HP PC
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -157,17 +157,17 @@
         </style>
     </head>
     <body>
-        <script src="<c:url value="/resources/font-awesome/js/all.js"/>"></script>
         <div class="container">
-            <div class="row card card-signin mb-5 ml-2 mr-2 mt-5" >
-                <div class='mt-5 text-center'><h2>Thank you for joining us!</h2></div>
-                <div class="mt-2 text-center" style="color:#AAABBC"><h4>Your account has been created. You'll be shortly redirected to the dashboard.</h4></div>
-                <div class="text-center mb-5" style='font-size:22px'><a href="${pageContext.request.contextPath}/dashboard">Go now!</a></div>
+            <div class="row card card-signin mb-5 ml-2 mr-2 mt-5 justify-content-md-center" >
+                <div class='mt-5 text-center '><h2>Thank you for submitting!</h2></div>
+                <div class="mt-2 text-center " style="color:#AAABBC"><h4>Your friend will see the infomation you submited the next time they log in.</h4></div>
+                <div class="mt-2 text-center " style="color:#AAABBC"><h4>You'll be shortly redirected to the home page.</h4></div>
+                <div class="text-center mb-5" style='font-size:22px'><a href="${pageContext.request.contextPath}">Go now!</a></div>
             </div>
         </div>
         <script>
             window.setTimeout(function () {
-                window.location.href = '${pageContext.request.contextPath}/dashboard';
+                window.location.href = '${pageContext.request.contextPath}';
             }, 8000);
         </script>
     </body>

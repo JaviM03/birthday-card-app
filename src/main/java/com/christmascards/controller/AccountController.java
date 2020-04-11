@@ -110,7 +110,7 @@ public class AccountController {
         return "";
     }
     
-    @RequestMapping(value="/addOccasion", method=RequestMethod.POST)
+    @RequestMapping(value="/referral/add", method=RequestMethod.POST)
     public void addFriend(HttpServletRequest request, HttpServletResponse response, @RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName,
             @RequestParam("email") String email, @RequestParam("occasionDate") String date, @RequestParam("occasion") String occasion, @RequestParam("address") String address,
             @RequestParam("sendEmail") String sendEmail) throws ParseException, IOException{
@@ -152,7 +152,25 @@ public class AccountController {
         }
     }
     
+    @RequestMapping(value="/logout", method=RequestMethod.GET)
+    public void logout(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        request.getSession().setAttribute("loggedUser", null);
+        response.sendRedirect(request.getContextPath()+"/login");
+    }
     
+    @RequestMapping(value="/referral/delete", method = RequestMethod.POST)
+    public void referralDelete(HttpServletRequest request, HttpServletResponse response, @RequestParam(name="id") Integer referredOccasionId) throws IOException{
+        if(LoginVerification.sessionCheck(request)){
+            User user = (User) request.getSession().getAttribute("loggedUser");
+            ReferredOccasion refOcc = refService.findReferedOccasion(referredOccasionId);
+            if(user.getUserId().equals(refOcc.getUser().getUserId())){
+                refOcc.setIsDeleted(true);
+                refService.saveReferedOccasion(refOcc);
+            }
+        }
+        response.sendRedirect(request.getContextPath()+"/dashboard");
+    }
+  
     }
     
 

@@ -133,6 +133,13 @@
             /* Fallback for Edge
             -------------------------------------------------- */
 
+            @media screen and (max-width: 991px){
+                .mg-sm-size{
+                    margin-bottom: 50px !important;
+                    margin-top: 30px !important;
+                }
+            }
+            
             @supports (-ms-ime-align: auto) {
                 .form-label-group>label {
                     display: none;
@@ -161,15 +168,27 @@
         <script src="<c:url value="/resources/font-awesome/js/all.js"/>"></script>
         <div class="container">
             <div class="row card card-signin mb-5 ml-2 mr-2 mt-5" >
-                <div class='mt-5 text-center'><h2>Thank you for providing your information!</h2></div>
-                <div class="mt-2 text-center" style="color:#AAABBC"><h4>Your friend will be able to view your details when he logs back in. You'll be redirected to your the index page now.</h4></div>
-                <div class="text-center mb-5" style='font-size:22px'><a href="${pageContext.request.contextPath}/">Go now!</a></div>
+                <div class='mt-5 text-center'> <h2><p class="font-weight-light">Thank you for providing your information!</p></h2> </div>
+                <div class="mt-2 text-center row justify-content-md-center" style="color:#AAABBC">
+                    <div class="col-10 mx-auto">
+                    <h4><p class="font-weight-light">Your friend will see the infomation you submited the next time they log in.</p></h4>
+                    </div>
+                </div>
+                <div class="text-center row justify-content-md-center" >
+                    <div class="col-lg-2 col-12"></div>
+                    <div class="col-lg-3 mt-2 col-11 mx-auto">
+                        <a href="${pageContext.request.contextPath}/referral/register"><button class="btn-primary btn btn-block btn-lg">Home</button></a>  
+                    </div>
+                    <div class="col-lg-2 col-12 "></div>
+                    <div class="col-lg-3 mg-sm-size col-11 mt-2 mx-auto" >
+                        <form method="GET" action="${pageContext.request.contextPath}/referral/register">
+                            <input type="hidden" value="${referredOccasionId}" name="id">
+                            <button class="btn-primary btn btn-block btn-lg" type="submit">Register</button>
+                        </form>
+                    </div>
+                            <div class="col-lg-2 col-12"></div>
+                </div>
             </div>
         </div>
-        <script>
-            window.setTimeout(function () {
-                window.location.href = '${pageContext.request.contextPath}/';
-            }, 8000);
-        </script>
     </body>
 </html>

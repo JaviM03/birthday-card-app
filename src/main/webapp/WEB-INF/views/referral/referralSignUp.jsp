@@ -1,16 +1,16 @@
 <%-- 
-    Document   : referralLandingPage
-    Created on : 28/03/2020, 09:30:06 PM
+    Document   : referralSignUp
+    Created on : 3/04/2020, 05:19:25 PM
     Author     : HP PC
 --%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Card Info</title>
+        <title>Share Your Date</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="<c:url value="/resources/main.css" />">
         <link rel="stylesheet" href="<c:url value="/resources/bootstrap.css" />">
@@ -168,7 +168,12 @@
 
             /* Fallback for Edge
             -------------------------------------------------- */
-
+            @media only screen and (max-width: 768px){
+                .mg-sm-size{
+                    margin-bottom: 300px;
+                }
+            }
+            
             @supports (-ms-ime-align: auto) {
                 .form-label-group>label {
                     display: none;
@@ -190,45 +195,60 @@
                     color: #777;
                 }
             }
+            
 
         </style>
     </head>
     <body>
         <script src="<c:url value="/resources/font-awesome/js/all.js"/>"></script>
-        <div class="pt-2 pb-2 pl-3 color-hover" style="color:black;"><a href="${pageContext.request.contextPath}" style="color:black; display: flex; align-items: center;"><i class="fas fa-arrow-left fa-2x pr-1" style="color:lightgrey;"></i>Go to Index</a></div>
+        <div class="pt-2 pb-2 pl-3 color-hover" style="color:black;"><a href="${pageContext.request.contextPath}" style="color:black; display: flex; align-items: center;"><i class="fas fa-arrow-left fa-2x pr-1" style="color:lightgrey;"></i>Go To Home</a></div>
         <div class="container">
-                <div class="row card card-signin mb-5 form-signin">
-                    <div class="mx-auto card-title">Welcome!</div>
-                    <div class="text-center">Please log in into your account to fill out your info.</div>
-                    <div class="row justify-content-md-center ">
-                        <div class="col-lg-4 mt-4 row align-items-center">
-                            <div class="col-2 col-sm-4 col-md-2"></div>
-                            <div class="col-8 col-sm-4 col-md-8 ">
-                                <a href="${pageContext.request.contextPath}/login"><button class="btn btn-lg btn-primary btn-block">Log In</button></a>
+            <form class="form-signin" id="form-register" method="POST" action="${pageContext.request.contextPath}/referral/register">
+                <div class="row card card-signin mb-5 ml-2 mr-2"  >
+                    <div class="mx-auto card-title pt-3">Register Account</div>
+                    <div class="text-center">Please type in your password to complete your Singup: <strong>${refOccasion.occasion}</strong></div>
+                    <div class="row mt-5">  
+                        <div class="col-lg-2"></div>
+                        <div class="col-lg-4 col-11 mx-auto">
+                            <div class="form-label-group">                               
+                                <input type="password" id="inputPassword" class="form-control" placeholder="Password"  name="password"  required>  
+                                <label for="inputPassword">Password</label> 
+                                <input type="hidden" value="${referredOccasionId}" name="id">
                             </div>
-                            <div class="col-2 col-sm-4 col-md-2"></div>
                         </div>
-
-                        <div class="col-lg-4 mt-4 row pb-4">
-                            <div class="row col-12 pb-3">
-                                <div class="col-2 col-lg-1"></div>
-                                <div class="col-8 col-lg-10 text-center" style="color:#696969">If you don't have an account you can go ahead and create one:</div>
-                                <div class="col-2 col-lg-1"></div>
-                            </div>
-                            <div class="row col-12 pt-3 pb-4">
-                                <div class="col-2 col-sm-4 col-md-2"></div>
-                                <div class="col-8 col-sm-4 col-md-8 ">
-                                    <a href="${pageContext.request.contextPath}/signup"><button class="btn btn-lg btn-primary btn-block">Register</button></a>
-                                </div>
-                                <div class="col-2 col-sm-4 col-md-2"></div>
-                            </div>
+                        <div class="col-lg-2">                           
                         </div>
                     </div>
-                                
+                            <div class="row mt-2">  
+                        <div class="col-lg-2"></div>
+                        <div class="col-lg-4 col-11 mx-auto">
+                            <div class="form-label-group">                              
+                                <input type="password" id="inputPasswordConfirm" class="form-control" placeholder="Confirm Password"  name="password2"  required>
+                                <label for="inputPasswordConfirm">Confirm Password</label> 
+                            </div>
+                        </div>
+                        <div class="col-lg-2">                           
+                        </div>
+                    </div>
+                            <div class="row mt-4 justify-content-md-center">
+                                <div class="col-4 mx-auto">
+                            <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Confirm</button>
+                                </div>
+                            </div>
                 </div>
+            </form>
         </div>
         <script src="https://code.jquery.com/jquery-latest.min.js"></script>
-        <script src="<c:url value="/resources/tel-input/build/js/intlTelInput-jquery.min.js"/>"></script> 
-        <script src="<c:url value="/resources/tel-input/build/js/intlTelInput.js"/>"></script>
+        <script>
+            document.getElementById('form-register').addEventListener("submit", function (e) {
+                password = document.getElementById('inputPassword');
+                confirm_password = document.getElementById('inputPasswordConfirm');
+
+                if (password.value !== confirm_password.value) {
+                    confirm_password.className += " is-invalid";
+                    e.preventDefault();
+                }
+            })
+         </script>   
     </body>
 </html>
