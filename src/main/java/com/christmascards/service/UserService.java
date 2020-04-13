@@ -120,4 +120,8 @@ public class UserService {
         }
     }
     
+    public User save(User user){
+        return userRepo.saveAndFlush(user);
+    }
+    
 }

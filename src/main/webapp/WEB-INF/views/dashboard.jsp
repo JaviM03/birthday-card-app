@@ -543,7 +543,8 @@
                         </div>
                         <div class="text-left mt-3"> Last edited by <b id="lastEditedBy"></b>, <em id="lastEditedOn"></em></div>
                     </div>
-                    <div class="modal-footer ">                       
+                    <div class="modal-footer ">
+                        <button type="button" class="btn btn-success mr-auto">Edit Info.</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <form method="POST" action="${pageContext.request.contextPath}/sendEmail">
                             <input type='hidden' name='friendId' id='modalFriendId' value=''>

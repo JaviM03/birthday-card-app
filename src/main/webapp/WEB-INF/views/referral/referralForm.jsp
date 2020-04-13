@@ -194,6 +194,7 @@
         </style>
     </head>
     <body>
+        <script src="<c:url value="/resources/moment.min.js"/>"></script>
         <script src="<c:url value="/resources/font-awesome/js/all.js"/>"></script>
         <div class="pt-2 pb-2 pl-3 color-hover" style="color:black;"><a href="${pageContext.request.contextPath}" style="color:black; display: flex; align-items: center;"><i class="fas fa-arrow-left fa-2x pr-1" style="color:lightgrey;"></i>Go To Home</a></div>
         <div class="container">
@@ -241,6 +242,7 @@
                                                value="<fmt:formatDate value="${refOccasion.occasionDate.time}" pattern="yyyy-MM-dd" type="date" />" required >
                                         <label for="occasionDate">Occasion Date <font color="red">*</font></label>
                                     </div>
+                                        <input type="hidden" name="timeZone" value="" id="timeZoneInput"/>
                                     <input type="hidden" value="${refOccasion.referredOccasionId}" name="referredOccasionId">
                                 </div>
                             </div>
@@ -258,5 +260,14 @@
         <script src="<c:url value="/resources/tel-input/build/js/intlTelInput.js"/>"></script>
         <script src="<c:url value="/resources/tel-input/build/js/intlTelInput.js"/>"></script>
         <script src="//geodata.solutions/includes/countrystatecity.js"></script>
+        <script>
+            //Add time zone parameter to 
+                                                                $(function () {
+                                                                    
+                                                                    var dateVar = new Date();
+                                                                    var timezone = dateVar.getTimezoneOffset()/60 * (-1);
+                                                                    document.getElementById("timeZoneInput").value = timezone;
+                                                                });
+        </script>
     </body>
 </html>

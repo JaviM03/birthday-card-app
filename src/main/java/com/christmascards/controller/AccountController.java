@@ -145,7 +145,7 @@ public class AccountController {
             }
             referredOccasion.setLastEditedDate(Calendar.getInstance(TimeZone.getTimeZone(user.getTimeZone())));
             System.out.println(Calendar.getInstance(TimeZone.getTimeZone(user.getTimeZone())).getTime());
-            
+            userService.save(user);
             ReferredOccasion returnedOccasion = refService.addnewUserReferredOccasion(referredOccasion, date, Boolean.TRUE);
             if(returnedOccasion!=null){
                 referralCreated = true;
