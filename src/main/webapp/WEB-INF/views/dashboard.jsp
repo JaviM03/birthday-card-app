@@ -64,10 +64,10 @@
                     "Goodbye",
                     "Christmas"
                 ];
-                $("#ocassionModal").autocomplete({
+                $("#occasionModal").autocomplete({
                     source: availableTags
                 });
-                $("#ocassionModal").autocomplete("option", "appendTo", "#ocassionFormModal")
+                $("#occasionModal").autocomplete("option", "appendTo", "#ocassionFormModal")
             });
             $(document).ajaxStop(function () {
                 window.location.reload();
@@ -424,7 +424,7 @@
                                 <label for="emailAddressModal">Email Address <font color="red">*</font></label>
                                 <input type="email" autocomplete="off" class="form-control" placeholder="Email Address" id="emailAddressModal" name="email" required/>
                                 <label for="occasionModal">Occasion <font color="red">*</font></label>
-                                <input type="text" autocomplete="off" class="form-control" placeholder="Occasion" id="ocassionModal" value="Christmas" maxLength="12" name="occasion" required/>
+                                <input type="text" autocomplete="off" class="form-control" placeholder="Occasion" id="occasionModal" value="Christmas" maxLength="12" name="occasion" onchange="occasionHasChanged()" required/>
                                 <label for="dateModal">Date</label> 
                                 <input type="date" class="form-control" id="dateModal" value="2020-12-25" name="occasionDate"/>
                                 <input type="hidden" name="timeZone" value="" id="timeZoneInput"/>
@@ -660,6 +660,17 @@
                                                                     var timezone = dateVar.getTimezoneOffset()/60 * (-1);
                                                                     document.getElementById("timeZoneInput").value = timezone;
                                                                 });
+                                                                
+                                                                function occasionHasChanged(){
+                                                                    var now = new Date();
+
+                                                                    var day = ("0" + now.getDate()).slice(-2);
+                                                                    var month = ("0" + (now.getMonth() + 1)).slice(-2);
+
+                                                                    var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
+                                                                    document.getElementById("dateModal").value = today;
+                                                                    document.getElementById("occasionModal").removeAttribute("onchange");
+                                                                }
 
         </script>       
     </body>
