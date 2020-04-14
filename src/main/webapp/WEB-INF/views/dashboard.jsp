@@ -235,6 +235,11 @@
                                 Email sent!
                             </div>
                         </c:if>
+                        <c:if test="${contactDeleted}">
+                            <div class="alert alert-danger" role="alert">
+                                Contact Deleted!
+                            </div>
+                        </c:if>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="main-card mb-3 card">
