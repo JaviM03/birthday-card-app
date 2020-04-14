@@ -44,6 +44,13 @@ public class ForgottenPasswordController {
     
     Logger l = Logger.getLogger("logger");
     
+    
+    
+    @RequestMapping(value="/forgot-password")
+    public ModelAndView forgotPassword(HttpServletRequest request, HttpServletResponse response){
+        return new ModelAndView("password-reset");
+    }
+    
     // Process form submission from forgotPassword page
     @RequestMapping(value = "/reset-password", method = RequestMethod.POST)
     public ModelAndView processForgotPasswordForm(@RequestParam("email") String userEmail, HttpServletRequest request) throws ParseException, IOException {

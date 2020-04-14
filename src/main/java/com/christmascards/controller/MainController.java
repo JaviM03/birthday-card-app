@@ -72,10 +72,6 @@ public class MainController {
     }
     
     
-    @RequestMapping(value="/forgot-password")
-    public ModelAndView forgotPassword(HttpServletRequest request, HttpServletResponse response){
-        return new ModelAndView("password-reset");
-    }
     
    
     

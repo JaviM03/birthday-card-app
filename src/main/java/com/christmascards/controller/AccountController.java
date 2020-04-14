@@ -104,6 +104,9 @@ public class AccountController {
             if(request.getParameter("friendEdited")!=null){
                 mv.addObject("friendEdited", true);
             }
+            if(request.getParameter("referralDeleted")!=null){
+                mv.addObject("referralDeleted", true);
+            }
             return mv;
         }
         else{
@@ -225,7 +228,7 @@ public class AccountController {
                 refService.saveReferedOccasion(refOcc);
             }
         }
-        response.sendRedirect(request.getContextPath()+"/dashboard");
+        response.sendRedirect(request.getContextPath()+"/dashboard?referralDeteled=true");
     }
   
     }
