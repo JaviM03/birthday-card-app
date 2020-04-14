@@ -23,7 +23,6 @@ import java.util.ArrayList;
  */
 public class EmailSender {
     
-    
     public static String sendEmail(String to, String from, String template,
             ArrayList<String> personalizationParameters, ArrayList<String> personalizationValues) throws IOException{ 
                 System.out.println("Send Email with Template selected");
@@ -75,6 +74,37 @@ public class EmailSender {
                       System.out.println(ex.getMessage());
                     return "Error enviando mensaje";
                   }
+                }
+    
+    public static String sendResetEmail(String to, String from, String template,
+            ArrayList<String> personalizationParameters, ArrayList<String> personalizationValues) throws IOException{ 
+                System.out.println("Send Email with Template selected");
+                Email fromEmail = new Email(from);
+                Email toEmail = new Email(to);
+                Mail mail = new Mail();
+                mail.setFrom(fromEmail);
+                mail.setTemplateId(template);
+                Personalization personalization = new Personalization();
+                personalization.addTo(toEmail);
+                for(int i = 0; i<personalizationParameters.size();i++){
+                    personalization.addDynamicTemplateData(personalizationParameters.get(i), personalizationValues.get(i));
+                }
+                mail.addPersonalization(personalization);
+                SendGrid sg = new SendGrid(System.getenv("SENDGRID_API_KEY"));
+                Request request = new Request();
+                try {
+                    request.setMethod(Method.POST);
+                    request.setEndpoint("mail/send");
+                    request.setBody(mail.build());
+                    Response response = sg.api(request);
+                    System.out.println("Mensaje al usuario enviado. " + response.getStatusCode());
+                    System.out.println("Body del return: " + response.getBody());
+                    return response.getStatusCode()+"";
+                  } catch (IOException ex) {
+                      System.out.println(ex.getMessage());
+                    return "Error enviando mensaje";
+                  }
+    
                 }
     
 }
