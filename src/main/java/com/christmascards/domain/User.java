@@ -6,6 +6,7 @@
 package com.christmascards.domain;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -63,6 +64,12 @@ public class User {
     
     @Column(name="membership_type")
     private String membershipType;
+    
+    @Column(name = "last_login")
+    private Date lastLogin;
+
+    @Column(name = "reset_token")
+    private String resetToken;
     
     @Column(name="time_zone")
     private String timeZone;
@@ -167,6 +174,14 @@ public class User {
 
     public void setTimeZone(String timeZone) {
         this.timeZone = timeZone;
+    }
+    
+    public String getResetToken() {
+        return resetToken;
+    }
+
+    public void setResetToken(String resetToken) {
+        this.resetToken = resetToken;
     }
     
     
