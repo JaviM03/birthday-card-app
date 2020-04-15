@@ -56,6 +56,10 @@
                             Password Reset
                         </span>
                         
+                        <div class="text-center p-b-30">
+                            <strong>Please type in your email</strong>
+                        </div>
+                        
                         <c:if test="${failedLogin!=null}">
                             <div class="alert alert-danger" role="alert">
                                 <div class="text-center">The email you submited does not exist, please try again.</div> 
@@ -69,12 +73,6 @@
                             </div>
                         </c:if>
                         
-                        <!--
-                        <c:if test="${!failedLogin}">
-                        <div class="text-center p-b-30">
-                            <strong>Please type in your new password</strong>
-                        </div>
-                        </c:if>-->
                         
                         
                         <div class="wrap-input100">

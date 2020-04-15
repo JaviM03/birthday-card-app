@@ -18,8 +18,13 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import javax.validation.constraints.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -182,6 +187,14 @@ public class ReferredOccasionService {
            referredOccasion.setEmailCanBeResent(Boolean.TRUE);
        }
         return ror.save(referredOccasion);
+   }
+   
+   public List<ReferredOccasion> addNewReferedOccasions(List<ReferredOccasion> referedOccasions){
+       
+       List<Object> returnValue = new ArrayList();
+       Iterable<ReferredOccasion> iterable = ror.save(referedOccasions);
+       returnValue =  StreamSupport.stream(iterable.spliterator(), false).collect(Collectors.toList());
+       return (List<ReferredOccasion>) ror.save(referedOccasions);
    }
    
    public void sendRemindingEmail(Integer referredOccasionId) throws IOException{
