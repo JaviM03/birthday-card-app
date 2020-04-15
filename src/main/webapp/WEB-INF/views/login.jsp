@@ -68,7 +68,7 @@
                         </c:if>
                         <c:if test="${invalidLink}">
                             <div class="alert alert-danger" role="alert">
-                                <div class="text-center">Your password link has either expired or already being used. Please try again.</div> 
+                                <div class="text-center">Your password link has either expired or has already being used. Please try again.</div> 
                             </div>
                         </c:if>
                         <c:if test="${successfulReset}">

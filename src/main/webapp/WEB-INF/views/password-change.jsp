@@ -84,7 +84,6 @@
                             </button>
                         </div>
                         
-                        ${response}
 
                         <!--
                         <div class="text-center p-t-45 p-b-4" style="font-family: 'Open Sans', sans-serif;">
