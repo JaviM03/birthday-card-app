@@ -54,14 +54,6 @@
                         <span class="login100-form-title p-b-20" style="font-family: 'Open Sans', sans-serif;">
                             Password Reset
                         </span>
-                        <!--                        
-                        <c:if test="${failedLogin}">
-                            <div class="alert alert-warning" role="alert">
-                                <div class="text-center">That Email does not exist.</div> 
-                            </div>
-                        </c:if>
-                        -->
-                        
                         <!--
                         <c:if test="${referalCode}">
                             <div class="alert alert-warning" role="alert">
@@ -72,6 +64,13 @@
                         <div class="text-center p-b-30">
                             <strong>Please type in your new password</strong>
                         </div>
+                        
+                        <c:if test="${failedPass!=null}">
+                            <div class="alert alert-warning" role="alert">
+                                <div class="text-center">Passwords must be the same.</div> 
+                            </div>
+                        </c:if>
+                        
                         <div class="wrap-input100">
                             <input class="input100" type="password" name="passwordNew" id="inputPassword" placeholder="New Password" style="font-family: 'Open Sans', sans-serif;" required="true">
                             <span class="focus-input100-1"></span>

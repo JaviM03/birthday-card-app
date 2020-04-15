@@ -56,19 +56,12 @@
                             Password Reset
                         </span>
                         
-                        <c:if test="${failedLogin}">
+                        <c:if test="${failedLogin!=null}">
                             <div class="alert alert-danger" role="alert">
                                 <div class="text-center">The email you submited does not exist, please try again.</div> 
                             </div>
                         </c:if>
                         
-                        <!--
-                        <c:if test="${referalCode}">
-                            <div class="alert alert-warning" role="alert">
-                                <div class="text-center">Sorry, your referral token does not match with our existing data.</div> 
-                            </div>
-                        </c:if>
-                        -->
                         
                         <c:if test="${response!=null}">
                             <div class="alert alert-success" role="alert">
@@ -76,11 +69,12 @@
                             </div>
                         </c:if>
                         
+                        <!--
                         <c:if test="${!failedLogin}">
                         <div class="text-center p-b-30">
                             <strong>Please type in your new password</strong>
                         </div>
-                        </c:if>
+                        </c:if>-->
                         
                         
                         <div class="wrap-input100">
