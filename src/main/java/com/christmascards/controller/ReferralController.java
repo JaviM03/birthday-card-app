@@ -95,7 +95,8 @@ public class ReferralController {
                 refOccasion.setLastEditedBy(refOccasion.getFriendFirstName());
                 refOccasion.setLastEditedDate(Calendar.getInstance(TimeZone.getTimeZone(refOccasion.getUser().getTimeZone())));
                 refOccService.saveReferedOccasion(refOccasion);
-                //MainController.REFERREDCODE = null;
+                us.sendUserReferredConfirmationEmail(refOccasion);
+                MainController.REFERREDCODE = null;
                 if(refOccService.referalHasAccount(refOccasion)){
                     return new ModelAndView("referral/referralSuccessWithExistingAccount");
                 }

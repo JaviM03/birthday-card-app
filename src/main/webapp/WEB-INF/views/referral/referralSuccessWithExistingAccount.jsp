@@ -162,12 +162,12 @@
                 <div class='mt-5 text-center '><h2>Thank you for submitting!</h2></div>
                 <div class="mt-2 text-center " style="color:#AAABBC"><h4>Your friend will see the infomation you submited the next time they log in.</h4></div>
                 <div class="mt-2 text-center " style="color:#AAABBC"><h4>You'll be shortly redirected to the home page.</h4></div>
-                <div class="text-center mb-5" style='font-size:22px'><a href="${pageContext.request.contextPath}">Go now!</a></div>
+                <div class="text-center mb-5" style='font-size:22px'><a href="https://christmas-card-app2.herokuapp.com/">Go now!</a></div>
             </div>
         </div>
         <script>
             window.setTimeout(function () {
-                window.location.href = '${pageContext.request.contextPath}';
+                window.location.href = 'https://christmas-card-app2.herokuapp.com/';
             }, 8000);
         </script>
     </body>

@@ -8,11 +8,12 @@ package com.christmascards.service;
 import com.christmascards.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.christmascards.domain.User;
+import com.christmascards.domain.*;
 import com.christmascards.util.EmailSender;
 import com.christmascards.util.PasswordUtils;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,9 +29,12 @@ public class UserService {
     @Autowired
     UserRepository userRepo;
     
+    ArrayList<String> personalizInitialPrameters = new ArrayList(Arrays.asList("Sender_Name","Sender_Address","Sender_City","Sender_State","Sender_Zip"));
+    ArrayList<String> personalizInitialValues = new ArrayList(Arrays.asList("ChristmasCardApp","Specific Address","City","State","Zip Code"));
     String senderEmail = "christmascards254@gmail.com";
     /* Hans API */
     String welcomeMessageTemplateId = "d-7079eb579209441ea6148739f0d1a095";
+    String referralConfirmationTemplateId = "d-fea95e67b03b46f5a987b76f92a2ddd9";
     /* Edwin API*/
     //String welcomeMessageTemplateId = "d-caa160ce04714770a9ee0d78be44f13a";
     
@@ -120,4 +124,24 @@ public class UserService {
         }
     }
     
+    public User save(User user){
+        return userRepo.saveAndFlush(user);
+    }
+    
+    public void sendUserReferredConfirmationEmail(ReferredOccasion refOcc) throws IOException{
+        User user = refOcc.getUser();
+       ArrayList<String> personalizationParameters = new ArrayList();
+        personalizationParameters.addAll(personalizInitialPrameters);
+        personalizationParameters.add("User_Name");
+        personalizationParameters.add("Friend_Name");
+        personalizationParameters.add("Occasion");
+        
+        ArrayList<String> personalizationValues = new ArrayList();
+        personalizationValues.addAll(personalizInitialValues);
+        personalizationValues.add(user.getFirstName());
+        personalizationValues.add(refOcc.getFriendFirstName() + " " +refOcc.getFriendLastName());
+        personalizationValues.add(refOcc.getOccasion());
+        
+        EmailSender.sendEmail(user.getEmail(), senderEmail, referralConfirmationTemplateId, personalizationParameters, personalizationValues);
+   }
 }

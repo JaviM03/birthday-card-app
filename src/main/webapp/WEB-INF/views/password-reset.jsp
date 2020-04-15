@@ -10,7 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Password-reset</title>
+        <title>Reset Password</title>
         <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="<c:url value="/resources/main.css" />">
         <link rel="stylesheet" href="<c:url value="/resources/util.css" />">
@@ -37,10 +37,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#">About</a>
                         </li>
-                        <li class="nav-item active">
+                        <li class="nav-item">
                             <a class="nav-link" href="${pageContext.request.contextPath}/login">
                                 Login
-                                <span class="sr-only">(current)</span>
                             </a>
                         </li>
                     </ul>
@@ -57,19 +56,26 @@
                             Password Reset
                         </span>
                         
-                        <c:if test="${failedLogin}">
-                            <div class="alert alert-warning" role="alert">
-                                <div class="text-center">That Email does not exist.</div> 
+                        <c:if test="${failedLogin!=null}">
+                            <div class="alert alert-danger" role="alert">
+                                <div class="text-center">The email you submited does not exist, please try again.</div> 
+                            </div>
+                        </c:if>
+                        
+                        
+                        <c:if test="${response!=null}">
+                            <div class="alert alert-success" role="alert">
+                                <div class="text-center">Password recovery steps have been sent to your email.</div> 
                             </div>
                         </c:if>
                         
                         <!--
-                        <c:if test="${referalCode}">
-                            <div class="alert alert-warning" role="alert">
-                                <div class="text-center">Sorry, your referral token does not match with our existing data.</div> 
-                            </div>
-                        </c:if>
-                        -->
+                        <c:if test="${!failedLogin}">
+                        <div class="text-center p-b-30">
+                            <strong>Please type in your new password</strong>
+                        </div>
+                        </c:if>-->
+                        
                         
                         <div class="wrap-input100">
                             <input class="input100" type="email" name="email" placeholder="Email" style="font-family: 'Open Sans', sans-serif;" required="">
@@ -79,11 +85,10 @@
 
                         <div class="container-login100-form-btn m-t-40">
                             <button class="login100-form-btn" style="font-family: 'Open Sans', sans-serif;">
-                                Send Password Reset Email
+                                Submit
                             </button>
                         </div>
                         
-                        ${response}
 
                         <!--
                         <div class="text-center p-t-45 p-b-4" style="font-family: 'Open Sans', sans-serif;">

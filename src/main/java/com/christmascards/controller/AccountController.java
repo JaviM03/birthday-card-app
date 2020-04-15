@@ -104,6 +104,9 @@ public class AccountController {
             if(request.getParameter("friendEdited")!=null){
                 mv.addObject("friendEdited", true);
             }
+            if(request.getParameter("referralDeleted")!=null){
+                mv.addObject("referralDeleted", true);
+            }
             return mv;
         }
         else{
@@ -145,7 +148,7 @@ public class AccountController {
             }
             referredOccasion.setLastEditedDate(Calendar.getInstance(TimeZone.getTimeZone(user.getTimeZone())));
             System.out.println(Calendar.getInstance(TimeZone.getTimeZone(user.getTimeZone())).getTime());
-            
+            userService.save(user);
             ReferredOccasion returnedOccasion = refService.addnewUserReferredOccasion(referredOccasion, date, Boolean.TRUE);
             if(returnedOccasion!=null){
                 referralCreated = true;
@@ -225,7 +228,7 @@ public class AccountController {
                 refService.saveReferedOccasion(refOcc);
             }
         }
-        response.sendRedirect(request.getContextPath()+"/dashboard");
+        response.sendRedirect(request.getContextPath()+"/dashboard?referralDeteled=true");
     }
   
     }

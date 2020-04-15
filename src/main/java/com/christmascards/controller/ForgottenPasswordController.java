@@ -44,6 +44,18 @@ public class ForgottenPasswordController {
     
     Logger l = Logger.getLogger("logger");
     
+    
+    
+    @RequestMapping(value="/forgot-password")
+    public ModelAndView forgotPassword(HttpServletRequest request, HttpServletResponse response){
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("response", null);
+        mav.addObject("failedLogin", null);
+        mav.setViewName("password-reset");
+        return mav;
+        
+    }
+    
     // Process form submission from forgotPassword page
     @RequestMapping(value = "/reset-password", method = RequestMethod.POST)
     public ModelAndView processForgotPasswordForm(@RequestParam("email") String userEmail, HttpServletRequest request) throws ParseException, IOException {
@@ -53,7 +65,8 @@ public class ForgottenPasswordController {
         List<User> user = userRepo.findByEmail(userEmail);
 
         if (user == null || user.size()==0) {
-            mav.addObject("response", "That email doesn't exist");
+            mav.addObject("response", null);
+            mav.addObject("failedLogin", true);
         } else {
             
             User u = user.get(0);
@@ -63,9 +76,10 @@ public class ForgottenPasswordController {
 
             // Save token to database
             userRepo.save(u);
+            //String appUrl ="http" + "://" + "localhost" + ":8080/christmas-card-app" ;
             //String appUrl = request.getScheme() + "://" + request.getServerName() + server;  
             // request.getScheme() + "://" + request.getServerName() + server;  
-            // "http" + "://" + "localhost" + ":8080/christmas-card-app" 
+            // "http" + "://" + "localhost" + ":8080/christmas-card-app" ;
             
             String appUrl = "https://christmas-card-app2.herokuapp.com";  
             //http://localhost:8080/christmas-card-app/reset?token=8b642767-8c0e-4704-b1d9-9b414dbba5d5            
@@ -74,7 +88,9 @@ public class ForgottenPasswordController {
             pass.sendResetPasswordEmail(u,appUrl);
             
             // Add success message to view
-            mav.addObject("response", "Password recovery Email sent to " + userEmail);
+            //mav.addObject("response", "Password recovery Email sent to " + userEmail);
+            mav.addObject("response", true);
+            mav.addObject("failedLogin", null);
         }
 
         mav.setViewName("password-reset");
@@ -84,17 +100,21 @@ public class ForgottenPasswordController {
     
     // Display form to reset password
     @RequestMapping(value = "/reset", method = RequestMethod.GET)
-    public ModelAndView displayResetPasswordPage(ModelAndView modelAndView, @RequestParam("token") String token) {
+    public ModelAndView displayResetPasswordPage(ModelAndView modelAndView, @RequestParam(name="token",required=false) String token) {
 
         Optional<User> user = userRepo.findUserByResetToken(token);
-
-        if (user.isPresent()) { // Token found in DB
+        
+        modelAndView.addObject("failedPass", null);
+        
+        if (user.isPresent() && token!=null) { // Token found in DB
             modelAndView.addObject("resetToken", token);
+            modelAndView.setViewName("password-change");
         } else { // Token not found in DB
-            modelAndView.addObject("response", "Invalid Password Link.");
+            modelAndView.addObject("invalidLink", true);
+            //modelAndView.setViewName("{context}/login?invalidLink=true");
+            modelAndView.setViewName("login");
         }
 
-        modelAndView.setViewName("password-change");
         return modelAndView;
     }
     
@@ -105,12 +125,13 @@ public class ForgottenPasswordController {
 
         ModelAndView modelAndView = new ModelAndView();
         
-        if(pass1.equals(pass2)){
-            // Find the user associated with the reset token
-            Optional<User> user = userRepo.findUserByResetToken(token);
-
+        // Find the user associated with the reset token
+        Optional<User> user = userRepo.findUserByResetToken(token);
+        
+        if(user.isPresent() && token!=null){
+            
             // This should always be non-null but we check just in case
-            if (user.isPresent()) {
+            if (pass1.equals(pass2)) {
 
                 User resetUser = user.get();
 
@@ -132,14 +153,15 @@ public class ForgottenPasswordController {
                 modelAndView.setViewName("login");
                 return modelAndView;
 
-            } else {
-                modelAndView.addObject("response", "Invalid Password link");
+            } else {                
+                modelAndView.addObject("failedPass", true);
+                modelAndView.addObject("resetToken", token);
                 modelAndView.setViewName("password-change");
             }
         }else{
-            modelAndView.addObject("response", "Passwords must be the same");
-            modelAndView.addObject("resetToken", token);
-            modelAndView.setViewName("password-change");
+            modelAndView.addObject("invalidLink", true);
+            //modelAndView.setViewName("{context}/login?invalidLink=true");
+            modelAndView.setViewName("login");
         }
 
         return modelAndView;

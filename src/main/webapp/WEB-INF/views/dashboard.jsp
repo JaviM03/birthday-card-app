@@ -64,10 +64,10 @@
                     "Goodbye",
                     "Christmas"
                 ];
-                $("#ocassionModal").autocomplete({
+                $("#occasionModal").autocomplete({
                     source: availableTags
                 });
-                $("#ocassionModal").autocomplete("option", "appendTo", "#ocassionFormModal")
+                $("#occasionModal").autocomplete("option", "appendTo", "#ocassionFormModal")
             });
             $(document).ajaxStop(function () {
                 window.location.reload();
@@ -235,6 +235,11 @@
                                 Email sent!
                             </div>
                         </c:if>
+                        <c:if test="${contactDeleted}">
+                            <div class="alert alert-danger" role="alert">
+                                Contact Deleted!
+                            </div>
+                        </c:if>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="main-card mb-3 card">
@@ -242,7 +247,7 @@
                                         <button class="btn-wide btn btn-secondary btn-add ml-4" style="" data-toggle="modal" data-target="#addContactModal"><i class="fas fa-plus"></i></button>
                                         <div class="btn-actions-pane-right">
                                             <div role="group" class="btn-group-sm btn-group">
-                                                <a href="${pageContext.request.contextPath}/dashboard?dateRange=weekly"><button class="${dateRange=='weekly'?'active':''} btn btn-focus">Last Week</button></a>
+                                                <a href="${pageContext.request.contextPath}/dashboard?dateRange=weekly"><button class="${dateRange=='weekly'?'active':''} btn btn-focus">This Week</button></a>
                                                 <a href="${pageContext.request.contextPath}/dashboard?dateRange=monthly"><button class="${dateRange=='monthly'?'active':''} btn btn-focus">All Month</button></a>
                                                 <a href="${pageContext.request.contextPath}/dashboard?dateRange=none"><button class="${dateRange=='none'?'active':''} btn btn-focus">All Time</button></a>
                                             </div>
@@ -424,7 +429,7 @@
                                 <label for="emailAddressModal">Email Address <font color="red">*</font></label>
                                 <input type="email" autocomplete="off" class="form-control" placeholder="Email Address" id="emailAddressModal" name="email" required/>
                                 <label for="occasionModal">Occasion <font color="red">*</font></label>
-                                <input type="text" autocomplete="off" class="form-control" placeholder="Occasion" id="ocassionModal" value="Christmas" maxLength="12" name="occasion" required/>
+                                <input type="text" autocomplete="off" class="form-control" placeholder="Occasion" id="occasionModal" value="Christmas" maxLength="12" name="occasion" onchange="occasionHasChanged()" required/>
                                 <label for="dateModal">Date</label> 
                                 <input type="date" class="form-control" id="dateModal" value="2020-12-25" name="occasionDate"/>
                                 <input type="hidden" name="timeZone" value="" id="timeZoneInput"/>
@@ -543,7 +548,8 @@
                         </div>
                         <div class="text-left mt-3"> Last edited by <b id="lastEditedBy"></b>, <em id="lastEditedOn"></em></div>
                     </div>
-                    <div class="modal-footer ">                       
+                    <div class="modal-footer ">
+                        <button type="button" class="btn btn-success mr-auto">Edit Info.</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <form method="POST" action="${pageContext.request.contextPath}/sendEmail">
                             <input type='hidden' name='friendId' id='modalFriendId' value=''>
@@ -659,6 +665,17 @@
                                                                     var timezone = dateVar.getTimezoneOffset()/60 * (-1);
                                                                     document.getElementById("timeZoneInput").value = timezone;
                                                                 });
+                                                                
+                                                                function occasionHasChanged(){
+                                                                    var now = new Date();
+
+                                                                    var day = ("0" + now.getDate()).slice(-2);
+                                                                    var month = ("0" + (now.getMonth() + 1)).slice(-2);
+
+                                                                    var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
+                                                                    document.getElementById("dateModal").value = today;
+                                                                    document.getElementById("occasionModal").removeAttribute("onchange");
+                                                                }
 
         </script>       
     </body>

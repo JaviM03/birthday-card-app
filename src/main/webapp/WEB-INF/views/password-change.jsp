@@ -10,7 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Password-reset</title>
+        <title>Reset Password</title>
         <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="<c:url value="/resources/main.css" />">
         <link rel="stylesheet" href="<c:url value="/resources/util.css" />">
@@ -23,7 +23,6 @@
         <script src="<c:url value="/resources/font-awesome/js/all.js"/>"></script>
         
         <!-- Navigation Bar -->
-        <!--
         <nav class="navbar navbar-expand-lg navbar-dark primary fixed-top">
             <div class="container">
                 <a class="navbar-brand" href="${pageContext.request.contextPath}">Logo</a>
@@ -39,34 +38,22 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#">About</a>
                         </li>
-                        <li class="nav-item active">
-                            <a class="nav-link" href="${pageContext.request.contextPath}/login">
-                                Login
-                                <span class="sr-only">(current)</span>
-                            </a>
+                        <li class="nav-item">
+                            <a class="nav-link" href="${pageContext.request.contextPath}/login">Login</a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
-        -->
         <!-- !Navigation Bar -->
 
         <div class="limiter" >
             <div class="container-login100" >
-                <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50">
+                <div class="wrap-login100 p-l-55 p-r-55 p-t-40 p-b-50">
                     <form class="login100-form validate-form" method="POST" action="${pageContext.request.contextPath}/reset">
-                        <span class="login100-form-title p-b-33" style="font-family: 'Open Sans', sans-serif;">
+                        <span class="login100-form-title p-b-20" style="font-family: 'Open Sans', sans-serif;">
                             Password Reset
                         </span>
-                        <!--                        
-                        <c:if test="${failedLogin}">
-                            <div class="alert alert-warning" role="alert">
-                                <div class="text-center">That Email does not exist.</div> 
-                            </div>
-                        </c:if>
-                        -->
-                        
                         <!--
                         <c:if test="${referalCode}">
                             <div class="alert alert-warning" role="alert">
@@ -74,15 +61,24 @@
                             </div>
                         </c:if>
                         -->
+                        <div class="text-center p-b-30">
+                            <strong>Please type in your new password</strong>
+                        </div>
+                        
+                        <c:if test="${failedPass!=null}">
+                            <div class="alert alert-warning" role="alert">
+                                <div class="text-center">Passwords must be the same.</div> 
+                            </div>
+                        </c:if>
                         
                         <div class="wrap-input100">
-                            <input class="input100" type="password" name="passwordNew" id="inputPassword" placeholder="Insert New Password" style="font-family: 'Open Sans', sans-serif;" required="true">
+                            <input class="input100" type="password" name="passwordNew" id="inputPassword" placeholder="New Password" style="font-family: 'Open Sans', sans-serif;" required="true">
                             <span class="focus-input100-1"></span>
                             <span class="focus-input100-2"></span>
                         </div>
                         
                         <div class="wrap-input100">
-                            <input class="input100" type="password" name="passwordConfirm" id="inputPasswordConfirm" placeholder="Repeat New password" style="font-family: 'Open Sans', sans-serif;" required="true">
+                            <input class="input100" type="password" name="passwordConfirm" id="inputPasswordConfirm" placeholder="Re-type New password" style="font-family: 'Open Sans', sans-serif;" required="true">
                             <span class="focus-input100-1"></span>
                             <span class="focus-input100-2"></span>
                         </div>
