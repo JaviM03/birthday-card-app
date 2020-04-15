@@ -100,7 +100,8 @@ public class ForgottenPasswordController {
     
     // Display form to reset password
     @RequestMapping(value = "/reset", method = RequestMethod.GET)
-    public ModelAndView displayResetPasswordPage(ModelAndView modelAndView, @RequestParam(name="token",required=false) String token) {
+    public ModelAndView displayResetPasswordPage(ModelAndView modelAndView, @RequestParam(name="token",required=false) String token, HttpServletResponse response,
+            HttpServletRequest request) throws IOException {
 
         Optional<User> user = userRepo.findUserByResetToken(token);
         
@@ -110,9 +111,8 @@ public class ForgottenPasswordController {
             modelAndView.addObject("resetToken", token);
             modelAndView.setViewName("password-change");
         } else { // Token not found in DB
-            modelAndView.addObject("invalidLink", true);
-            //modelAndView.setViewName("{context}/login?invalidLink=true");
-            modelAndView.setViewName("login");
+            response.sendRedirect(request.getContextPath()+"/login?invalidLink=true");
+            return null;
         }
 
         return modelAndView;
@@ -121,7 +121,8 @@ public class ForgottenPasswordController {
     
     // Process reset password form
     @RequestMapping(value = "/reset", method = RequestMethod.POST)
-    public ModelAndView setNewPassword(@RequestParam(value = "passwordNew") String pass1, @RequestParam(value = "passwordConfirm") String pass2, @RequestParam(value = "tokenId") String token) {
+    public ModelAndView setNewPassword(@RequestParam(value = "passwordNew") String pass1, @RequestParam(value = "passwordConfirm") String pass2,
+            @RequestParam(value = "tokenId") String token, HttpServletResponse response, HttpServletRequest request) throws IOException {
 
         ModelAndView modelAndView = new ModelAndView();
         
@@ -150,8 +151,8 @@ public class ForgottenPasswordController {
                 // In order to set a model attribute on a redirect, we must use
                 // RedirectAttributes
                 //redir.addFlashAttribute("successMessage", "You have successfully reset your password.  You may now login.");
-                modelAndView.setViewName("login");
-                return modelAndView;
+                response.sendRedirect(request.getContextPath()+"/login?successfulReset=true");
+                return null;
 
             } else {                
                 modelAndView.addObject("failedPass", true);
@@ -159,9 +160,8 @@ public class ForgottenPasswordController {
                 modelAndView.setViewName("password-change");
             }
         }else{
-            modelAndView.addObject("invalidLink", true);
-            //modelAndView.setViewName("{context}/login?invalidLink=true");
-            modelAndView.setViewName("login");
+            response.sendRedirect(request.getContextPath()+"/login?invalidLink=true");
+            return null;
         }
 
         return modelAndView;

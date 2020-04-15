@@ -54,20 +54,13 @@
                         <span class="login100-form-title p-b-20" style="font-family: 'Open Sans', sans-serif;">
                             Password Reset
                         </span>
-                        <!--
-                        <c:if test="${referalCode}">
-                            <div class="alert alert-warning" role="alert">
-                                <div class="text-center">Sorry, your referral token does not match with our existing data.</div> 
-                            </div>
-                        </c:if>
-                        -->
                         <div class="text-center p-b-30">
                             <strong>Please type in your new password</strong>
                         </div>
                         
                         <c:if test="${failedPass!=null}">
                             <div class="alert alert-warning" role="alert">
-                                <div class="text-center">Passwords must be the same.</div> 
+                                <div class="text-center">Passwords must match.</div> 
                             </div>
                         </c:if>
                         

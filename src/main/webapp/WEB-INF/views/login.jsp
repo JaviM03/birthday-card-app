@@ -68,7 +68,12 @@
                         </c:if>
                         <c:if test="${invalidLink}">
                             <div class="alert alert-danger" role="alert">
-                                <div class="text-center">Invalid Reset Password Link.</div> 
+                                <div class="text-center">Your password link has either expired or already being used. Please try again.</div> 
+                            </div>
+                        </c:if>
+                        <c:if test="${successfulReset}">
+                            <div class="alert alert-success" role="alert">
+                                <div class="text-center">Your password has being succesfuly reset.</div> 
                             </div>
                         </c:if>
                         <div class="wrap-input100">
