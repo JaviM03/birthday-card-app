@@ -189,8 +189,7 @@ public class ReferredOccasionService {
         return ror.save(referredOccasion);
    }
    
-   public List<ReferredOccasion> addNewReferedOccasions(List<ReferredOccasion> referedOccasions){
-       
+   public List<ReferredOccasion> addNewReferedOccasions(List<ReferredOccasion> referedOccasions){       
        List<Object> returnValue = new ArrayList();
        Iterable<ReferredOccasion> iterable = ror.save(referedOccasions);
        returnValue =  StreamSupport.stream(iterable.spliterator(), false).collect(Collectors.toList());
