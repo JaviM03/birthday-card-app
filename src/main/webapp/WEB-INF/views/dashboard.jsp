@@ -43,6 +43,11 @@
                 background-color: transparent !important;
             }
 
+            .modal-body-long{
+                max-height: calc(100vh - 200px);
+                overflow-y: auto;
+            }
+
         </style>
         <script src="<c:url value="/resources/moment.min.js"/>"></script>
         <script src="<c:url value="/resources/jquery.min.js"/>"></script>
@@ -227,7 +232,8 @@
                             </ul>
                         </div>
                     </div>
-                </div>    <div class="app-main__outer">
+                </div>    
+                <div class="app-main__outer">
 
                     <div class="app-main__inner">
                         <c:if test="${emailSent}">
@@ -294,7 +300,7 @@
                                                         <td class="text-center">
                                                             <button type="button" id="PopoverCustomT-1" class="btn btn-primary btn-sm" onclick="detailModal('${referral.friendFirstName} ${referral.friendLastName}',
                                                                             '<fmt:formatDate type="date" dateStyle="short" value="${referral.referredDate.time}"/>', '<fmt:formatDate type="date" dateStyle="short" value="${referral.occasionDate.time}"/>', '${referral.addressLine1}',
-                                                                            '${referral.email}', '<fmt:formatDate type="date" dateStyle="short" value="${referral.lastEmailDate.time}"/>', '${referral.referredOccasionId}','${referral.lastEditedBy}',
+                                                                            '${referral.email}', '<fmt:formatDate type="date" dateStyle="short" value="${referral.lastEmailDate.time}"/>', '${referral.referredOccasionId}', '${referral.lastEditedBy}',
                                                                             '<fmt:formatDate type="both" dateStyle="short" value="${referral.lastEditedDate.time}"/>', '${referral.emailCanBeResent}')">Details</button>                                                                            
                                                         </td>
                                                         <td>
@@ -406,10 +412,10 @@
             </div>
         </div>
 
-        <!-- Add Contact Manual-->
+        <!-- Add Contact Manually Modal -->
 
         <div class="modal fade" id="addContactManual" tabindex="-1" role="dialog" aria-labelledby="addContactModalLable" aria-hidden="true">
-            <div class="modal-dialog" role="document">
+            <div class="modal-dialog modal-dialog-scrollable" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Add Referral</h5>
@@ -418,13 +424,80 @@
                         </button>
                     </div>
                     <form method="POST" action="${pageContext.request.contextPath}/referral/add" id="ocassionFormModal">
-                        <div class="modal-body">
+                        <div class="modal-body modal-body-long">
                             <div class="form-group">
                                 <label for="firstNameModal">First Name <font color="red">*</font></label>
                                 <input type="text" autocomplete="off" class="form-control" placeholder="First Name" id="firstNameModal" name="firstName" maxLength="12" required/>
                                 <label for="lastNameModal">Last Name</label>
                                 <input type="text" autocomplete="off" class="form-control" placeholder="Last Name" id="lastNameModal" name="lastName" maxLength="12"/>
-                                <label for="firstNameModal">Address</label>
+                                <label for="countryId">Country <font color="red">*</font></label>
+                                <select name="country" class="countries form-control" id="countryId"  required>
+                                    <option value="">Select Country</option>
+                                </select>
+                                <label for="stateId">State <font color="red">*</font></label>
+                                <select name="state" class="states form-control" id="stateId"  required>
+                                    <option value="">Select State</option>
+                                </select>
+                                <label for="cityId">City <font color="red">*</font></label>
+                                <select name="city" class="cities form-control" id="cityId" required>
+                                    <option value="">Select City</option>
+                                </select>
+                                <label for="firstNameModal">Address Line</label>
+                                <input type="text" autocomplete="off" class="form-control" placeholder="Address" id="firstNameModal" name="address" />
+                                <label for="emailAddressModal">Email Address <font color="red">*</font></label>
+                                <input type="email" autocomplete="off" class="form-control" placeholder="Email Address" id="emailAddressModal" name="email" required/>
+                                <label for="occasionModal">Occasion <font color="red">*</font></label>
+                                <input type="text" autocomplete="off" class="form-control" placeholder="Occasion" id="occasionModal" value="Christmas" maxLength="12" name="occasion" onchange="occasionHasChanged()" required/>
+                                <label for="dateModal">Date</label> 
+                                <input type="date" class="form-control" id="dateModal" value="2020-12-25" name="occasionDate"/>
+                                <input type="hidden" name="timeZone" value="" id="timeZoneInput"/>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="sendEmailModal" name="sendEmail" checked>
+                                    <label class="form-check-label" for="sendEmailModal">Request the rest of the information by email</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">                            
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit Contact Modal -->
+
+        <div class="modal fade" id="editContactManual" tabindex="-1" role="dialog" aria-labelledby="addContactModalLable" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add Referral</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form method="POST" action="${pageContext.request.contextPath}/referral/add" id="ocassionFormModal">
+                        <div class="modal-body modal-body-long">
+                            <div class="form-group">
+                                <label for="firstNameModal">First Name <font color="red">*</font></label>
+                                <input type="text" autocomplete="off" class="form-control" placeholder="First Name" id="firstNameEditModal" name="firstName" maxLength="12" required/>
+                                <label for="lastNameModal">Last Name</label>
+                                <input type="text" autocomplete="off" class="form-control" placeholder="Last Name" id="lastNameEditModal" name="lastName" maxLength="12"/>
+                                <label for="countryId">Country <font color="red">*</font></label>
+                                <select name="country" class="countries form-control" id="countryId"  required>
+                                    <option value="">Select Country</option>
+                                </select>
+                                <label for="stateId">State <font color="red">*</font></label>
+                                <select name="state" class="states form-control" id="stateId"  required>
+                                    <option value="">Select State</option>
+                                </select>
+                                <label for="cityId">City <font color="red">*</font></label>
+                                <select name="city" class="cities form-control" id="cityId" required>
+                                    <option value="">Select City</option>
+                                </select>
+                                <label for="firstNameModal">Address Line</label>
                                 <input type="text" autocomplete="off" class="form-control" placeholder="Address" id="firstNameModal" name="address" />
                                 <label for="emailAddressModal">Email Address <font color="red">*</font></label>
                                 <input type="email" autocomplete="off" class="form-control" placeholder="Email Address" id="emailAddressModal" name="email" required/>
@@ -549,7 +622,12 @@
                         <div class="text-left mt-3"> Last edited by <b id="lastEditedBy"></b>, <em id="lastEditedOn"></em></div>
                     </div>
                     <div class="modal-footer ">
-                        <button type="button" class="btn btn-success mr-auto">Edit Info.</button>
+                        <div class="mr-auto">
+                            <form method="POST" action="${pageContext.request.contextPath}/update/referral">
+                                <input type="hidden" name="referredOccasionId" id="editInfoReferredOccasionId" value="">
+                                <button type="submit" class="btn btn-success">Edit Info.</button>
+                            </form>
+                        </div>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <form method="POST" action="${pageContext.request.contextPath}/sendEmail">
                             <input type='hidden' name='friendId' id='modalFriendId' value=''>
@@ -562,120 +640,120 @@
         </div>
         <script src="<c:url value="/resources/font-awesome/js/all.js"/>"></script>
         <script type="text/javascript" src="<c:url value="/resources/dashboard.js"/>"></script>
-
         <script>
-                                                                function detailModal(name, referredDate, occasionDate, address,
-                                                                        email, lastEmailDate, friendId, lastEditedBy, lastEditedOn, emailCanBeResent) {
+                                    function detailModal(name, referredDate, occasionDate, address,
+                                            email, lastEmailDate, friendId, lastEditedBy, lastEditedOn, emailCanBeResent) {
 
-                                                                    var labelDiv = document.getElementById("contactDetailModalLabel");
-                                                                    while (labelDiv.firstChild) {
-                                                                        labelDiv.removeChild(labelDiv.firstChild);
-                                                                    }
-                                                                    var labelContent = document.createTextNode(name);
-                                                                    labelDiv.appendChild(labelContent);
+                                        var labelDiv = document.getElementById("contactDetailModalLabel");
+                                        while (labelDiv.firstChild) {
+                                            labelDiv.removeChild(labelDiv.firstChild);
+                                        }
+                                        var labelContent = document.createTextNode(name);
+                                        labelDiv.appendChild(labelContent);
 
-                                                                    var labelDivRef = document.getElementById("contactDetailReferredDate");
-                                                                    while (labelDivRef.firstChild) {
-                                                                        labelDivRef.removeChild(labelDivRef.firstChild);
-                                                                    }
-                                                                    var labelContentRef = document.createTextNode(referredDate);
-                                                                    labelDivRef.appendChild(labelContentRef);
+                                        var labelDivRef = document.getElementById("contactDetailReferredDate");
+                                        while (labelDivRef.firstChild) {
+                                            labelDivRef.removeChild(labelDivRef.firstChild);
+                                        }
+                                        var labelContentRef = document.createTextNode(referredDate);
+                                        labelDivRef.appendChild(labelContentRef);
 
-                                                                    var labelDivOcc = document.getElementById("contactDetailOccasionDate");
-                                                                    while (labelDivOcc.firstChild) {
-                                                                        labelDivOcc.removeChild(labelDivOcc.firstChild);
-                                                                    }
-                                                                    var labelContentOcc = document.createTextNode(occasionDate);
-                                                                    labelDivOcc.appendChild(labelContentOcc);
+                                        var labelDivOcc = document.getElementById("contactDetailOccasionDate");
+                                        while (labelDivOcc.firstChild) {
+                                            labelDivOcc.removeChild(labelDivOcc.firstChild);
+                                        }
+                                        var labelContentOcc = document.createTextNode(occasionDate);
+                                        labelDivOcc.appendChild(labelContentOcc);
 
-                                                                    var labelDivAddr = document.getElementById("contactDetailAddress");
-                                                                    while (labelDivAddr.firstChild) {
-                                                                        labelDivAddr.removeChild(labelDivAddr.firstChild);
-                                                                    }
-                                                                    var labelContentAddr = document.createTextNode(address);
-                                                                    labelDivAddr.appendChild(labelContentAddr);
+                                        var labelDivAddr = document.getElementById("contactDetailAddress");
+                                        while (labelDivAddr.firstChild) {
+                                            labelDivAddr.removeChild(labelDivAddr.firstChild);
+                                        }
+                                        var labelContentAddr = document.createTextNode(address);
+                                        labelDivAddr.appendChild(labelContentAddr);
 
-                                                                    var labelDivEmail = document.getElementById("contactDetailEmail");
-                                                                    while (labelDivEmail.firstChild) {
-                                                                        labelDivEmail.removeChild(labelDivEmail.firstChild);
-                                                                    }
-                                                                    var labelContentEmail = document.createTextNode(email);
-                                                                    labelDivEmail.appendChild(labelContentEmail);
+                                        var labelDivEmail = document.getElementById("contactDetailEmail");
+                                        while (labelDivEmail.firstChild) {
+                                            labelDivEmail.removeChild(labelDivEmail.firstChild);
+                                        }
+                                        var labelContentEmail = document.createTextNode(email);
+                                        labelDivEmail.appendChild(labelContentEmail);
 
-                                                                    var labelDivLast = document.getElementById("contactDetailLastEmail");
-                                                                    while (labelDivLast.firstChild) {
-                                                                        labelDivLast.removeChild(labelDivLast.firstChild);
-                                                                    }
-                                                                    var labelContentLast = document.createTextNode(lastEmailDate);
-                                                                    labelDivLast.appendChild(labelContentLast);
-                                                                    
-                                                                    var labelDivLastEditedBy = document.getElementById("lastEditedBy");
-                                                                    while (labelDivLastEditedBy.firstChild) {
-                                                                        labelDivLastEditedBy.removeChild(labelDivLastEditedBy.firstChild);
-                                                                    }
-                                                                    var labelContentLastEditedBy = document.createTextNode(lastEditedBy);
-                                                                    labelDivLastEditedBy.appendChild(labelContentLastEditedBy);
-                                                                    
-                                                                    var labelDivLastEditedOn = document.getElementById("lastEditedOn");
-                                                                    while (labelDivLastEditedOn.firstChild) {
-                                                                        labelDivLastEditedOn.removeChild(labelDivLastEditedOn.firstChild);
-                                                                    }
-                                                                    var labelContentLastEditedOn = document.createTextNode(moment(lastEditedOn,"DD/MM/YYYY hh:mm:ss").fromNow());
-                                                                    labelDivLastEditedOn.appendChild(labelContentLastEditedOn);
-                                                                    
-                                                                    if (!emailCanBeResent) {
-                                                                        document.getElementById('buttonSubmit').style.visibility = 'hidden';
-                                                                    }
-                                                                    console.log("Last Edited By: " + lastEditedBy + "   Last Edited on: " + lastEditedOn);
-                                                                    $("#modalFriendId").val(friendId);
-                                                                    $("#contactDetailModal").modal('show');
+                                        var labelDivLast = document.getElementById("contactDetailLastEmail");
+                                        while (labelDivLast.firstChild) {
+                                            labelDivLast.removeChild(labelDivLast.firstChild);
+                                        }
+                                        var labelContentLast = document.createTextNode(lastEmailDate);
+                                        labelDivLast.appendChild(labelContentLast);
 
-                                                                }
+                                        var labelDivLastEditedBy = document.getElementById("lastEditedBy");
+                                        while (labelDivLastEditedBy.firstChild) {
+                                            labelDivLastEditedBy.removeChild(labelDivLastEditedBy.firstChild);
+                                        }
+                                        var labelContentLastEditedBy = document.createTextNode(lastEditedBy);
+                                        labelDivLastEditedBy.appendChild(labelContentLastEditedBy);
 
-                                                                function deleteModal(id, name, occasion, date) {
-                                                                    var idInput = document.getElementById("deleteModalInputId").value = id;
+                                        var labelDivLastEditedOn = document.getElementById("lastEditedOn");
+                                        while (labelDivLastEditedOn.firstChild) {
+                                            labelDivLastEditedOn.removeChild(labelDivLastEditedOn.firstChild);
+                                        }
+                                        var labelContentLastEditedOn = document.createTextNode(moment(lastEditedOn, "DD/MM/YYYY hh:mm:ss").fromNow());
+                                        labelDivLastEditedOn.appendChild(labelContentLastEditedOn);
 
-                                                                    var nameDivLabel = document.getElementById("deleteReferalModalReferralName")
-                                                                    while (nameDivLabel.firstChild) {
-                                                                        nameDivLabel.removeChild(nameDivLabel.firstChild);
-                                                                    }
-                                                                    var nameLabel = document.createTextNode(name);
-                                                                    nameDivLabel.appendChild(nameLabel);
+                                        if (!emailCanBeResent) {
+                                            document.getElementById('buttonSubmit').style.visibility = 'hidden';
+                                        }
+                                        console.log("Last Edited By: " + lastEditedBy + "   Last Edited on: " + lastEditedOn);
+                                        $("#modalFriendId").val(friendId);
+                                        $("#editInfoReferredOccasionId").val(friendId);
+                                        $("#contactDetailModal").modal('show');
 
-                                                                    var occasionDivLabel = document.getElementById("deleteReferalModalOccasion");
-                                                                    while (occasionDivLabel.firstChild) {
-                                                                        occasionDivLabel.removeChild(occasionDivLabel.firstChild);
-                                                                    }
-                                                                    var occasionLabel = document.createTextNode(occasion);
-                                                                    occasionDivLabel.appendChild(occasionLabel);
+                                    }
 
-                                                                    var dateDivLabel = document.getElementById("deleteReferalModalDate");
-                                                                    while (dateDivLabel.firstChild) {
-                                                                        dateDivLabel.removeChild(dateDivLabel.firstChild);
-                                                                    }
-                                                                    var dateLabel = document.createTextNode(date);
-                                                                    dateDivLabel.appendChild(dateLabel);
-                                                                    $("#deleteReferalModal").modal('show');
-                                                                }
-                                                                
-                                                                //Add time zone parameter to 
-                                                                $(function () {
-                                                                    
-                                                                    var dateVar = new Date();
-                                                                    var timezone = dateVar.getTimezoneOffset()/60 * (-1);
-                                                                    document.getElementById("timeZoneInput").value = timezone;
-                                                                });
-                                                                
-                                                                function occasionHasChanged(){
-                                                                    var now = new Date();
+                                    function deleteModal(id, name, occasion, date) {
+                                        var idInput = document.getElementById("deleteModalInputId").value = id;
 
-                                                                    var day = ("0" + now.getDate()).slice(-2);
-                                                                    var month = ("0" + (now.getMonth() + 1)).slice(-2);
+                                        var nameDivLabel = document.getElementById("deleteReferalModalReferralName")
+                                        while (nameDivLabel.firstChild) {
+                                            nameDivLabel.removeChild(nameDivLabel.firstChild);
+                                        }
+                                        var nameLabel = document.createTextNode(name);
+                                        nameDivLabel.appendChild(nameLabel);
 
-                                                                    var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
-                                                                    document.getElementById("dateModal").value = today;
-                                                                    document.getElementById("occasionModal").removeAttribute("onchange");
-                                                                }
+                                        var occasionDivLabel = document.getElementById("deleteReferalModalOccasion");
+                                        while (occasionDivLabel.firstChild) {
+                                            occasionDivLabel.removeChild(occasionDivLabel.firstChild);
+                                        }
+                                        var occasionLabel = document.createTextNode(occasion);
+                                        occasionDivLabel.appendChild(occasionLabel);
+
+                                        var dateDivLabel = document.getElementById("deleteReferalModalDate");
+                                        while (dateDivLabel.firstChild) {
+                                            dateDivLabel.removeChild(dateDivLabel.firstChild);
+                                        }
+                                        var dateLabel = document.createTextNode(date);
+                                        dateDivLabel.appendChild(dateLabel);
+                                        $("#deleteReferalModal").modal('show');
+                                    }
+
+                                    //Add time zone parameter to 
+                                    $(function () {
+
+                                        var dateVar = new Date();
+                                        var timezone = dateVar.getTimezoneOffset() / 60 * (-1);
+                                        document.getElementById("timeZoneInput").value = timezone;
+                                    });
+
+                                    function occasionHasChanged() {
+                                        var now = new Date();
+
+                                        var day = ("0" + now.getDate()).slice(-2);
+                                        var month = ("0" + (now.getMonth() + 1)).slice(-2);
+
+                                        var today = now.getFullYear() + "-" + (month) + "-" + (day);
+                                        document.getElementById("dateModal").value = today;
+                                        document.getElementById("occasionModal").removeAttribute("onchange");
+                                    }
 
         </script>       
     </body>

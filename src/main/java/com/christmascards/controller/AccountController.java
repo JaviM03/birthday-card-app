@@ -163,6 +163,7 @@ public class AccountController {
         }
     }
     
+    //Method for accepting incomming referal update information
     @RequestMapping(value="/referral/update", method=RequestMethod.POST)
     public void updateReferal(HttpServletRequest request, HttpServletResponse response, @RequestParam(name="firstName", required = false) String firstName, 
             @RequestParam(name = "lastName", required = false) String lastName, @RequestParam(name = "email", required = false) String email, 
@@ -201,6 +202,24 @@ public class AccountController {
         }
     }
     
+    @RequestMapping(value="/update/referral", method=RequestMethod.POST)
+    public ModelAndView updateReferal(HttpServletRequest request, HttpServletResponse response,
+            @RequestParam("referredOccasionId") Integer referredOccasionId) throws IOException{
+        if(LoginVerification.sessionCheck(request)){
+            User user = (User) request.getSession().getAttribute("loggedUser");
+            ModelAndView mv = new ModelAndView("user/edit-referral");
+            mv.addObject("username", user.getFirstName()+" "+user.getLastName());
+            ReferredOccasion ref = refService.findReferedOccasion(referredOccasionId);
+            mv.addObject("refOccasion",ref);
+            return mv;
+        }
+        else{
+            response.sendRedirect(request.getContextPath()+"/login"); 
+        }
+        return null;
+    }
+            
+            
     @RequestMapping(value="/sendEmail",method=RequestMethod.POST)
     public void resendEmailToReferral(HttpServletRequest request, HttpServletResponse response, @RequestParam("friendId") Integer userXFriendId) throws IOException{
         if(LoginVerification.sessionCheck(request)){
