@@ -47,18 +47,40 @@
                 max-height: calc(100vh - 200px);
                 overflow-y: auto;
             }
+            @keyframes shadow-pulse
+                {
+                  0% {
+                    box-shadow: 0 0 0 0px rgba(0, 0, 255, 0.3);
+                  }
+                  100% {
+                    box-shadow: 0 0 0 15px rgba(0, 0, 0, 0);
+                  }
+                }
+
+                @keyframes shadow-pulse-big
+                {
+                  0% {
+                    box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.1);
+                  }
+                  100% {
+                    box-shadow: 0 0 0 70px rgba(0, 0, 0, 0);
+                  }
+}
+            .pulsing-button{
+                  animation: shadow-pulse 1s 5;
+                }
 
         </style>
         <script src="<c:url value="/resources/moment.min.js"/>"></script>
-        <script src="<c:url value="/resources/jquery.min.js"/>"></script>
+        <script src="https://code.jquery.com/jquery-latest.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-        <link href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.css" rel="stylesheet"/>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js" ></script>
         <script src="<c:url value="/resources/jquery-ui-1.12.1.custom/jquery-ui.min.js"/>"></script>
         <link href="<c:url value="/resources/jquery-ui-1.12.1.custom/jquery-ui.min.css"/>" rel="stylesheet"/>
-        <script src="<c:url value="/resources/papaparse.min.js"/>"></script> 
+        <!--<script src="<c:url value="/resources/papaparse.min.js"/>"></script>-->
+        <script src="//geodata.solutions/includes/countrystatecity.js"></script>
         <script>
+            var submitFileFlag = false;
             //Function for asigning sugestions to occasion input on modal
             $(function () {
                 var availableTags = [
@@ -75,11 +97,14 @@
                 $("#occasionModal").autocomplete("option", "appendTo", "#ocassionFormModal")
             });
             $(document).ajaxStop(function () {
-                window.location.reload();
+                if(submitFileFlag){
+                    window.location.reload();
+                }
             });
 
             $(document).ready(function () {
                 $('#submit-file').on("click", function (e) {
+                    submitFileFlag = true;
                     e.preventDefault();
                     $('#files').parse({
                         config: {
@@ -241,6 +266,11 @@
                                 Email sent!
                             </div>
                         </c:if>
+                        <c:if test="${userCreated}">
+                            <div class="alert alert-success" role="alert">
+                                Your referred information has being saved.
+                            </div>
+                        </c:if>
                         <c:if test="${contactDeleted}">
                             <div class="alert alert-danger" role="alert">
                                 Contact Deleted!
@@ -250,7 +280,7 @@
                             <div class="col-md-12">
                                 <div class="main-card mb-3 card">
                                     <div class="card-header">My Contacts
-                                        <button class="btn-wide btn btn-secondary btn-add ml-4" style="" data-toggle="modal" data-target="#addContactModal"><i class="fas fa-plus"></i></button>
+                                        <button class="btn-wide btn btn-secondary btn-add ml-4 pulsing-button" style="" data-toggle="modal" data-target="#addContactModal"><i class="fas fa-plus"></i></button>
                                         <div class="btn-actions-pane-right">
                                             <div role="group" class="btn-group-sm btn-group">
                                                 <a href="${pageContext.request.contextPath}/dashboard?dateRange=weekly"><button class="${dateRange=='weekly'?'active':''} btn btn-focus">This Week</button></a>
@@ -301,7 +331,8 @@
                                                             <button type="button" id="PopoverCustomT-1" class="btn btn-primary btn-sm" onclick="detailModal('${referral.friendFirstName} ${referral.friendLastName}',
                                                                             '<fmt:formatDate type="date" dateStyle="short" value="${referral.referredDate.time}"/>', '<fmt:formatDate type="date" dateStyle="short" value="${referral.occasionDate.time}"/>', '${referral.addressLine1}',
                                                                             '${referral.email}', '<fmt:formatDate type="date" dateStyle="short" value="${referral.lastEmailDate.time}"/>', '${referral.referredOccasionId}', '${referral.lastEditedBy}',
-                                                                            '<fmt:formatDate type="both" dateStyle="short" value="${referral.lastEditedDate.time}"/>', '${referral.emailCanBeResent}')">Details</button>                                                                            
+                                                                            '<fmt:formatDate type="both" dateStyle="short" value="${referral.lastEditedDate.time}"/>', '${referral.emailCanBeResent}', '${referral.country}',
+                                                                                                                                            '${referral.state}','${referral.city}')">Details</button>                                                                            
                                                         </td>
                                                         <td>
                                                             <button type="button" id="deleteRow" class="btn btn-danger btn-sm ml-1" onclick="deleteModal('${referral.referredOccasionId}', '${referral.friendFirstName} ${referral.friendLastName}',
@@ -430,20 +461,22 @@
                                 <input type="text" autocomplete="off" class="form-control" placeholder="First Name" id="firstNameModal" name="firstName" maxLength="12" required/>
                                 <label for="lastNameModal">Last Name</label>
                                 <input type="text" autocomplete="off" class="form-control" placeholder="Last Name" id="lastNameModal" name="lastName" maxLength="12"/>
-                                <label for="countryId">Country <font color="red">*</font></label>
-                                <select name="country" class="countries form-control" id="countryId"  required>
+                                <label for="countryId">Country</label>
+                                <select name="country" class="countries form-control" id="countryId">
                                     <option value="">Select Country</option>
                                 </select>
-                                <label for="stateId">State <font color="red">*</font></label>
-                                <select name="state" class="states form-control" id="stateId"  required>
+                                <label for="stateId">State</label>
+                                <select name="state" class="states form-control" id="stateId">
                                     <option value="">Select State</option>
                                 </select>
-                                <label for="cityId">City <font color="red">*</font></label>
-                                <select name="city" class="cities form-control" id="cityId" required>
+                                <label for="cityId">City</label>
+                                <select name="city" class="cities form-control" id="cityId">
                                     <option value="">Select City</option>
                                 </select>
-                                <label for="firstNameModal">Address Line</label>
-                                <input type="text" autocomplete="off" class="form-control" placeholder="Address" id="firstNameModal" name="address" />
+                                <label for="addressLineModal">Address Line</label>
+                                <input type="text" autocomplete="off" class="form-control" placeholder="Address" id="addressLineModal" name="address" />
+                                <label for="zipCodeModal">Zip Code</label>
+                                <input type="text" autocomplete="off" class="form-control" placeholder="Zip Code" id="zipCodeModal" name="zipCode" />
                                 <label for="emailAddressModal">Email Address <font color="red">*</font></label>
                                 <input type="email" autocomplete="off" class="form-control" placeholder="Email Address" id="emailAddressModal" name="email" required/>
                                 <label for="occasionModal">Occasion <font color="red">*</font></label>
@@ -467,60 +500,7 @@
             </div>
         </div>
 
-        <!-- Edit Contact Modal -->
-
-        <div class="modal fade" id="editContactManual" tabindex="-1" role="dialog" aria-labelledby="addContactModalLable" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-scrollable" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Add Referral</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <form method="POST" action="${pageContext.request.contextPath}/referral/add" id="ocassionFormModal">
-                        <div class="modal-body modal-body-long">
-                            <div class="form-group">
-                                <label for="firstNameModal">First Name <font color="red">*</font></label>
-                                <input type="text" autocomplete="off" class="form-control" placeholder="First Name" id="firstNameEditModal" name="firstName" maxLength="12" required/>
-                                <label for="lastNameModal">Last Name</label>
-                                <input type="text" autocomplete="off" class="form-control" placeholder="Last Name" id="lastNameEditModal" name="lastName" maxLength="12"/>
-                                <label for="countryId">Country <font color="red">*</font></label>
-                                <select name="country" class="countries form-control" id="countryId"  required>
-                                    <option value="">Select Country</option>
-                                </select>
-                                <label for="stateId">State <font color="red">*</font></label>
-                                <select name="state" class="states form-control" id="stateId"  required>
-                                    <option value="">Select State</option>
-                                </select>
-                                <label for="cityId">City <font color="red">*</font></label>
-                                <select name="city" class="cities form-control" id="cityId" required>
-                                    <option value="">Select City</option>
-                                </select>
-                                <label for="firstNameModal">Address Line</label>
-                                <input type="text" autocomplete="off" class="form-control" placeholder="Address" id="firstNameModal" name="address" />
-                                <label for="emailAddressModal">Email Address <font color="red">*</font></label>
-                                <input type="email" autocomplete="off" class="form-control" placeholder="Email Address" id="emailAddressModal" name="email" required/>
-                                <label for="occasionModal">Occasion <font color="red">*</font></label>
-                                <input type="text" autocomplete="off" class="form-control" placeholder="Occasion" id="occasionModal" value="Christmas" maxLength="12" name="occasion" onchange="occasionHasChanged()" required/>
-                                <label for="dateModal">Date</label> 
-                                <input type="date" class="form-control" id="dateModal" value="2020-12-25" name="occasionDate"/>
-                                <input type="hidden" name="timeZone" value="" id="timeZoneInput"/>
-                                <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" id="sendEmailModal" name="sendEmail" checked>
-                                    <label class="form-check-label" for="sendEmailModal">Request the rest of the information by email</label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="modal-footer">                            
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+       
 
         <!-- Add Contact By CSV -->
         <div class="modal fade" id="addContactCSV" tabindex="-1" role="dialog" aria-labelledby="addContactModalLable" aria-hidden="true">
@@ -611,6 +591,19 @@
                                 <div class='text-center' id="contactDetailAddress"></div>
                             </div>
                             <div>
+                                <div class='text-center'><strong>Country: </strong></div>
+                                <div class='text-center' id="contactDetailCountry"></div>
+                            </div>
+                            <div>
+                                <div class='text-center'><strong>State: </strong></div>
+                                <div class='text-center' id="contactDetailState"></div>
+                            </div>
+                            <div>
+                                <div class='text-center'><strong>City: </strong></div>
+                                <div class='text-center' id="contactDetailCity"></div>
+                            </div>
+                            
+                            <div>
                                 <div class='text-center'><strong>Email: </strong></div>
                                 <div class='text-center' id="contactDetailEmail"></div>
                             </div>
@@ -642,7 +635,8 @@
         <script type="text/javascript" src="<c:url value="/resources/dashboard.js"/>"></script>
         <script>
                                     function detailModal(name, referredDate, occasionDate, address,
-                                            email, lastEmailDate, friendId, lastEditedBy, lastEditedOn, emailCanBeResent) {
+                                            email, lastEmailDate, friendId, lastEditedBy, lastEditedOn, emailCanBeResent,
+                                            country, state, city) {
 
                                         var labelDiv = document.getElementById("contactDetailModalLabel");
                                         while (labelDiv.firstChild) {
@@ -671,6 +665,27 @@
                                         }
                                         var labelContentAddr = document.createTextNode(address);
                                         labelDivAddr.appendChild(labelContentAddr);
+                                        
+                                        var labelDivCountry = document.getElementById("contactDetailCountry");
+                                        while (labelDivCountry.firstChild) {
+                                            labelDivCountry.removeChild(labelDivCountry.firstChild);
+                                        }
+                                        var labelContentCountry = document.createTextNode(country);
+                                        labelDivCountry.appendChild(labelContentCountry);
+                                        
+                                        var labelDivState = document.getElementById("contactDetailState");
+                                        while (labelDivState.firstChild) {
+                                            labelDivState.removeChild(labelDivState.firstChild);
+                                        }
+                                        var labelContentState = document.createTextNode(state);
+                                        labelDivState.appendChild(labelContentState);
+                                        
+                                        var labelDivCity = document.getElementById("contactDetailCity");
+                                        while (labelDivCity.firstChild) {
+                                            labelDivCity.removeChild(labelDivCity.firstChild);
+                                        }
+                                        var labelContentCity = document.createTextNode(city);
+                                        labelDivCity.appendChild(labelContentCity);
 
                                         var labelDivEmail = document.getElementById("contactDetailEmail");
                                         while (labelDivEmail.firstChild) {

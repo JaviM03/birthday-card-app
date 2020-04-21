@@ -50,78 +50,12 @@
 
         </style>
         <script src="<c:url value="/resources/moment.min.js"/>"></script>
-        <script src="<c:url value="/resources/jquery.min.js"/>"></script>
+        <script src="https://code.jquery.com/jquery-latest.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-        <link href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.css" rel="stylesheet"/>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js" ></script>
         <script src="<c:url value="/resources/jquery-ui-1.12.1.custom/jquery-ui.min.js"/>"></script>
         <link href="<c:url value="/resources/jquery-ui-1.12.1.custom/jquery-ui.min.css"/>" rel="stylesheet"/>
-        <script src="<c:url value="/resources/papaparse.min.js"/>"></script> 
-        <script>
-            //Function for asigning sugestions to occasion input on modal
-            $(function () {
-                var availableTags = [
-                    "Birthday",
-                    "Wedding",
-                    "Birth",
-                    "Welcome",
-                    "Goodbye",
-                    "Christmas"
-                ];
-                $("#occasionModal").autocomplete({
-                    source: availableTags
-                });
-                $("#occasionModal").autocomplete("option", "appendTo", "#ocassionFormModal")
-            });
-            $(document).ajaxStop(function () {
-                window.location.reload();
-            });
-
-            $(document).ready(function () {
-                $('#submit-file').on("click", function (e) {
-                    e.preventDefault();
-                    $('#files').parse({
-                        config: {
-                            delimiter: "auto",
-                            complete: insertToDB,
-                        },
-                        before: function (file, inputElem)
-                        {
-                            //console.log("Parsing file...", file);
-                        },
-                        error: function (err, file)
-                        {
-                            //console.log("ERROR:", err, file);
-                        },
-                        complete: function ()
-                        {
-                            //console.log("Done with all files");
-                        }
-                    });
-                });
-
-                function insertToDB(results) {
-                    var data = results.data;
-                    //ajax to w ork with
-                    $.ajax({
-                        url: '${pageContext.request.contextPath}/addByCSV',
-                        type: 'POST',
-                        data: {csv: JSON.stringify(data)},
-                        success: function () {
-                            //document.getElementById("test").innerHTML = "Funciono";
-                            //console.log(csv);
-                        },
-                        error: function (xhr, status, error) {
-//                                                console.log(xhr.responseText);
-//                                                document.getElementById("test").innerHTML = "No Funciono";
-                        }
-                    });
-
-                }
-            });
-
-        </script>
+        <script src="//geodata.solutions/includes/countrystatecity.js"></script>
     </head>
     <body>
 
@@ -235,13 +169,13 @@
                 </div> 
                 <div class="app-main__outer">
                     <div class="app-main__inner">
-                        <div class="pt-2 pb-2 pl-3 color-hover" style="color:black;"><a href="${pageContext.request.contextPath}" style="color:black; display: flex; align-items: center;"><i class="fas fa-arrow-left fa-2x pr-1" style="color:lightgrey;"></i>Go Back</a></div>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="main-card mb-3 card">
-                                    <div class="card-header">Editing Contact Information</div>
-                                    <form>
-                                        <div class="row mt-4">
+                                    <div class="card-header">Editing Referred Information
+                                       <!-- <p style="color: red">Please note that saving the changes will override all previous information.</p></div> -->
+                                    <form method="POST" action="${pageContext.request.contextPath}/update/referral/input">
+                                        <div class="row mt-4 mb-5">
                                             <div class="col-lg-1"></div> 
                                             <div class="col-sm-9 col-md-7 col-lg-4 col-11 mx-auto">
                                                 <div class="form-label-group">
@@ -265,23 +199,24 @@
                                                     <input type="date" id="occasionDate" class="form-control" placeholder="Occasion Date" name="occasionDate"
                                                            value="<fmt:formatDate value="${refOccasion.occasionDate.time}" pattern="yyyy-MM-dd" type="date" />" required >
                                                 </div>
+                                                <input type="hidden" name="referredOccasionId" value="${refOccasion.referredOccasionId}">
                                             </div>
                                             <div class="col-sm-9 col-md-7 col-lg-4 col-11 mx-auto">
-                                                <label for="countryId">Country <font color="red">*</font></label>
-                                                <select name="country" class="countries form-control" id="countryId"  required>
+                                                <label for="countryId">Country</label>
+                                                <select name="country" class="countries form-control" id="countryId">
                                                     <option value="">Select Country</option>
                                                 </select>
-                                                <label for="stateId">State <font color="red">*</font></label>
-                                                <select name="state" class="states form-control" id="stateId"  required>
+                                                <label for="stateId">State</label>
+                                                <select name="state" class="states form-control" id="stateId">
                                                     <option value="">Select State</option>
                                                 </select>
-                                                <label for="cityId">City <font color="red">*</font></label>
-                                                <select name="city" class="cities form-control" id="cityId" required>
+                                                <label for="cityId">City</label>
+                                                <select name="city" class="cities form-control" id="cityId">
                                                     <option value="">Select City</option>
                                                 </select>
                                                 <div class="form-label-group">
-                                                    <label for="addressline1">Address Line 1 <font color="red">*</font></label>
-                                                    <input type="text" id="addressline1" class="form-control" placeholder="Address Line 1" value="${refOccasion.addressLine1}" name="addressLine1" required>
+                                                    <label for="addressline1">Address Line 1</label>
+                                                    <input type="text" id="addressline1" class="form-control" placeholder="Address Line 1" value="${refOccasion.addressLine1}" name="addressLine1">
                                                 </div>
                                                 <div class="form-label-group">
                                                     <label for="addressLine2">Address Line 2</label>
@@ -294,8 +229,8 @@
                                             </div>
                                             <div class="col-lg-1"></div>
                                         </div>
-                                        <div class="text-center mb-4">
-                                            <button type="submit" class="btn btn-primary" >Submit</button>
+                                        <div class="text-center mb-5 mt-3">
+                                            <button type="submit" class="btn btn-outline-success btn-lg" style="padding-top:10px;padding-bottom:10px;padding-left:30px;padding-right:30px;font-size: 18px">Save</button>
                                         </div>
                                     </form>
                                 </div>
@@ -341,9 +276,8 @@
                     </div>    
                 </div>
             </div>
-        </div>
-
+        </div>                                      
         <script src="<c:url value="/resources/font-awesome/js/all.js"/>"></script>
-        <script type="text/javascript" src="<c:url value="/resources/dashboard.js"/>"></script>     
+        <script type="text/javascript" src="<c:url value="/resources/dashboard.js"/>"></script>
     </body>
 </html>
