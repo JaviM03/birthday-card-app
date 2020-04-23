@@ -69,21 +69,30 @@
                 });
                 $("#occasionModal").autocomplete("option", "appendTo", "#ocassionFormModal")
             });
+            /*
             $(document).ajaxStop(function () {
                 window.location.reload();
-            });
+            });*/
 
             $(document).ready(function () {
                 $('#submit-file').on("click", function (e) {
                     e.preventDefault();
                     $('#files').parse({
                         config: {
-                            delimiter: "auto",
-                            complete: insertToDB,
+                            delimiter: "auto",/*
+                            step: function(results, parser) {
+                                    console.log("Row data:", results.data);
+                                    console.log("Row errors:", results.errors);
+                            },*/
+                            //complete: insertToDB,
+                            complete: function(results, file) {
+                                    insertToDB(results);
+                                    console.log("Parsing complete:", results, file);
+                            },
                         },
                         before: function (file, inputElem)
                         {
-                            //console.log("Parsing file...", file);
+                            console.log("Parsing file...", file);
                         },
                         error: function (err, file)
                         {
@@ -91,7 +100,7 @@
                         },
                         complete: function ()
                         {
-                            //console.log("Done with all files");
+                            console.log("Done with all files");
                         }
                     });
                 });
@@ -108,8 +117,8 @@
                             //console.log(csv);
                         },
                         error: function (xhr, status, error) {
-//                                                console.log(xhr.responseText);
-//                                                document.getElementById("test").innerHTML = "No Funciono";
+                                                console.log(xhr.responseText);
+                                               // document.getElementById("test").innerHTML = "No Funciono";
                         }
                     });
 
