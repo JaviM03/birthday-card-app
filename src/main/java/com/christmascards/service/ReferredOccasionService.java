@@ -242,7 +242,48 @@ public class ReferredOccasionService {
        return ror.save(refOccasion);
    }
    
-   public Iterable<ReferredOccasion> saveReferredOccasions(ArrayList<ReferredOccasion> refOccasions){
+   public Iterable<ReferredOccasion> saveReferredOccasions(ArrayList<ReferredOccasion> refOccasions) throws IOException{
+       Calendar currentDate = Calendar.getInstance();
+       
+       ArrayList<String> personalizationParameters = new ArrayList();
+        personalizationParameters.addAll(personalizInitialPrameters);
+        personalizationParameters.add("User_Name");
+        personalizationParameters.add("Friend_Name");
+        personalizationParameters.add("Referal_URL");
+        personalizationParameters.add("Occasion");       
+       
+       for(int i=0; i < refOccasions.size();i++){
+           ReferredOccasion referredOccasion = refOccasions.get(i);
+        referredOccasion.setReferredDate(currentDate);
+        referredOccasion.setInfoHasBeingFilled(Boolean.FALSE);
+        referredOccasion.setIsDeleted(Boolean.FALSE);
+        String refToken = "";
+        int j = 0;
+        while(j<100){ 
+            Random random = ThreadLocalRandom.current();
+            byte[] r = new byte[32];
+            random.nextBytes(r);
+            refToken = Base64.getUrlEncoder().encodeToString(r);
+            if(refToken.length()>120){
+                refToken = refToken.substring(0, 119);
+            }
+            if(ror.findFirstByReferrenceToken(refToken)==null){
+                break;
+            }
+            j++;
+        }
+        referredOccasion.setReferrenceToken(refToken);
+        refOccasions.set(i, referredOccasion);
+        
+        User user = referredOccasion.getUser();
+        ArrayList<String> personalizationValues = new ArrayList();
+        personalizationValues.addAll(personalizInitialValues);
+        personalizationValues.add(user.getFirstName() + " " + user.getLastName());
+        personalizationValues.add(referredOccasion.getFriendFirstName());
+        personalizationValues.add(referalUrl+refToken);
+        personalizationValues.add(referredOccasion.getOccasion());
+        String response = EmailSender.sendEmail(referredOccasion.getEmail(), referredOccasion.getUser().getEmail(), referralMessageTemplateId, personalizationParameters,personalizationValues);
+       }
       return ror.save(refOccasions);
    }
    
