@@ -1,14 +1,20 @@
 package com.christmascards.configuration;
 
+import com.christmascards.util.EmailAvailabilityHelper;
+import java.util.TimerTask;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
+import java.util.Timer;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
 public class SpringInitializer implements WebApplicationInitializer{
+    
+    EmailAvailabilityHelper emailAvailability;
 
 	@Override
 	public void onStartup(ServletContext container) throws ServletException {
@@ -22,6 +28,16 @@ public class SpringInitializer implements WebApplicationInitializer{
 		servlet.addMapping("/");
 		servlet.setLoadOnStartup(1);
 		
+                emailAvailability = new EmailAvailabilityHelper();
+                
+                TimerTask task = new TimerTask(){
+                        public void run(){
+                            emailAvailability.runEmailCheck();
+                        }
+                };
+                Timer timer = new Timer("emailTimer");
+                timer.schedule(task, TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS));
+                
 	}
 	
 }

@@ -242,6 +242,29 @@ public class ReferredOccasionService {
        return ror.save(refOccasion);
    }
    
-  
+   public Iterable<ReferredOccasion> saveReferredOccasions(ArrayList<ReferredOccasion> refOccasions){
+      return ror.save(refOccasions);
+   }
+   
+   public void checkIfReferedOccasionEmailCanBeSent(){
+       
+       Iterator<ReferredOccasion> refOccasions = ror.findAll().iterator();
+       Calendar calendar = Calendar.getInstance();
+       calendar.add(Calendar.DAY_OF_YEAR, -2);
+       calendar.set(Calendar.HOUR_OF_DAY, 0);
+       calendar.set(Calendar.MINUTE, 0);
+       calendar.set(Calendar.SECOND, 0);      
+       calendar.set(Calendar.MILLISECOND, 0);
+       while(refOccasions.hasNext()){           
+           ReferredOccasion refOccasion = refOccasions.next();
+           if(refOccasion.getEmailCanBeResent()){continue;}
+           refOccasion.getLastEditedDate().compareTo(calendar);
+           if(refOccasion.getLastEmailDate().compareTo(calendar) >= 0 ){
+               refOccasion.setEmailCanBeResent(Boolean.TRUE);
+               ror.save(refOccasion);
+           }
+       }
+       
+   }
    
 }

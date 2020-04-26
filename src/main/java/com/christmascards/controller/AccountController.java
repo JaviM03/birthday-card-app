@@ -51,6 +51,7 @@ public class AccountController {
     Boolean gotRequestedNextPage;
     String dateRange = "weekly";
     SimpleDateFormat htmlDateFmt = new SimpleDateFormat("yyyy-MM-dd");
+    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
     
     
     @RequestMapping(value="/dashboard", method=RequestMethod.GET)
@@ -107,6 +108,9 @@ public class AccountController {
             if(request.getParameter("referralDeleted")!=null){
                 mv.addObject("referralDeleted", true);
             }
+            if(request.getParameter("userCreated")!=null){
+                mv.addObject("userCreated", true);
+            }
             return mv;
         }
         else{
@@ -123,6 +127,7 @@ public class AccountController {
     
     @RequestMapping(value="/referral/add", method=RequestMethod.POST)
     public void addFriend(HttpServletRequest request, HttpServletResponse response, @RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName,
+            @RequestParam("country") String country, @RequestParam("state") String state, @RequestParam("city") String city, @RequestParam("zipCode") String zipCode,
             @RequestParam("email") String email, @RequestParam("occasionDate") String date, @RequestParam("occasion") String occasion, @RequestParam("address") String address,
             @RequestParam("sendEmail") String sendEmail, @RequestParam(value = "timeZone") String timeZoneStr) throws ParseException, IOException{
         if(LoginVerification.sessionCheck(request)){
@@ -133,6 +138,10 @@ public class AccountController {
             referredOccasion.setFriendLastName(lastName);
             referredOccasion.setEmail(email);
             referredOccasion.setAddressLine1(address);
+            referredOccasion.setCountry(country);
+            referredOccasion.setState(state);
+            referredOccasion.setCity(city);
+            referredOccasion.setZipCode(zipCode);
             referredOccasion.setOccasion(occasion);
             referredOccasion.setUser(user);
             referredOccasion.setLastEditedBy("Me");
@@ -143,12 +152,9 @@ public class AccountController {
                 }
                 user.setTimeZone("GMT" + timeZoneStr);
                 TimeZone tz = TimeZone.getTimeZone("GMT" + timeZoneStr);
-                System.out.println(tz.getDisplayName());
-                System.out.println(tz.getRawOffset());
+                userService.save(user);
             }
-            referredOccasion.setLastEditedDate(Calendar.getInstance(TimeZone.getTimeZone(user.getTimeZone())));
-            System.out.println(Calendar.getInstance(TimeZone.getTimeZone(user.getTimeZone())).getTime());
-            userService.save(user);
+            referredOccasion.setLastEditedDate(Calendar.getInstance(TimeZone.getTimeZone(user.getTimeZone())));    
             ReferredOccasion returnedOccasion = refService.addnewUserReferredOccasion(referredOccasion, date, Boolean.TRUE);
             if(returnedOccasion!=null){
                 referralCreated = true;
@@ -163,6 +169,7 @@ public class AccountController {
         }
     }
     
+    //Method for accepting incomming referal update information
     @RequestMapping(value="/referral/update", method=RequestMethod.POST)
     public void updateReferal(HttpServletRequest request, HttpServletResponse response, @RequestParam(name="firstName", required = false) String firstName, 
             @RequestParam(name = "lastName", required = false) String lastName, @RequestParam(name = "email", required = false) String email, 
@@ -201,6 +208,67 @@ public class AccountController {
         }
     }
     
+    @RequestMapping(value="/update/referral", method=RequestMethod.POST)
+    public ModelAndView updateReferal(HttpServletRequest request, HttpServletResponse response,
+            @RequestParam("referredOccasionId") Integer referredOccasionId) throws IOException{
+        if(LoginVerification.sessionCheck(request)){
+            User user = (User) request.getSession().getAttribute("loggedUser");
+            ModelAndView mv = new ModelAndView("user/edit-referral");
+            mv.addObject("username", user.getFirstName()+" "+user.getLastName());
+            ReferredOccasion ref = refService.findReferedOccasion(referredOccasionId);
+            mv.addObject("refOccasion",ref);
+            return mv;
+        }
+        else{
+            response.sendRedirect(request.getContextPath()+"/login"); 
+        }
+        return null;
+    }
+    
+    @RequestMapping(value="/update/referral/input", method=RequestMethod.POST)
+    public ModelAndView updateReferal(HttpServletRequest request, HttpServletResponse response,
+            @RequestParam("referredOccasionId") Integer referredOccasionId, @RequestParam("firstName")String firstName,
+            @RequestParam(value = "lastName", required = false)String lastName, @RequestParam("emailAddress")String emailAddress,
+            @RequestParam("occasion") String occasion, @RequestParam("occasionDate") String occasionDate,
+            @RequestParam("country") String country, @RequestParam("state") String state, @RequestParam("city") String city,
+            @RequestParam("addressLine1") String addressLine1, @RequestParam(value = "addressLine2", required = false) String addressLine2,
+            @RequestParam("zipCode") String zipCode) throws IOException{
+        if(LoginVerification.sessionCheck(request)){
+            ReferredOccasion refOccasion = refService.findReferedOccasion(referredOccasionId);
+            refOccasion.setFriendFirstName(firstName);
+            refOccasion.setFriendLastName(lastName);
+            refOccasion.setEmail(state);
+            refOccasion.setOccasion(occasion);
+            if(occasionDate != null){
+                try{
+                    Date date = format.parse(occasionDate);
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(date);
+                    refOccasion.setOccasionDate(cal);
+                }
+                catch(Exception e){
+                    System.out.println(e.getMessage());
+                }
+            }
+            refOccasion.setCountry(country);
+            refOccasion.setState(state);
+            refOccasion.setCity(city);
+            refOccasion.setAddressLine1(addressLine1);
+            refOccasion.setAddressLine2(addressLine2);
+            refOccasion.setZipCode(zipCode);
+            refOccasion.setLastEditedBy("Me");
+            User user = (User) request.getSession().getAttribute("loggedUser");
+            refOccasion.setLastEditedDate(Calendar.getInstance(TimeZone.getTimeZone(user.getTimeZone())));
+            refService.saveReferedOccasion(refOccasion);
+            response.sendRedirect(request.getContextPath()+"/dashboard?userCreated=true");
+        }
+        else{
+            response.sendRedirect(request.getContextPath()+"/login"); 
+        }
+        return null;
+    }
+            
+            
     @RequestMapping(value="/sendEmail",method=RequestMethod.POST)
     public void resendEmailToReferral(HttpServletRequest request, HttpServletResponse response, @RequestParam("friendId") Integer userXFriendId) throws IOException{
         if(LoginVerification.sessionCheck(request)){
