@@ -47,7 +47,7 @@
                 max-height: calc(100vh - 200px);
                 overflow-y: auto;
             }
-            @keyframes shadow-pulse
+            @keyframes blue-pulse
                 {
                   0% {
                     box-shadow: 0 0 0 0px rgba(0, 0, 255, 0.3);
@@ -67,7 +67,7 @@
                   }
 }
             .pulsing-button{
-                  animation: shadow-pulse 1s 5;
+                  animation: blue-pulse 1s 5;
                 }
 
         </style>
@@ -432,7 +432,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Add Referral</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Add Friend</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -466,7 +466,7 @@
             <div class="modal-dialog modal-dialog-scrollable" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Add Referral</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Add Friends</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -474,6 +474,10 @@
                     <form method="POST" action="${pageContext.request.contextPath}/referral/add" id="ocassionFormModal">
                         <div class="modal-body modal-body-long">
                             <div class="form-group">
+                                <label for="occasionModal">Occasion <font color="red">*</font></label>
+                                <input type="text" autocomplete="off" class="form-control" placeholder="Occasion" id="occasionModal" value="Christmas" maxLength="12" name="occasion" onchange="occasionHasChanged()" required/>
+                                <label for="dateModal">Date</label> 
+                                <input type="date" class="form-control" id="dateModal" value="2020-12-25" name="occasionDate"/>
                                 <label for="firstNameModal">First Name <font color="red">*</font></label>
                                 <input type="text" autocomplete="off" class="form-control" placeholder="First Name" id="firstNameModal" name="firstName" maxLength="12" required/>
                                 <label for="lastNameModal">Last Name</label>
@@ -496,10 +500,6 @@
                                 <input type="text" autocomplete="off" class="form-control" placeholder="Zip Code" id="zipCodeModal" name="zipCode" />
                                 <label for="emailAddressModal">Email Address <font color="red">*</font></label>
                                 <input type="email" autocomplete="off" class="form-control" placeholder="Email Address" id="emailAddressModal" name="email" required/>
-                                <label for="occasionModal">Occasion <font color="red">*</font></label>
-                                <input type="text" autocomplete="off" class="form-control" placeholder="Occasion" id="occasionModal" value="Christmas" maxLength="12" name="occasion" onchange="occasionHasChanged()" required/>
-                                <label for="dateModal">Date</label> 
-                                <input type="date" class="form-control" id="dateModal" value="2020-12-25" name="occasionDate"/>
                                 <input type="hidden" name="timeZone" value="" id="timeZoneInput"/>
                                 <div class="form-check">
                                     <input type="checkbox" class="form-check-input" id="sendEmailModal" name="sendEmail" checked>
@@ -524,7 +524,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Add Contact</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Add Friends</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
