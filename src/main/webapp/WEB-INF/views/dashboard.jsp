@@ -152,7 +152,7 @@
                         success: function () {
                             //document.getElementById("test").innerHTML = "Funciono";
                             //console.log(csv);
-                            //window.location.reload();
+                            window.location.reload();
                         },
                         error: function (xhr, status, error) {
                                                 console.log(xhr.responseText);

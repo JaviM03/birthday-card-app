@@ -9,6 +9,7 @@ import com.christmascards.service.UserService;
 import com.christmascards.util.LoginVerification;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.logging.Logger;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
@@ -50,15 +51,20 @@ public class CsvController extends HttpServlet {
 
             ReferredOccasion referredOccasion = new ReferredOccasion();
             ReferredOccasion returnedOccasion = new ReferredOccasion();
+            ArrayList<ReferredOccasion> saveUsers = new ArrayList();
+            
             //ReferredOccasion savedFriendCata = null;
             //Friend friend = new Friend();
+            //InsertCounter = modify to the number of columns in csv
+            int insertCounter=4;
+            int i,j=0,totalData=csvMatrix.length;
             
-            int i,j=0,insertCounter=6,totalData=csvMatrix.length;
+            
             String temp=null,date=null;
                 //It is a Matrix String[][], we`ll read from the second line onwards, the data itself
-                for(i=6;i<totalData;i++){
+                for(i=insertCounter;i<totalData;i++){
                     //we`ll only care about their position from the 6 parameters
-                    j=i%6;
+                    j=i%insertCounter;
                     temp=csvMatrix[i][0];
                     //Replacing the " [ ] in the text. 
                     temp=((csvMatrix[i][0].replace("\"", "")).replace("[", "")).replace("]", "");
@@ -73,19 +79,27 @@ public class CsvController extends HttpServlet {
                     }*/
 
                     switch(j){
-                        case 0: referredOccasion.setFriendFirstName(temp);
+                        case 0: //first name
+                                referredOccasion.setFriendFirstName(temp);
                                 break;
-                        case 1:referredOccasion.setFriendLastName(temp);
+                        case 1://last name
+                                referredOccasion.setFriendLastName(temp);
                                 break;
-                        case 2:referredOccasion.setAddressLine1(temp);
+                        case 2://old address, changed to email
+                            //validate email
+                                referredOccasion.setEmail(temp);
                                 break;
-                        case 3:referredOccasion.setEmail(temp);
-                                break;
-                        case 4:referredOccasion.setOccasion(temp);
-                                break;        
-                        case 5: date=temp;
+                        case 3: //old email, changed to occassion
+                                //validate ocassion?
+                                referredOccasion.setOccasion(temp);
+                                //date=temp;
+                                
                                 referredOccasion.setUser(user);
+                                
+                                saveUsers.add(referredOccasion);
+                                
                                 //add to arraylist the referred occasion
+                                /*
                                 returnedOccasion = refService.addnewUserReferredOccasion(referredOccasion, date, Boolean.TRUE);
                                 
                                 if(returnedOccasion!=null){
@@ -93,17 +107,17 @@ public class CsvController extends HttpServlet {
                                 }
                                 else{
                                     friendCreated = false;
-                                }                                
+                                }   */                             
                                   referredOccasion=new ReferredOccasion();
-                                  returnedOccasion = new ReferredOccasion();
+                                  //returnedOccasion = new ReferredOccasion();
                                   temp=null;
-                                
+                                  
                                 break; 
                     }
                 }// for end
             
                 //save everything in batch
-                
+                refService.saveReferredOccasions(saveUsers);
             response.sendRedirect(request.getContextPath()+"/dashboard"); 
         }
         else{
