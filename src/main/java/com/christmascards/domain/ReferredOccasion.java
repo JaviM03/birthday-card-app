@@ -61,7 +61,7 @@ public class ReferredOccasion implements Serializable {
     @Column(name="last_email_date")
     private Calendar lastEmailDate;
     
-    @Column(name="email_can_be_resent")
+    @Column(name="email_can_be_sent")
     private Boolean emailCanBeResent;
     
     @Temporal(TemporalType.DATE)
@@ -86,6 +86,9 @@ public class ReferredOccasion implements Serializable {
     
     @Column(name="city")
     private String city;
+    
+    @Column(name="email_frequency")
+    private String emailFrequency;
     
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -274,8 +277,16 @@ public class ReferredOccasion implements Serializable {
     public void setLastEditedBy(String lastEditedBy) {
         this.lastEditedBy = lastEditedBy;
     }
+
+    public String getEmailFrequency() {
+        return emailFrequency;
+    }
+
+    public void setEmailFrequency(String emailFrequency) {
+        this.emailFrequency = emailFrequency;
+    }
     
-   
+    
     
     enum Edited{
         USER,
