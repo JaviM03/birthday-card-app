@@ -87,6 +87,9 @@ public class ReferredOccasion implements Serializable {
     @Column(name="city")
     private String city;
     
+    @Column(name="email_frequency")
+    private String emailFrequency;
+    
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @Column(name="last_edited_date")
@@ -274,8 +277,16 @@ public class ReferredOccasion implements Serializable {
     public void setLastEditedBy(String lastEditedBy) {
         this.lastEditedBy = lastEditedBy;
     }
+
+    public String getEmailFrequency() {
+        return emailFrequency;
+    }
+
+    public void setEmailFrequency(String emailFrequency) {
+        this.emailFrequency = emailFrequency;
+    }
     
-   
+    
     
     enum Edited{
         USER,
