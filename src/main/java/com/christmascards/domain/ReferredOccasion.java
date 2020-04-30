@@ -61,7 +61,7 @@ public class ReferredOccasion implements Serializable {
     @Column(name="last_email_date")
     private Calendar lastEmailDate;
     
-    @Column(name="email_can_be_sent")
+    @Column(name="email_can_be_resent")
     private Boolean emailCanBeResent;
     
     @Temporal(TemporalType.DATE)
