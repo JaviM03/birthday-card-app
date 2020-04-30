@@ -28,7 +28,7 @@ public class PasswordService {
     ArrayList<String> personalizInitialValues = new ArrayList(Arrays.asList("ChristmasCardApp","Specific Address","City","State","Zip Code"));
    
     
-    String senderEmail = "christmascards254@gmail.com";
+    String senderEmail = "support@mydigitaladdressbook.com";
     /* reset API */
     String resetPasswordMessageTemplateId = "d-3960a1e295bc4788973f9828ecb99539";
     

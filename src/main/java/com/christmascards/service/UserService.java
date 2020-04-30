@@ -31,7 +31,7 @@ public class UserService {
     
     ArrayList<String> personalizInitialPrameters = new ArrayList(Arrays.asList("Sender_Name","Sender_Address","Sender_City","Sender_State","Sender_Zip"));
     ArrayList<String> personalizInitialValues = new ArrayList(Arrays.asList("ChristmasCardApp","Specific Address","City","State","Zip Code"));
-    String senderEmail = "christmascards254@gmail.com";
+    String senderEmail = "support@mydigitaladdressbook.com";
     /* Hans API */
     String welcomeMessageTemplateId = "d-7079eb579209441ea6148739f0d1a095";
     String referralConfirmationTemplateId = "d-fea95e67b03b46f5a987b76f92a2ddd9";

@@ -13,7 +13,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta http-equiv="Content-Language" content="en">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-        <title>Christmas Card App</title>
+        <title>My Digital Address Book</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
         <meta name="msapplication-tap-highlight" content="no">
         <link rel="stylesheet" href="<c:url value="/resources/dashboard.css" />">   
@@ -67,7 +67,7 @@
                   }
 }
             .pulsing-button{
-                  animation: blue-pulse 1s 5;
+                  animation: blue-pulse 2s 5;
                 }
 
         </style>
@@ -245,7 +245,7 @@
                                 <li>
                                     <a href="${pageContext.request.contextPath}/dashboard" class="mm-active">
                                         <i class="metismenu-icon pe-7s-id"></i>
-                                        Friend List
+                                        Friends
                                     </a>
                                 </li>
                                 <li>
@@ -280,12 +280,12 @@
                             <div class="col-md-12">
                                 <div class="main-card mb-3 card">
                                     <div class="card-header">My Contacts
-                                        <button class="btn-wide btn btn-secondary btn-add ml-4 pulsing-button" style="" data-toggle="modal" data-target="#addContactModal"><i class="fas fa-plus"></i></button>
+                                        <button class="btn-wide btn btn-secondary btn-add ml-4 pulsing-button" style="font-weight: bold" data-toggle="modal" data-target="#addContactModal"><i class="fas fa-plus"></i> Add New</button>
                                         <div class="btn-actions-pane-right">
                                             <div role="group" class="btn-group-sm btn-group">
-                                                <a href="${pageContext.request.contextPath}/dashboard?dateRange=weekly"><button class="${dateRange=='weekly'?'active':''} btn btn-focus">This Week</button></a>
-                                                <a href="${pageContext.request.contextPath}/dashboard?dateRange=monthly"><button class="${dateRange=='monthly'?'active':''} btn btn-focus">All Month</button></a>
-                                                <a href="${pageContext.request.contextPath}/dashboard?dateRange=none"><button class="${dateRange=='none'?'active':''} btn btn-focus">All Time</button></a>
+                                                <a href="${pageContext.request.contextPath}/dashboard?occasion=christmas"><button class="${occasionFilter=='christmas'?'active':''} btn btn-focus">Christmas</button></a>
+                                                <a href="${pageContext.request.contextPath}/dashboard?occasion="><button class="${occasionFilter=='monthly'?'active':''} btn btn-focus">All Month</button></a>
+                                                <a href="${pageContext.request.contextPath}/dashboard?dateRange=none"><button class="${occasionFilter=='none'?'active':''} btn btn-focus">All Time</button></a>
                                             </div>
                                         </div>
                                     </div>
@@ -373,37 +373,7 @@
                     <div class="app-wrapper-footer">
                         <div class="app-footer">
                             <div class="app-footer__inner">
-                                <div class="app-footer-left">
-                                    <ul class="nav">
-                                        <li class="nav-item">
-                                            <a href="javascript:void(0);" class="nav-link">
-                                                Footer Link 1
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="javascript:void(0);" class="nav-link">
-                                                Footer Link 2
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="app-footer-right">
-                                    <ul class="nav">
-                                        <li class="nav-item">
-                                            <a href="javascript:void(0);" class="nav-link">
-                                                Footer Link 3
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="javascript:void(0);" class="nav-link">
-                                                <div class="badge badge-success mr-1 ml-0">
-                                                    <small>NEW</small>
-                                                </div>
-                                                Footer Link 4
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
+
                             </div>
                         </div>
                     </div>    </div>
@@ -465,6 +435,8 @@
                                 <input type="text" autocomplete="off" class="form-control" placeholder="First Name" id="firstNameModal" name="firstName" maxLength="12" required/>
                                 <label for="lastNameModal">Last Name</label>
                                 <input type="text" autocomplete="off" class="form-control" placeholder="Last Name" id="lastNameModal" name="lastName" maxLength="12"/>
+                                <label for="emailAddressModal">Email Address <font color="red">*</font></label>
+                                <input type="email" autocomplete="off" class="form-control" placeholder="Email Address" id="emailAddressModal" name="email" required/>
                                 <label for="countryId">Country</label>
                                 <select name="country" class="countries form-control" id="countryId">
                                     <option value="">Select Country</option>
@@ -481,8 +453,6 @@
                                 <input type="text" autocomplete="off" class="form-control" placeholder="Address" id="addressLineModal" name="address" />
                                 <label for="zipCodeModal">Zip Code</label>
                                 <input type="text" autocomplete="off" class="form-control" placeholder="Zip Code" id="zipCodeModal" name="zipCode" />
-                                <label for="emailAddressModal">Email Address <font color="red">*</font></label>
-                                <input type="email" autocomplete="off" class="form-control" placeholder="Email Address" id="emailAddressModal" name="email" required/>
                                 <input type="hidden" name="timeZone" value="" id="timeZoneInput"/>
                                 <div class="form-check">
                                     <input type="checkbox" class="form-check-input" id="sendEmailModal" name="sendEmail" checked>

@@ -10,7 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Successful Info Submit</title>
+        <title>My Digital Address Book | Successful Info Submit</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="<c:url value="/resources/main.css" />">
         <link rel="stylesheet" href="<c:url value="/resources/bootstrap.css" />">
@@ -129,6 +129,29 @@
             .color-hover:hover i{
                 color: grey !important;
             }
+            
+            @keyframes blue-pulse
+                {
+                  0% {
+                    box-shadow: 0 0 0 0px rgba(0, 0, 255, 0.3);
+                  }
+                  100% {
+                    box-shadow: 0 0 0 15px rgba(0, 0, 0, 0);
+                  }
+                }
+
+                @keyframes shadow-pulse-big
+                {
+                  0% {
+                    box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.1);
+                  }
+                  100% {
+                    box-shadow: 0 0 0 70px rgba(0, 0, 0, 0);
+                  }
+}
+            .pulsing-button{
+                  animation: blue-pulse 2s 5;
+                }
 
             /* Fallback for Edge
             -------------------------------------------------- */
@@ -139,7 +162,7 @@
                     margin-top: 30px !important;
                 }
             }
-            
+
             @supports (-ms-ime-align: auto) {
                 .form-label-group>label {
                     display: none;
@@ -168,25 +191,25 @@
         <script src="<c:url value="/resources/font-awesome/js/all.js"/>"></script>
         <div class="container">
             <div class="row card card-signin mb-5 ml-2 mr-2 mt-5" >
-                <div class='mt-5 text-center'> <h2><p class="font-weight-light">Thank you for providing your information!</p></h2> </div>
+                <div class='mt-5 text-center'> <h2><p class="font-weight-light">Thank you for confirming your information.</p></h2> </div>
                 <div class="mt-2 text-center row justify-content-md-center" style="color:#AAABBC">
                     <div class="col-10 mx-auto">
-                    <h4><p class="font-weight-light">Your friend will see the infomation you submited the next time they log in.</p></h4>
+                        <h4><p class="font-weight-light">You can use this service for free too. Simply click on Register below.</p></h4>
                     </div>
                 </div>
-                <div class="text-center row justify-content-md-center" >
-                    <div class="col-lg-2 col-12"></div>
-                    <div class="col-lg-3 mt-2 col-11 mx-auto">
-                        <a href="${pageContext.request.contextPath}/referral/register"><button class="btn-primary btn btn-block btn-lg">Home</button></a>  
-                    </div>
-                    <div class="col-lg-2 col-12 "></div>
-                    <div class="col-lg-3 mg-sm-size col-11 mt-2 mx-auto" >
+                <div class="text-center row mb-5 pb-3 mx-auto" >
+                    <form method="GET" action="${pageContext.request.contextPath}/referral/register">
+                            <input type="hidden" value="${referredOccasionId}" name="id">
+                            <button class="btn-primary btn btn-block btn-lg pulsing-button" type="submit">Register</button>
+                        </form>
+                    <!--<div class="col-lg-4 col-12"></div>
+                    <div class="col-lg-4 col-11 mx-auto" >
                         <form method="GET" action="${pageContext.request.contextPath}/referral/register">
                             <input type="hidden" value="${referredOccasionId}" name="id">
-                            <button class="btn-primary btn btn-block btn-lg" type="submit">Register</button>
+                            <button class="btn-primary btn btn-block btn-lg pulsing-button" type="submit">Register</button>
                         </form>
                     </div>
-                            <div class="col-lg-2 col-12"></div>
+                    <div class="col-lg-4 col-12"></div>-->
                 </div>
             </div>
         </div>

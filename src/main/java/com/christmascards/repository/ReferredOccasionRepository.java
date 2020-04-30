@@ -44,4 +44,5 @@ public interface ReferredOccasionRepository extends PagingAndSortingRepository<R
     public Page<ReferredOccasion> findByUserAndIsDeletedAndReferredDateBetweenOrderByReferredDateDescReferredOccasionIdDesc(User user, Boolean isDeleted, Calendar referredDateStart,
             Calendar referredDateEnd, Pageable Page);
       
+    public Page<ReferredOccasion> findByUserAndIsDeletedAndReferredDateBetweenOrderByReferredDateDescReferredOccasionIdDesc(User user, Boolean isDeleted);
 }

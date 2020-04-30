@@ -49,7 +49,7 @@ public class AccountController {
     
     Integer currentPage = 0;
     Boolean gotRequestedNextPage;
-    String dateRange = "weekly";
+    String dateRange = "none";
     SimpleDateFormat htmlDateFmt = new SimpleDateFormat("yyyy-MM-dd");
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
     
@@ -75,9 +75,8 @@ public class AccountController {
             }
             String mDateRange = dateRange;
             mv.addObject("dateRange", mDateRange);
-            System.out.println("Current Page: "+currentPage);
             User user = (User) request.getSession().getAttribute("loggedUser");
-            Page<ReferredOccasion> usersReferred = refService.getUsersReferredOccasions(user,(dateRange==null?"weekly":dateRange),currentPage);
+            Page<ReferredOccasion> usersReferred = refService.getUsersReferredOccasions(user,(dateRange==null?"none":dateRange),currentPage);
             mv.addAllObjects(PaginAndSorting.dashboardPagingAndSorting(usersReferred,request,dateRange));
             mv.addObject("totalPages",usersReferred.getTotalPages());
             mv.addObject("referrals",usersReferred.getContent());
@@ -126,10 +125,13 @@ public class AccountController {
     }
     
     @RequestMapping(value="/referral/add", method=RequestMethod.POST)
-    public void addFriend(HttpServletRequest request, HttpServletResponse response, @RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName,
-            @RequestParam("country") String country, @RequestParam("state") String state, @RequestParam("city") String city, @RequestParam("zipCode") String zipCode,
-            @RequestParam("email") String email, @RequestParam("occasionDate") String date, @RequestParam("occasion") String occasion, @RequestParam("address") String address,
-            @RequestParam("sendEmail") String sendEmail, @RequestParam(value = "timeZone") String timeZoneStr) throws ParseException, IOException{
+    public void addFriend(HttpServletRequest request, HttpServletResponse response, @RequestParam("firstName") String firstName, 
+            @RequestParam(value = "lastName", required = false) String lastName, @RequestParam(value = "country", required = false) String country, 
+            @RequestParam(value = "state", required = false) String state, @RequestParam(value = "city", required = false) String city, 
+            @RequestParam(value = "zipCode", required = false) String zipCode, @RequestParam("email") String email, 
+            @RequestParam(value = "occasionDate", required = false) String date, @RequestParam("occasion") String occasion, 
+            @RequestParam(value = "address", required = false) String address,
+            @RequestParam("sendEmail") String sendEmail, @RequestParam("timeZone") String timeZoneStr) throws ParseException, IOException{
         if(LoginVerification.sessionCheck(request)){
             User user = (User) request.getSession().getAttribute("loggedUser");
             
