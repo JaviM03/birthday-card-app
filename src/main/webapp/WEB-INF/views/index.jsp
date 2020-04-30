@@ -45,7 +45,7 @@
             </div>
         </nav>
 
-
+        <!--                
         <div class="mt-5 header" style="">
             <div class="lg-content-header">
                 <img src="<c:url value="/resources/cards3.jpg" />" style="width: 100%; height: auto; " class="header-image">
@@ -119,7 +119,7 @@
             </div>
             <hr class="featurette-divider pt-3">
         </div>
-
+                -->
         <section class="card-container py-5 pt-1" >
             <div class="container">
                 <div class="row">
