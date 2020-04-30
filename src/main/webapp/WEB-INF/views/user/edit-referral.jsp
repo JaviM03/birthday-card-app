@@ -173,7 +173,8 @@
                             <div class="col-md-12">
                                 <div class="main-card mb-3 card">
                                     <div class="card-header">Editing Referred Information
-                                       <!-- <p style="color: red">Please note that saving the changes will override all previous information.</p></div> -->
+                                       <!-- <p style="color: red">Please note that saving the changes will override all previous information.</p> -->
+                                       </div>
                                     <form method="POST" action="${pageContext.request.contextPath}/update/referral/input">
                                         <div class="row mt-4 mb-5">
                                             <div class="col-lg-1"></div> 
