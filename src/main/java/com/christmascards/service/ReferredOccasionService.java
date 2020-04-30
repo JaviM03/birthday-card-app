@@ -52,26 +52,9 @@ public class ReferredOccasionService {
     /* Edwin API*/
     //String referralMessageTemplateId = "d-6f962eb4504e47c28c749af83061b2e4";
     
-    public Page<ReferredOccasion> getUsersReferredOccasions(User user, String dateRange, Integer page){
-        Calendar dateStart = Calendar.getInstance();
-        Calendar dateEnd = Calendar.getInstance();
-        dateStart.set(Calendar.HOUR_OF_DAY, 0);
-        dateStart.clear(Calendar.MINUTE);
-        dateStart.clear(Calendar.SECOND);
-        dateStart.clear(Calendar.MILLISECOND);
-        if(dateRange == null){
-            return ror.findByUserAndIsDeletedOrderByReferredDateDescReferredOccasionIdDesc(user, Boolean.FALSE, new PageRequest(page, PAGESIZE));
-        }
-        if(dateRange.equals("monthly")){
-            dateStart.set(Calendar.DAY_OF_MONTH, 1);
-        }
-        else if(dateRange.equals("weekly")){
-            dateStart.set(Calendar.DAY_OF_WEEK, dateEnd.getFirstDayOfWeek());
-        }
-        else{
-            return ror.findByUserAndIsDeletedOrderByReferredDateDescReferredOccasionIdDesc(user, Boolean.FALSE, new PageRequest(page, PAGESIZE));
-        }
-        return ror.findByUserAndIsDeletedAndReferredDateBetweenOrderByReferredDateDescReferredOccasionIdDesc(user, Boolean.FALSE, dateStart, dateEnd, new PageRequest(page, PAGESIZE));
+    public Page<ReferredOccasion> getUsersReferredOccasions(User user, Integer page){
+
+        return ror.findByUserAndIsDeleted(user, Boolean.FALSE, new PageRequest(page, PAGESIZE));
     }
     
    public ReferredOccasion addnewUserReferredOccasion(ReferredOccasion referredOccasion, String occasionDate, Boolean emailRequested) throws ParseException, IOException{

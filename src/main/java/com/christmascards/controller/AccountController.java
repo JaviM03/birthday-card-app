@@ -49,7 +49,6 @@ public class AccountController {
     
     Integer currentPage = 0;
     Boolean gotRequestedNextPage;
-    String dateRange = "none";
     SimpleDateFormat htmlDateFmt = new SimpleDateFormat("yyyy-MM-dd");
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
     
@@ -58,31 +57,14 @@ public class AccountController {
     public ModelAndView dashboard(HttpServletRequest request, HttpServletResponse response) throws IOException{
         if(LoginVerification.sessionCheck(request)){
             ModelAndView mv = new ModelAndView("dashboard");
-            //if(request.getHeader("Referer").equals("")){}
-            if(request.getParameter("dateRange")!=null){
-                dateRange = request.getParameter("dateRange");
-                response.sendRedirect(request.getContextPath()+"/dashboard");
-                System.out.println("Entre al if de dateRange");
-                if(request.getParameter("page")!=null){
-                    currentPage=Integer.parseInt(request.getParameter("page"));
-                    System.out.println("Entre al if de page");
-                }
-                return null;
-            }   
-            
-            if(dateRange!=null){
-                mv.addObject("dateRange", dateRange);
-            }
-            String mDateRange = dateRange;
-            mv.addObject("dateRange", mDateRange);
+
             User user = (User) request.getSession().getAttribute("loggedUser");
-            Page<ReferredOccasion> usersReferred = refService.getUsersReferredOccasions(user,(dateRange==null?"none":dateRange),currentPage);
-            mv.addAllObjects(PaginAndSorting.dashboardPagingAndSorting(usersReferred,request,dateRange));
+            Page<ReferredOccasion> usersReferred = refService.getUsersReferredOccasions(user,currentPage);
+            mv.addAllObjects(PaginAndSorting.dashboardPagingAndSorting(usersReferred,request));
             mv.addObject("totalPages",usersReferred.getTotalPages());
             mv.addObject("referrals",usersReferred.getContent());
             mv.addObject("username", user.getFirstName()+" "+user.getLastName());
             currentPage = 0;
-            dateRange = "weekly";
             if(referralCreated != null){
                 if(referralCreated){
                     mv.addObject("isCreated", true);
@@ -91,12 +73,6 @@ public class AccountController {
                     mv.addObject("failedToCreate",true);
                 }
                 referralCreated = null;
-            }
-            if(dateRange!=null){
-                mv.addObject("");
-            }
-            else{
-                mv.addObject("dateRange","week");
             }
             if(request.getParameter("emailSent")!=null){
                 mv.addObject("emailSent",true);
