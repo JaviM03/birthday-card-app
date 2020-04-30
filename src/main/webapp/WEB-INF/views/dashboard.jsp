@@ -110,7 +110,7 @@
                     e.preventDefault();
                     $('#files').parse({
                         config: {
-                            delimiter: "auto",/*
+                            delimiter: "",/*
                             step: function(results, parser) {
                                     console.log("Row data:", results.data);
                                     console.log("Row errors:", results.errors);
