@@ -284,8 +284,8 @@
                                         <div class="btn-actions-pane-right">
                                             <div role="group" class="btn-group-sm btn-group">
                                                 <a href="${pageContext.request.contextPath}/dashboard?occasion=christmas"><button class="${occasionFilter=='christmas'?'active':''} btn btn-focus">Christmas</button></a>
-                                                <a href="${pageContext.request.contextPath}/dashboard?occasion="><button class="${occasionFilter=='monthly'?'active':''} btn btn-focus">All Month</button></a>
-                                                <a href="${pageContext.request.contextPath}/dashboard?dateRange=none"><button class="${occasionFilter=='none'?'active':''} btn btn-focus">All Time</button></a>
+                                                <a href="${pageContext.request.contextPath}/dashboard?occasion=birthday"><button class="${occasionFilter=='birthday'?'active':''} btn btn-focus">Birthday</button></a>
+                                                <a href="${pageContext.request.contextPath}/dashboard?occasion=new%20year"><button class="${occasionFilter=='new year'?'active':''} btn btn-focus">New Year</button></a>
                                             </div>
                                         </div>
                                     </div>
