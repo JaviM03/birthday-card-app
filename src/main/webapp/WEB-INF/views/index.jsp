@@ -70,7 +70,7 @@
         <div class="container marketing text-center pt-5">
 
             <!-- Three columns of text below the carousel -->
-            <div class="row">
+            <!--<div class="row">
                 <div class="col-lg-4">
                     <div class='rounded-circle primary shadow ' style='height: 140px; width:140px; display: inline-block;'>
                         <div style="margin-top: 32%" class="text-center">
@@ -81,7 +81,7 @@
                     <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
                     <p><a class="btn btn-secondary" href="#" role="button">Contacts info &raquo;</a></p>
                 </div><!-- /.col-lg-4 -->
-                <div class="col-lg-4">
+               <!-- <div class="col-lg-4">
                     <div class='rounded-circle primary shadow ' style='height: 140px; width:140px; display: inline-block;'>
                         <div style="margin-top: 32%" class="text-center">
                             <i class="far fa-calendar-alt my-auto fa-3x" style=""></i>
@@ -91,7 +91,7 @@
                     <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
                     <p><a class="btn btn-secondary" href="#" role="button">Calendar info &raquo;</a></p>
                 </div><!-- /.col-lg-4 -->
-                <div class="col-lg-4">
+                <!--<div class="col-lg-4">
                     <div class='rounded-circle primary shadow ' style='height: 140px; width:140px; display: inline-block;'>
                         <div style="margin-top: 32%" class="text-center">
                             <i class="far fa-envelope my-auto fa-3x" style=""></i>
@@ -101,11 +101,11 @@
                     <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum mass.</p>
                     <p><a class="btn btn-secondary" href="#" role="button">Send info &raquo;</a></p>
                 </div><!-- /.col-lg-4 -->
-            </div><!-- /.row -->
+            <!--</div><!-- /.row -->
 
-        </div>
+        <!--</div>-->
 
-        <div class="container marketing pt-5">
+       <!-- <div class="container marketing pt-5">
             <hr class="featurette-divider pb-3">
 
             <div class="row featurette pt-4 pb-4">
@@ -120,7 +120,7 @@
             <hr class="featurette-divider pt-3">
         </div>
                 -->
-        <section class="card-container py-5 pt-1" >
+        <section class="card-container py-5 pt-5 mt-5" >
             <div class="container">
                 <div class="row">
                     <div class="col-lg-1"></div>
