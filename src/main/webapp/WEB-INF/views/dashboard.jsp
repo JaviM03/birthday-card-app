@@ -77,7 +77,7 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
         <script src="<c:url value="/resources/jquery-ui-1.12.1.custom/jquery-ui.min.js"/>"></script>
         <link href="<c:url value="/resources/jquery-ui-1.12.1.custom/jquery-ui.min.css"/>" rel="stylesheet"/>
-        <!--<script src="<c:url value="/resources/papaparse.min.js"/>"></script>-->
+        <script src="<c:url value="/resources/papaparse.min.js"/>"></script>
         <script src="//geodata.solutions/includes/countrystatecity.js"></script>
         <script>
             var submitFileFlag = false;
@@ -96,11 +96,13 @@
                 });
                 $("#occasionModal").autocomplete("option", "appendTo", "#ocassionFormModal")
             });
+            
+            /*
             $(document).ajaxStop(function () {
                 if(submitFileFlag){
                     window.location.reload();
                 }
-            });
+            });*/
 
             $(document).ready(function () {
                 $('#submit-file').on("click", function (e) {
@@ -108,12 +110,20 @@
                     e.preventDefault();
                     $('#files').parse({
                         config: {
-                            delimiter: "auto",
-                            complete: insertToDB,
+                            delimiter: "",/*
+                            step: function(results, parser) {
+                                    console.log("Row data:", results.data);
+                                    console.log("Row errors:", results.errors);
+                            },*/
+                            //complete: insertToDB,
+                            complete: function(results, file) {
+                                    insertToDB(results);
+                                    console.log("Parsing complete:", results, file);
+                            },
                         },
                         before: function (file, inputElem)
                         {
-                            //console.log("Parsing file...", file);
+                            console.log("Parsing file...", file);
                         },
                         error: function (err, file)
                         {
@@ -121,13 +131,19 @@
                         },
                         complete: function ()
                         {
-                            //console.log("Done with all files");
+                            console.log("Done with all files");
                         }
                     });
                 });
 
                 function insertToDB(results) {
+                    
+                    
                     var data = results.data;
+                    console.log("data: ");
+                    console.log(data);
+                    console.log(data[0]);
+                    //if there is a header row, you start at "header number" (number of row), if not, you start at 0
                     //ajax to w ork with
                     $.ajax({
                         url: '${pageContext.request.contextPath}/addByCSV',
@@ -136,10 +152,11 @@
                         success: function () {
                             //document.getElementById("test").innerHTML = "Funciono";
                             //console.log(csv);
+                            window.location.reload();
                         },
                         error: function (xhr, status, error) {
-//                                                console.log(xhr.responseText);
-//                                                document.getElementById("test").innerHTML = "No Funciono";
+                                                console.log(xhr.responseText);
+                                               // document.getElementById("test").innerHTML = "No Funciono";
                         }
                     });
 

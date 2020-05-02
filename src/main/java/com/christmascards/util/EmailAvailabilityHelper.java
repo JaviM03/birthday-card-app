@@ -18,6 +18,7 @@ public class EmailAvailabilityHelper {
     ReferredOccasionService refOcService;
     
     public void runEmailCheck(){
+        //Checks to be used monthly, weekly or daily
         refOcService.checkIfReferedOccasionEmailCanBeSent();
     }
 
