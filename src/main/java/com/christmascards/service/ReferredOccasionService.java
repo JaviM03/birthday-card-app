@@ -303,9 +303,71 @@ public class ReferredOccasionService {
            if(refOccasion.getLastEmailDate().compareTo(calendar) >= 0 ){
                refOccasion.setEmailCanBeResent(Boolean.TRUE);
                ror.save(refOccasion);
+           }           
+            //if info has not been filled
+           if(!refOccasion.getInfoHasBeingFilled()){
+                refOccasion.setLastEmailDate(sendReferredOccasionEmail(refOccasion.getUser().getUserId(),
+                        refOccasion.getEmailFrequency(),refOccasion.getLastEmailDate(),calendar));
            }
+           
        }
        
+   }
+   
+   public Calendar sendReferredOccasionEmail(Integer userId, String freq,Calendar lastSent,Calendar calendar){
+        Calendar compareDate = null;        
+       
+        //check daily reminder
+        compareDate = lastSent;
+        compareDate.add(Calendar.DAY_OF_MONTH,1);
+        if(freq.equals("daily")  && (compareDate.compareTo(calendar) >= 0)){
+               //sends email daily
+               try  {
+                  sendRemindingEmail(userId);  
+                  lastSent=calendar;
+                }
+               catch (IOException ex)
+                {
+                    System.out.println(ex.getMessage());
+                }
+               
+           }
+        
+        //check weekly reminder
+        compareDate = null;
+        compareDate = lastSent;
+        compareDate.add(Calendar.WEEK_OF_YEAR,1);
+        if(freq.equals("weekly") && (compareDate.compareTo(calendar) >= 0)){
+            try  {
+                  sendRemindingEmail(userId);  
+                  lastSent=calendar;
+                }
+               catch (IOException ex)
+                {
+                    System.out.println(ex.getMessage());
+                }
+            
+        }
+        
+        
+        //check monthly reminder
+        compareDate = null;
+        compareDate = lastSent;
+        compareDate.add(Calendar.MONTH,1);
+        if(freq.equals("monthly") && (compareDate.compareTo(calendar) >= 0)){
+            try  {
+                  sendRemindingEmail(userId);  
+                  lastSent=calendar;
+                }
+            catch (IOException ex)
+                {
+                    System.out.println(ex.getMessage());
+                }
+            
+        }
+        
+        //otherwise, the last sent mail returns to normal
+        return lastSent;
    }
    
 }
