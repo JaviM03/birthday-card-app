@@ -57,10 +57,11 @@ public class AccountController {
     public ModelAndView dashboard(HttpServletRequest request, HttpServletResponse response) throws IOException{
         if(LoginVerification.sessionCheck(request)){
             ModelAndView mv = new ModelAndView("dashboard");
-
+            String sorting = (String) request.getParameter("sorting");
             User user = (User) request.getSession().getAttribute("loggedUser");
-            Page<ReferredOccasion> usersReferred = refService.getUsersReferredOccasions(user,currentPage);
-            mv.addAllObjects(PaginAndSorting.dashboardPagingAndSorting(usersReferred,request));
+            String searchWord = (String) request.getParameter("searchWord");
+            Page<ReferredOccasion> usersReferred = refService.getUsersReferredOccasions(user, currentPage, searchWord, sorting);           
+            mv.addAllObjects(PaginAndSorting.dashboardPagingAndSorting(usersReferred,request,searchWord, sorting));
             mv.addObject("totalPages",usersReferred.getTotalPages());
             mv.addObject("referrals",usersReferred.getContent());
             mv.addObject("username", user.getFirstName()+" "+user.getLastName());
@@ -86,6 +87,9 @@ public class AccountController {
             if(request.getParameter("userCreated")!=null){
                 mv.addObject("userCreated", true);
             }
+            mv.addObject("occasionFilter", searchWord);
+            mv.addObject("occasionSorting", sorting);
+            System.out.println("sorting: "+sorting);
             return mv;
         }
         else{
@@ -106,8 +110,8 @@ public class AccountController {
             @RequestParam(value = "state", required = false) String state, @RequestParam(value = "city", required = false) String city, 
             @RequestParam(value = "zipCode", required = false) String zipCode, @RequestParam("email") String email, 
             @RequestParam(value = "occasionDate", required = false) String date, @RequestParam("occasion") String occasion, 
-            @RequestParam(value = "address", required = false) String address,
-            @RequestParam("sendEmail") String sendEmail, @RequestParam("timeZone") String timeZoneStr) throws ParseException, IOException{
+            @RequestParam(value = "address", required = false) String address, @RequestParam("sendEmail") String sendEmail, 
+            @RequestParam(value="emailFrequency" ,required = false) String emailFrequency, @RequestParam("timeZone") String timeZoneStr) throws ParseException, IOException{
         if(LoginVerification.sessionCheck(request)){
             User user = (User) request.getSession().getAttribute("loggedUser");
             
@@ -123,6 +127,7 @@ public class AccountController {
             referredOccasion.setOccasion(occasion);
             referredOccasion.setUser(user);
             referredOccasion.setLastEditedBy("Me");
+            referredOccasion.setEmailFrequency(emailFrequency);
             if(user.getTimeZone()==null){
                 int timeZone = Integer.parseInt(timeZoneStr);
                 if (timeZone >= 0) {

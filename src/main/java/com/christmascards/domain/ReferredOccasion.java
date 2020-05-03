@@ -98,6 +98,7 @@ public class ReferredOccasion implements Serializable {
     @Column(name="last_edited_by")
     private String lastEditedBy;
     
+    
     public ReferredOccasion() {
     }
 
@@ -285,7 +286,7 @@ public class ReferredOccasion implements Serializable {
     public void setEmailFrequency(String emailFrequency) {
         this.emailFrequency = emailFrequency;
     }
-    
+
     
     
     enum Edited{

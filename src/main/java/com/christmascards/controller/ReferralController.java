@@ -94,6 +94,7 @@ public class ReferralController {
                 refOccasion.setInfoHasBeingFilled(Boolean.TRUE);
                 refOccasion.setLastEditedBy(refOccasion.getFriendFirstName());
                 refOccasion.setLastEditedDate(Calendar.getInstance(TimeZone.getTimeZone(refOccasion.getUser().getTimeZone())));
+                Calendar currentDate = Calendar.getInstance();
                 refOccService.saveReferedOccasion(refOccasion);
                 us.sendUserReferredConfirmationEmail(refOccasion);
                 MainController.REFERREDCODE = null;

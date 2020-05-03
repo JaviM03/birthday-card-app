@@ -69,6 +69,18 @@
             .pulsing-button{
                   animation: blue-pulse 2s 5;
                 }
+                
+                @media only screen and (max-width: 768px){
+                    .search-bar{
+                        width:100%;
+                    }
+                }
+                
+                @media only screen and (min-width: 769px){
+                    .search-bar{
+                        width:30%;
+                    }
+                }
 
         </style>
         <script src="<c:url value="/resources/moment.min.js"/>"></script>
@@ -296,23 +308,39 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="main-card mb-3 card">
+                                    <form method="GET" action="${pageContext.request.contextPath}/dashboard">
                                     <div class="card-header">My Contacts
-                                        <button class="btn-wide btn btn-secondary btn-add ml-4 pulsing-button" style="font-weight: bold" data-toggle="modal" data-target="#addContactModal"><i class="fas fa-plus"></i> Add New</button>
+                                        <button type="button" class="btn-wide btn btn-secondary btn-add ml-4 pulsing-button pr-3 mt-2 mb-2" style="font-weight: bold" data-toggle="modal" data-target="#addContactModal"><i class="fas fa-plus"></i> Add New</button>
+                                        <div class="search-word mt-2 mb-2 pl-2 pr-2"><input type="text" maxlength="48" class="form-control" name="searchWord" value="${occasionFilter}"></div>
+                                        <div class=""><button type="submit" class="btn btn-success">Search</button></div>
                                         <div class="btn-actions-pane-right">
                                             <div role="group" class="btn-group-sm btn-group">
-                                                <a href="${pageContext.request.contextPath}/dashboard?occasion=christmas"><button class="${occasionFilter=='christmas'?'active':''} btn btn-focus">Christmas</button></a>
-                                                <a href="${pageContext.request.contextPath}/dashboard?occasion=birthday"><button class="${occasionFilter=='birthday'?'active':''} btn btn-focus">Birthday</button></a>
-                                                <a href="${pageContext.request.contextPath}/dashboard?occasion=new%20year"><button class="${occasionFilter=='new year'?'active':''} btn btn-focus">New Year</button></a>
+                                                <a href="${pageContext.request.contextPath}/dashboard?searchWord=christmas"><button class="${occasionFilter=='christmas' || occasionFilter=='Christmas' ?'active':''} btn btn-focus" onclick="redirect('Christmas')">Christmas</button></a>
+                                                <a href="${pageContext.request.contextPath}/dashboard?searchWord=birthday"><button class="${occasionFilter=='birthday' || occasionFilter=='Birthday' ?'active':''} btn btn-focus" onclick="redirect('Birthday')">Birthday</button></a>
+                                                <a href="${pageContext.request.contextPath}/dashboard?searchWord=new%20year"><button class="${occasionFilter=='new year' || occasionFilter=='New year'?'active':''} btn btn-focus" onclick="redirect('New Year')">New Year</button></a>
                                             </div>
                                         </div>
                                     </div>
+                                    </form>
                                     <div class="table-responsive">
                                         <table class="align-middle mb-0 table table-borderless table-striped table-hover">
                                             <thead>
                                                 <tr>                                               
                                                     <th><div class="pl-4">Name</div></th>                                               
-                                                    <th class="text-center">Date</th>
-                                                    <th class="text-center">Occasion</th>
+                                                    <th class="text-center">Occasion Date</th>
+                                                    <th class="text-center">Occasion 
+                                                        <c:if test="${occasionSorting!='desc'}">
+                                                            <a href="${pageContext.request.contextPath}/dashboard?sorting=desc${occasionFilter!=null?(occasionFilter!=''?'&searchWord=':''):''}${occasionFilter!=null?(occasionFilter!=''?occasionFilter:''):''}">
+                                                            <i class="fas fa-chevron-down"></i>
+                                                            </a>
+                                                        </c:if>
+                                                            <c:if test="${occasionSorting=='desc'}">
+                                                                <a href="${pageContext.request.contextPath}/dashboard?sorting=asc${occasionFilter!=null?(occasionFilter!=''?'&searchWord=':''):''}${occasionFilter!=null?(occasionFilter!=''?occasionFilter:''):''}">
+                                                            <i class="fas fa-chevron-up"></i>
+                                                                </a>
+                                                        </c:if>
+                                                    </th>
+                                                    <th class="text-center">Date Verified</th>
                                                     <th class="text-center">City</th>
                                                     <th class="text-center">Status</th>
                                                     <th class="text-center" style="width:7%"></th>
@@ -340,10 +368,11 @@
                                                         </td>
                                                         <td class="text-center"><fmt:formatDate type="date" dateStyle="short" value="${referral.occasionDate.time}"/></td>
                                                         <td class="text-center">${referral.occasion}</td>
+                                                        <td class="text-center"><fmt:formatDate type="date" dateStyle="short" value="${referral.lastEmailDate.time}"/></td>
                                                         <td class="text-center">
-                                                            City
+                                                            ${referral.city}
                                                         </td>
-                                                        <td class="text-center"><div class="badge ${referral.infoHasBeingFilled?'badge-success':'badge-warning'}">${referral.infoHasBeingFilled?'Ready':'Pending'}</div></td>
+                                                        <td class="text-center"><div class="badge ${referral.infoHasBeingFilled?'badge-success':'badge-warning'}">${referral.infoHasBeingFilled?'Verified':'Pending'}</div></td>
                                                         <td class="text-center">
                                                             <button type="button" id="PopoverCustomT-1" class="btn btn-primary btn-sm" onclick="detailModal('${referral.friendFirstName} ${referral.friendLastName}',
                                                                             '<fmt:formatDate type="date" dateStyle="short" value="${referral.referredDate.time}"/>', '<fmt:formatDate type="date" dateStyle="short" value="${referral.occasionDate.time}"/>', '${referral.addressLine1}',
@@ -409,21 +438,15 @@
                     </div>
                     <!--modal buttons-->
 
-                    <div class="mt-4 mb-2 row" >
-                        <div class="col-sm-12">
-                            <div class="text-center">
-                                <button class="btn-wide btn btn-secondary btn-add ml-4" style="" data-toggle="modal" data-target="#addContactCSV" data-dismiss="modal">Import (CSV)</button>                            
-                                <!--<button class="btn btn-primary btn-sm" style="" data-toggle="modal" data-target="#addContactCSV" data-dismiss="modal">Import (CSV)</button>-->
-                            </div>
+                    <div class="mt-5 mb-2 row justify-content-center" >
+                        <div class="text-center mx-auto" style="width:90%">
+                                <button class="btn-wide btn btn-success btn-block pt-3 pb-3" style="font-weight: bold; font-size: 16px" data-toggle="modal" data-target="#addContactCSV" data-dismiss="modal">Import (CSV)</button>                            
                         </div>
                     </div>
 
-                    <div class="mt-2 mb-4 row">
-                        <div class="col-sm-12">
-                            <div class="text-center">
-                                <button class="btn-wide btn btn-secondary btn-add ml-4" style="" data-toggle="modal" data-target="#addContactManual" data-dismiss="modal">Add contact Manually</button>
-                                <!--<button class="btn-wide btn btn-secondary btn-add ml-4" style="" data-toggle="modal" data-target="#addContactManual" data-dismiss="modal">Add contact Manually</button>-->
-                            </div>
+                    <div class="mt-4 mb-5 row justify-content-center">
+                        <div class="text-center mx-auto" style="width:90%">
+                                <button class="btn-wide btn btn-secondary btn-block btn-add pt-3 pb-3" style="font-weight: bold; font-size: 16px" data-toggle="modal" data-target="#addContactManual" data-dismiss="modal">Add Contact Manually</button>
                         </div>
                     </div>
                 </div>
@@ -471,6 +494,12 @@
                                 <label for="zipCodeModal">Zip Code</label>
                                 <input type="text" autocomplete="off" class="form-control" placeholder="Zip Code" id="zipCodeModal" name="zipCode" />
                                 <input type="hidden" name="timeZone" value="" id="timeZoneInput"/>
+                                <label for="frequencyModal">Email Reminder Frequency</label>
+                                <select class="form-control" id="frequencyModal" name="emailFrequency">
+                                    <option value="daily">Daily</option>
+                                    <option selected="true" value="weekly">Weekly</option>
+                                    <option value="monthly">Monthly</option>
+                                </select>
                                 <div class="form-check">
                                     <input type="checkbox" class="form-check-input" id="sendEmailModal" name="sendEmail" checked>
                                     <label class="form-check-label" for="sendEmailModal">Request the rest of the information by email</label>

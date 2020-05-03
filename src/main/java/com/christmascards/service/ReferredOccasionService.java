@@ -28,6 +28,7 @@ import java.util.stream.StreamSupport;
 import javax.validation.constraints.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 /**
  *
@@ -52,9 +53,38 @@ public class ReferredOccasionService {
     /* Edwin API*/
     //String referralMessageTemplateId = "d-6f962eb4504e47c28c749af83061b2e4";
     
-    public Page<ReferredOccasion> getUsersReferredOccasions(User user, Integer page){
-
-        return ror.findByUserAndIsDeleted(user, Boolean.FALSE, new PageRequest(page, PAGESIZE));
+    public Page<ReferredOccasion> getUsersReferredOccasions(User user, Integer page, String searchWord, String sorting){
+        Sort sort = new Sort("placeholder");
+        if(sorting != null){  
+            if(sorting.equals("")){
+                if(searchWord!=null){
+                    return ror.findReferredOccasionByUserAndSearchWord(page, searchWord, new PageRequest(page, PAGESIZE));
+                }
+                else{
+                    return ror.findByUserAndIsDeletedOrderByReferredOccasionIdDesc(user, Boolean.FALSE, new PageRequest(page, PAGESIZE));
+                }
+            }
+            if(sorting.equals("asc")){
+                sort = new Sort(Sort.Direction.ASC, "occasion");
+            }   
+            if(sorting.equals("desc")){
+                sort = new Sort(Sort.Direction.DESC, "occasion");
+            }
+            if(searchWord!=null){
+                return ror.findReferredOccasionByUserAndSearchWord(page, searchWord, new PageRequest(page, PAGESIZE, sort));
+            }
+            else{
+                return ror.findByUserAndIsDeletedOrderByReferredOccasionIdDesc(user, Boolean.FALSE, new PageRequest(page, PAGESIZE, sort));
+            }
+        }
+        else{
+            if(searchWord!=null){
+                return ror.findReferredOccasionByUserAndSearchWord(page, searchWord, new PageRequest(page, PAGESIZE));
+            }
+            else{
+                return ror.findByUserAndIsDeletedOrderByReferredOccasionIdDesc(user, Boolean.FALSE, new PageRequest(page, PAGESIZE));
+            }
+        }       
     }
     
    public ReferredOccasion addnewUserReferredOccasion(ReferredOccasion referredOccasion, String occasionDate, Boolean emailRequested) throws ParseException, IOException{
