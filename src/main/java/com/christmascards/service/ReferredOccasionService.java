@@ -54,11 +54,21 @@ public class ReferredOccasionService {
     //String referralMessageTemplateId = "d-6f962eb4504e47c28c749af83061b2e4";
     
     public Page<ReferredOccasion> getUsersReferredOccasions(User user, Integer page, String searchWord, String sorting){
+        if(searchWord!=null){
+            if(searchWord.equals("") || searchWord.equals("null")){
+                searchWord = null;
+            }
+        }
         Sort sort = Sort.by("occasion");
         if(sorting != null){  
             if(sorting.equals("")){
                 if(searchWord!=null){
+                    if(!searchWord.equals("null")){
                     return ror.findReferredOccasionByUserAndSearchWord(user.getUserId(), searchWord, PageRequest.of(page, PAGESIZE));
+                    }
+                    else{
+                        return ror.findByUserAndIsDeletedOrderByReferredOccasionIdDesc(user, Boolean.FALSE, PageRequest.of(page, PAGESIZE));
+                    }
                 }
                 else{
                     return ror.findByUserAndIsDeletedOrderByReferredOccasionIdDesc(user, Boolean.FALSE, PageRequest.of(page, PAGESIZE));
@@ -71,6 +81,7 @@ public class ReferredOccasionService {
                 sort = Sort.by("occasion").descending();
             }
             if(searchWord!=null){
+                System.out.println("Search word not null");
                 return ror.findReferredOccasionByUserAndSearchWordNoOrderBy(user.getUserId(), searchWord, PageRequest.of(page, PAGESIZE, sort));
             }
             else{
@@ -79,7 +90,12 @@ public class ReferredOccasionService {
         }
         else{
             if(searchWord!=null){
-                return ror.findReferredOccasionByUserAndSearchWord(user.getUserId(), searchWord, PageRequest.of(page, PAGESIZE));
+                if(!searchWord.equals("null")){
+                    return ror.findReferredOccasionByUserAndSearchWord(user.getUserId(), searchWord, PageRequest.of(page, PAGESIZE));
+                }
+                else{
+                return ror.findByUserAndIsDeletedOrderByReferredOccasionIdDesc(user, Boolean.FALSE, PageRequest.of(page, PAGESIZE));
+            }
             }
             else{
                 return ror.findByUserAndIsDeletedOrderByReferredOccasionIdDesc(user, Boolean.FALSE, PageRequest.of(page, PAGESIZE));
