@@ -60,6 +60,7 @@ public class AccountController {
             String sorting = (String) request.getParameter("sorting");
             User user = (User) request.getSession().getAttribute("loggedUser");
             String searchWord = (String) request.getParameter("searchWord");
+            System.out.println("SearchWord: "+searchWord);
             Page<ReferredOccasion> usersReferred = refService.getUsersReferredOccasions(user, currentPage, searchWord, sorting);           
             mv.addAllObjects(PaginAndSorting.dashboardPagingAndSorting(usersReferred,request,searchWord, sorting));
             mv.addObject("totalPages",usersReferred.getTotalPages());

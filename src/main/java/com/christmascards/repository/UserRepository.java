@@ -24,10 +24,9 @@ public interface UserRepository extends JpaRepository<User, Integer>{
     public List<User> findAll();
 
     @Override
-    public User findOne(Integer id);
+    public Optional<User> findById(Integer id);
+    
 
-    @Override
-    public <S extends User> S findOne(Example<S> exmpl);
     
     public List<User> findByEmail(String email);
     

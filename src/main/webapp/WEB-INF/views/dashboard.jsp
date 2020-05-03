@@ -315,9 +315,9 @@
                                         <div class=""><button type="submit" class="btn btn-success">Search</button></div>
                                         <div class="btn-actions-pane-right">
                                             <div role="group" class="btn-group-sm btn-group">
-                                                <a href="${pageContext.request.contextPath}/dashboard?searchWord=christmas"><button class="${occasionFilter=='christmas' || occasionFilter=='Christmas' ?'active':''} btn btn-focus" onclick="redirect('Christmas')">Christmas</button></a>
-                                                <a href="${pageContext.request.contextPath}/dashboard?searchWord=birthday"><button class="${occasionFilter=='birthday' || occasionFilter=='Birthday' ?'active':''} btn btn-focus" onclick="redirect('Birthday')">Birthday</button></a>
-                                                <a href="${pageContext.request.contextPath}/dashboard?searchWord=new%20year"><button class="${occasionFilter=='new year' || occasionFilter=='New year'?'active':''} btn btn-focus" onclick="redirect('New Year')">New Year</button></a>
+                                                <a href="${pageContext.request.contextPath}/dashboard?searchWord=christmas"><button class="${occasionFilter=='christmas' || occasionFilter=='Christmas' ?'active':''} btn btn-focus" type="button">Christmas</button></a>
+                                                <a href="${pageContext.request.contextPath}/dashboard?searchWord=birthday"><button class="${occasionFilter=='birthday' || occasionFilter=='Birthday' ?'active':''} btn btn-focus" type="button">Birthday</button></a>
+                                                <a href="${pageContext.request.contextPath}/dashboard?searchWord=new%20year"><button class="${occasionFilter=='new year' || occasionFilter=='New year'?'active':''} btn btn-focus" type="button">New Year</button></a>
                                             </div>
                                         </div>
                                     </div>

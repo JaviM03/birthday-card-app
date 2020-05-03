@@ -54,35 +54,35 @@ public class ReferredOccasionService {
     //String referralMessageTemplateId = "d-6f962eb4504e47c28c749af83061b2e4";
     
     public Page<ReferredOccasion> getUsersReferredOccasions(User user, Integer page, String searchWord, String sorting){
-        Sort sort = new Sort("placeholder");
+        Sort sort = Sort.by("occasion");
         if(sorting != null){  
             if(sorting.equals("")){
                 if(searchWord!=null){
-                    return ror.findReferredOccasionByUserAndSearchWord(page, searchWord, new PageRequest(page, PAGESIZE));
+                    return ror.findReferredOccasionByUserAndSearchWord(user.getUserId(), searchWord, PageRequest.of(page, PAGESIZE));
                 }
                 else{
-                    return ror.findByUserAndIsDeletedOrderByReferredOccasionIdDesc(user, Boolean.FALSE, new PageRequest(page, PAGESIZE));
+                    return ror.findByUserAndIsDeletedOrderByReferredOccasionIdDesc(user, Boolean.FALSE, PageRequest.of(page, PAGESIZE));
                 }
             }
             if(sorting.equals("asc")){
-                sort = new Sort(Sort.Direction.ASC, "occasion");
+                sort = Sort.by("occasion").ascending();
             }   
             if(sorting.equals("desc")){
-                sort = new Sort(Sort.Direction.DESC, "occasion");
+                sort = Sort.by("occasion").descending();
             }
             if(searchWord!=null){
-                return ror.findReferredOccasionByUserAndSearchWord(page, searchWord, new PageRequest(page, PAGESIZE, sort));
+                return ror.findReferredOccasionByUserAndSearchWordNoOrderBy(user.getUserId(), searchWord, PageRequest.of(page, PAGESIZE, sort));
             }
             else{
-                return ror.findByUserAndIsDeletedOrderByReferredOccasionIdDesc(user, Boolean.FALSE, new PageRequest(page, PAGESIZE, sort));
+                return ror.findByUserAndIsDeleted(user, Boolean.FALSE, PageRequest.of(page, PAGESIZE, sort));
             }
         }
         else{
             if(searchWord!=null){
-                return ror.findReferredOccasionByUserAndSearchWord(page, searchWord, new PageRequest(page, PAGESIZE));
+                return ror.findReferredOccasionByUserAndSearchWord(user.getUserId(), searchWord, PageRequest.of(page, PAGESIZE));
             }
             else{
-                return ror.findByUserAndIsDeletedOrderByReferredOccasionIdDesc(user, Boolean.FALSE, new PageRequest(page, PAGESIZE));
+                return ror.findByUserAndIsDeletedOrderByReferredOccasionIdDesc(user, Boolean.FALSE, PageRequest.of(page, PAGESIZE));
             }
         }       
     }
@@ -211,7 +211,7 @@ public class ReferredOccasionService {
    
    public void sendRemindingEmail(Integer referredOccasionId) throws IOException{
        Calendar currentDate = Calendar.getInstance();
-       ReferredOccasion referredOccasion = ror.findOne(referredOccasionId);
+       ReferredOccasion referredOccasion = ror.findById(referredOccasionId).get();
        ArrayList<String> personalizationParameters = new ArrayList();
         personalizationParameters.addAll(personalizInitialPrameters);
         personalizationParameters.add("User_Name");
@@ -248,7 +248,7 @@ public class ReferredOccasionService {
    }
    
    public ReferredOccasion findReferedOccasion(Integer id){
-       return ror.findOne(id);
+       return ror.findById(id).get();
    }
    
    public ReferredOccasion saveReferedOccasion(ReferredOccasion refOccasion){
