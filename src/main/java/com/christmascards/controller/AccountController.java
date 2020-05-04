@@ -68,7 +68,6 @@ public class AccountController {
             List<ReferredOccasion> referrals = new ArrayList();
             for(ReferredOccasion referral:usersReferred.getContent()){
                 Calendar nextVerification = referral.getLastEmailDate();
-                System.out.println("Last Email Date: " + nextVerification.getTime());
                 String frequency = referral.getEmailFrequency();
                 if(!referral.getInfoHasBeingFilled()){
                     if(frequency.equals("daily")){
