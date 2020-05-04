@@ -19,6 +19,7 @@ import com.christmascards.service.ReferredOccasionService;
 import com.christmascards.util.PaginAndSorting;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -64,7 +65,26 @@ public class AccountController {
             Page<ReferredOccasion> usersReferred = refService.getUsersReferredOccasions(user, currentPage, searchWord, sorting);           
             mv.addAllObjects(PaginAndSorting.dashboardPagingAndSorting(usersReferred,request,searchWord, sorting));
             mv.addObject("totalPages",usersReferred.getTotalPages());
-            mv.addObject("referrals",usersReferred.getContent());
+            List<ReferredOccasion> referrals = new ArrayList();
+            for(ReferredOccasion referral:usersReferred.getContent()){
+                Calendar nextVerification = referral.getLastEmailDate();
+                System.out.println("Last Email Date: " + nextVerification.getTime());
+                String frequency = referral.getEmailFrequency();
+                if(!referral.getInfoHasBeingFilled()){
+                    if(frequency.equals("daily")){
+                        nextVerification.add(Calendar.DATE, 1);
+                    }
+                    else if(frequency.equals("weekly")){
+                        nextVerification.add(Calendar.DATE, 7);
+                    }
+                    else if(frequency.equals("monthly")){
+                        nextVerification.add(Calendar.MONTH, 1);
+                    }
+                }
+                referral.setNextVerification(nextVerification);
+                referrals.add(referral);
+            }
+            mv.addObject("referrals",referrals);
             mv.addObject("username", user.getFirstName()+" "+user.getLastName());
             currentPage = 0;
             if(referralCreated != null){
@@ -138,7 +158,10 @@ public class AccountController {
                 TimeZone tz = TimeZone.getTimeZone("GMT" + timeZoneStr);
                 userService.save(user);
             }
-            referredOccasion.setLastEditedDate(Calendar.getInstance(TimeZone.getTimeZone(user.getTimeZone())));    
+            referredOccasion.setLastEditedDate(Calendar.getInstance(TimeZone.getTimeZone(user.getTimeZone())).getTime());  
+            /*System.out.println("Current Calendar day by TimeZone" + Calendar.getInstance(TimeZone.getTimeZone(user.getTimeZone())).getTime());
+            System.out.println("Current last edited date: " + referredOccasion.getLastEditedDate().getTime().getDate());
+            System.out.println("Current last edited time: " + referredOccasion.getLastEditedDate().getTime().getHours());*/
             ReferredOccasion returnedOccasion = refService.addnewUserReferredOccasion(referredOccasion, date, Boolean.TRUE);
             if(returnedOccasion!=null){
                 referralCreated = true;
@@ -184,7 +207,9 @@ public class AccountController {
                 refOccasion.setAddressLine1(address);
             }
             refOccasion.setLastEditedBy("Me");
-            refOccasion.setLastEditedDate(Calendar.getInstance(TimeZone.getTimeZone(user.getTimeZone())));
+            refOccasion.setLastEditedDate(Calendar.getInstance(TimeZone.getTimeZone(user.getTimeZone())).getTime());
+            System.out.println("-------------I'm on referral 2-------------------");
+            refService.saveReferedOccasion(refOccasion);
             response.sendRedirect(request.getContextPath()+"/dashboard?friendEdited=true"); 
         }
         else{
@@ -242,7 +267,8 @@ public class AccountController {
             refOccasion.setZipCode(zipCode);
             refOccasion.setLastEditedBy("Me");
             User user = (User) request.getSession().getAttribute("loggedUser");
-            refOccasion.setLastEditedDate(Calendar.getInstance(TimeZone.getTimeZone(user.getTimeZone())));
+            refOccasion.setLastEditedDate(Calendar.getInstance(TimeZone.getTimeZone(user.getTimeZone())).getTime());
+            System.out.println("---------------I'm on referral 3 ----------------------");
             refService.saveReferedOccasion(refOccasion);
             response.sendRedirect(request.getContextPath()+"/dashboard?userCreated=true");
         }

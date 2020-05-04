@@ -91,13 +91,14 @@ public class ReferredOccasion implements Serializable {
     private String emailFrequency;
     
     @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @Column(name="last_edited_date")
-    private Calendar lastEditedDate;
+    private java.util.Date lastEditedDate;
     
     @Column(name="last_edited_by")
     private String lastEditedBy;
     
+    @Transient
+    private Calendar nextVerification;
     
     public ReferredOccasion() {
     }
@@ -263,11 +264,11 @@ public class ReferredOccasion implements Serializable {
         this.city = city;
     }
 
-    public Calendar getLastEditedDate() {
+    public java.util.Date getLastEditedDate() {
         return lastEditedDate;
     }
 
-    public void setLastEditedDate(Calendar lastEditedDate) {
+    public void setLastEditedDate(java.util.Date lastEditedDate) {
         this.lastEditedDate = lastEditedDate;
     }
 
@@ -287,6 +288,15 @@ public class ReferredOccasion implements Serializable {
         this.emailFrequency = emailFrequency;
     }
 
+    public Calendar getNextVerification() {
+        return nextVerification;
+    }
+
+    public void setNextVerification(Calendar nextVerification) {
+        this.nextVerification = nextVerification;
+    }
+    
+    
     
     
     enum Edited{

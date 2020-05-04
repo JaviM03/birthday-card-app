@@ -93,7 +93,8 @@ public class ReferralController {
                 refOccasion.setOccasionDate(cal);
                 refOccasion.setInfoHasBeingFilled(Boolean.TRUE);
                 refOccasion.setLastEditedBy(refOccasion.getFriendFirstName());
-                refOccasion.setLastEditedDate(Calendar.getInstance(TimeZone.getTimeZone(refOccasion.getUser().getTimeZone())));
+                refOccasion.setLastEditedDate(Calendar.getInstance(TimeZone.getTimeZone(refOccasion.getUser().getTimeZone())).getTime());
+                System.out.println("-----------------I'm on referral 4 ------------------");
                 Calendar currentDate = Calendar.getInstance();
                 refOccService.saveReferedOccasion(refOccasion);
                 us.sendUserReferredConfirmationEmail(refOccasion);

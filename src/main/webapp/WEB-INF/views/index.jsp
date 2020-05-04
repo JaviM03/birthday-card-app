@@ -127,13 +127,16 @@
                     <div class="col-lg-10">
                         <div class="card mb-5 mb-lg-0">
                             <div class="card-body">
-                                <h3 class="card-title text-muted text-center">Get Started!</h3>
+                                <h3 class="card-title text-muted text-center">Make Someone's Day</h3>
+                                <h3 class="card-title text-muted text-center">Get Started Today!</h3>
                                 <hr>
                                 <ul class="fa-ul">
-                                    <li style="font-size: 20px"><span class="fa-li"><i class="fas fa-check"></i></span>Get unlimited referrals for friends.</li>
-                                    <li style="font-size: 20px"><span class="fa-li"><i class="fas fa-check"></i></span>Organize your calendar for every kind of present.</li>
-                                    <li style="font-size: 20px"><span class="fa-li"><i class="fas fa-check"></i></span>All-in-one site for your dates.</li>
-                                    <li style="font-size: 20px"><span class="fa-li"><i class="fas fa-check"></i></span>Ask your friends for their most important celebrations.</li>
+                                    <li style="font-size: 20px; font-weight: bold"><span class="fa-li"><i class="fas fa-check"></i></span>Create your FREE Account</li>
+                                    <li style="font-size: 20px"><span class="fa-li"><i class="fas fa-check"></i></span>Verifies all your contacts addresses</li>
+                                    <li style="font-size: 20px"><span class="fa-li"><i class="fas fa-check"></i></span>Automates the updates/changes to your contacts addresses</li>
+                                    <li style="font-size: 20px"><span class="fa-li"><i class="fas fa-check"></i></span>Enable you to categorizes your contacts by “occasion” and more</li>
+                                    <li style="font-size: 20px"><span class="fa-li"><i class="fas fa-check"></i></span>Automatically keep your address book up to date with smart reminders</li>
+                                    <li style="font-size: 20px"><span class="fa-li"><i class="fas fa-check"></i></span>Access your address anywhere and anytime</li>
                                     <li style="font-size: 20px" class="pt-4"><span class="fa-li"><i class="fas fa-check"></i></span><strong>Never miss a date again!</strong></li>
                                 </ul>
                                 <div class="row">

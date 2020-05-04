@@ -341,6 +341,7 @@
                                                         </c:if>
                                                     </th>
                                                     <th class="text-center">Date Verified</th>
+                                                    <th class="text-center">Next Verification</th>
                                                     <th class="text-center">City</th>
                                                     <th class="text-center">Status</th>
                                                     <th class="text-center" style="width:7%"></th>
@@ -369,6 +370,7 @@
                                                         <td class="text-center"><fmt:formatDate type="date" dateStyle="short" value="${referral.occasionDate.time}"/></td>
                                                         <td class="text-center">${referral.occasion}</td>
                                                         <td class="text-center"><fmt:formatDate type="date" dateStyle="short" value="${referral.lastEmailDate.time}"/></td>
+                                                        <td class="text-center"><c:if test="${referral.nextVerification!=null}"><fmt:formatDate type="date" dateStyle="short" value="${referral.nextVerification.time}"/></c:if></td>
                                                         <td class="text-center">
                                                             ${referral.city}
                                                         </td>
@@ -377,7 +379,7 @@
                                                             <button type="button" id="PopoverCustomT-1" class="btn btn-primary btn-sm" onclick="detailModal('${referral.friendFirstName} ${referral.friendLastName}',
                                                                             '<fmt:formatDate type="date" dateStyle="short" value="${referral.referredDate.time}"/>', '<fmt:formatDate type="date" dateStyle="short" value="${referral.occasionDate.time}"/>', '${referral.addressLine1}',
                                                                             '${referral.email}', '<fmt:formatDate type="date" dateStyle="short" value="${referral.lastEmailDate.time}"/>', '${referral.referredOccasionId}', '${referral.lastEditedBy}',
-                                                                            '<fmt:formatDate type="both" dateStyle="short" value="${referral.lastEditedDate.time}"/>', '${referral.emailCanBeResent}', '${referral.country}',
+                                                                            '${referral.lastEditedDate}', '${referral.emailCanBeResent}', '${referral.country}',
                                                                                                                                             '${referral.state}','${referral.city}')">Details</button>                                                                            
                                                         </td>
                                                         <td>
@@ -728,13 +730,14 @@
                                         while (labelDivLastEditedOn.firstChild) {
                                             labelDivLastEditedOn.removeChild(labelDivLastEditedOn.firstChild);
                                         }
-                                        var labelContentLastEditedOn = document.createTextNode(moment(lastEditedOn, "DD/MM/YYYY hh:mm:ss").fromNow());
+                                        var labelContentLastEditedOn = document.createTextNode(moment(lastEditedOn, "YYYY/MM/DD hh:mm:ss").fromNow());
                                         labelDivLastEditedOn.appendChild(labelContentLastEditedOn);
 
                                         if (!emailCanBeResent) {
                                             document.getElementById('buttonSubmit').style.visibility = 'hidden';
                                         }
                                         console.log("Last Edited By: " + lastEditedBy + "   Last Edited on: " + lastEditedOn);
+                                        console.log(moment(lastEditedOn, "MM/DD/YYYY hh:mm:ss").fromNow());
                                         $("#modalFriendId").val(friendId);
                                         $("#editInfoReferredOccasionId").val(friendId);
                                         $("#contactDetailModal").modal('show');

@@ -328,7 +328,7 @@ public class ReferredOccasionService {
        while(refOccasions.hasNext()){           
            ReferredOccasion refOccasion = refOccasions.next();
            if(refOccasion.getEmailCanBeResent()){continue;}
-           refOccasion.getLastEditedDate().compareTo(calendar);
+           refOccasion.getLastEmailDate().compareTo(calendar);
            if(refOccasion.getLastEmailDate().compareTo(calendar) >= 0 ){
                refOccasion.setEmailCanBeResent(Boolean.TRUE);
                ror.save(refOccasion);
