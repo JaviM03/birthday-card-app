@@ -42,6 +42,10 @@
             svg{
                 background-color: transparent !important;
             }
+            
+            .logo-img{
+                width:120%;
+            }
 
             .modal-body-long{
                 max-height: calc(100vh - 200px);
@@ -182,7 +186,9 @@
         <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
             <div class="app-header header-shadow" style="background-color: #0062cc; color: white;">
                 <div class="app-header__logo">
-                    <div class="logo-src" style="color:white; text-align: right; font-size: 24px; margin-bottom: 20px">Logo</div>
+                    <div class="logo-src" style="color:white; margin-left: 20px; font-size: 24px; margin-bottom: 28px">
+                        <img src="<c:url value="/resources/img/Logo.jpg"/>" class="logo-img">
+                    </div>
                     <div class="header__pane ml-auto">
                         <div>
                             <button type="button" class="hamburger close-sidebar-btn hamburger--elastic" data-class="closed-sidebar">
