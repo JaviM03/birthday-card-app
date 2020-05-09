@@ -48,12 +48,12 @@ public class UserService {
         user.setPassSalt(salt);
         User userResult = userRepo.saveAndFlush(user);
         
-        //After User is registered we will send a welcome email to them and to the administration, to inform that a new account has being created
+        //After User is registered we will send them a welcome email and we will send an email to the administration, to inform that a new account has being created
         String message = "An account has just been registered. <br>"+
         "First Name: "+user.getFirstName()+"<br>"+
         "Last Name: "+user.getLastName()+"<br>"+
         "Email: "+user.getEmail();
-        EmailSender.sendHTMLEmail("emailtohans@gmail.com", "christmascards254@gmail.com",  message, "Account created on Christmas card App");
+        EmailSender.sendHTMLEmail("support@mydigitaladdressbook.com", "support@mydigitaladdressbook.com",  message, "Account created on Christmas card App");
         ArrayList<String> personalizationParameters = new ArrayList();
         ArrayList<String> personalizationValues = new ArrayList();
         personalizationParameters.add("User_Name");
