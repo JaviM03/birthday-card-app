@@ -249,6 +249,11 @@
                             <div class="text-center">Your password link has either expired or has already being used. Please try again.</div> 
                         </div>
                     </c:if>
+                    <c:if test="${emailOrPhoneTaken}">
+                        <div class="alert alert-danger" role="alert">
+                            <div class="text-center">Either the email or phone you submited has already being taken. Please try again.</div> 
+                        </div>
+                    </c:if>
                     <c:if test="${successfulReset}">
                         <div class="alert alert-success" role="alert">
                             <div class="text-center">Your password has being succesfuly reset.</div> 

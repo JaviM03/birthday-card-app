@@ -232,6 +232,9 @@
                                         </div>
                                         <div class="text-center mb-5 mt-3">
                                             <button type="submit" class="btn btn-outline-success btn-lg" style="padding-top:10px;padding-bottom:10px;padding-left:30px;padding-right:30px;font-size: 18px">Save</button>
+                                            <a href="${pageContext.request.contextPath}/dashboard">
+                                            <button type="button" class="btn btn-outline-warning btn-lg" style="padding-top:10px;padding-bottom:10px;padding-left:30px;padding-right:30px;font-size: 18px">Cancel</button>
+                                            </a>
                                         </div>
                                     </form>
                                 </div>
