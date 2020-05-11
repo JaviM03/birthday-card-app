@@ -187,7 +187,7 @@
             <!-- Footer Elements -->
 
             <!-- Copyright -->
-            <div class="text-center pb-3 pt-1 secondary-dark" style="background-color: #5a84bb">© LegalZoom.com, Inc. All rights reserved.
+            <div class="text-center pb-3 pt-1 secondary-dark" style="background-color: #5a84bb">© MyDigitalAddressBook.com  All rights reserved.
             </div>
             <!-- Copyright -->
 

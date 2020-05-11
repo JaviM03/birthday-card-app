@@ -208,10 +208,10 @@
                                         <input type="email" id="inputEmail" class="form-control" placeholder="Email" name="email" required autofocus>
                                         <label for="inputEmail">Email</label>
                                     </div>
-                                    <div class="form-label-group">
-                                        <input type="password" id="inputPassword" class="form-control" placeholder="Password" name="password" required>
-                                        <label for="inputPassword">Password</label>
-                                    </div>
+                                        <div class="form-label-group">
+                                            <input type="password" id="inputPassword" class="form-control" placeholder="Password" name="password" required>
+                                            <label for="inputPassword">Password</label>
+                                        </div>
                                     <div class="form-label-group">
                                         <input type="password" id="inputPassword2" class="form-control" placeholder="Re-Type Password" name="passwordConfirm" required>
                                         <label for="inputPassword2">Re-Type Password</label>
