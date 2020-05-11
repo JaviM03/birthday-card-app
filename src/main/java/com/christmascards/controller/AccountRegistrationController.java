@@ -54,7 +54,7 @@ public class AccountRegistrationController {
         number = number.replace("[^0-9]", "");
         number = "+"+number;
         String emailAndPhoneConfirm = userService.checkUserEmailAndPhone(email, number);
-        if(emailAndPhoneConfirm.equals("none")){
+        if(emailAndPhoneConfirm.equals("none") || emailAndPhoneConfirm.equals("phone")){
            /* VerificationResult vr = tv.startVerification(number, "sms");
             if(!vr.isValid()){
                 System.out.println(vr.getErrors()[0]);
