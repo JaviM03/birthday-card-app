@@ -312,7 +312,7 @@
                                 </div>
                             <form class="login100-form validate-form" method="POST" action="${pageContext.request.contextPath}/attempt-login">
                                 <div class="row col-12 align-items-center">
-                                <div class="col-12 text-center mx-auto">
+                                <div class="col-11 text-center mx-auto">
                                     <div class="wrap-input100" style="margin-bottom:40px">
                                         <input class="input100" type="email" name="email" placeholder="Email" style="font-family: 'Open Sans', sans-serif;" required="">
                                         <span class="focus-input100-1"></span>

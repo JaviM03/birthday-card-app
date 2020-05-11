@@ -45,7 +45,7 @@ public class ReferredOccasionService {
     
     Integer PAGESIZE = 10;
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-    String referalUrl = "https://christmas-card-app2.herokuapp.com/referral?id=";
+    String referalUrl = "http://app.mydigitaladdressbook.com/referral?id=";
     ArrayList<String> personalizInitialPrameters = new ArrayList(Arrays.asList("Sender_Name","Sender_Address","Sender_City","Sender_State","Sender_Zip"));
     ArrayList<String> personalizInitialValues = new ArrayList(Arrays.asList("ChristmasCardApp","Specific Address","City","State","Zip Code"));
     /* Hans API*/

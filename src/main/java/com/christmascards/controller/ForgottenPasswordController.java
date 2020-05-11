@@ -81,7 +81,7 @@ public class ForgottenPasswordController {
             // request.getScheme() + "://" + request.getServerName() + server;  
             // "http" + "://" + "localhost" + ":8080/christmas-card-app" ;
             
-            String appUrl = "https://christmas-card-app2.herokuapp.com";  
+            String appUrl = "http://app.mydigitaladdressbook.com";  
             //http://localhost:8080/christmas-card-app/reset?token=8b642767-8c0e-4704-b1d9-9b414dbba5d5            
             // "https" + "://" + "christmas-card-app2+.herokuapp.com" 
             //https://christmas-card-app2.herokuapp.com
