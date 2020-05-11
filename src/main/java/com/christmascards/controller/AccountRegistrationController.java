@@ -43,60 +43,25 @@ public class AccountRegistrationController {
     }
     
     @RequestMapping(value="/user-signup")
-    public ModelAndView signUpUser(HttpServletRequest request, @RequestParam(name = "firstName",required = false) String firstName, @RequestParam(name = "lastName",required = false) String LastName,
+    public ModelAndView signUpUser(HttpServletRequest request, HttpServletResponse response, @RequestParam(name = "firstName",required = false) String firstName, @RequestParam(name = "lastName",required = false) String LastName,
             @RequestParam(name = "email",required = false) String email, @RequestParam(name = "phoneNumber",required = false) String number,
             @RequestParam(name = "password",required = false) String password, @RequestParam(name="redirect", required = false) Boolean redirect,
             @RequestParam(name="resend", required = false) Boolean resend, @RequestParam(name="changeNumber", required = false) Boolean changeNumber,
             @RequestParam(name="failedAttempt", required=false) Boolean failedAttempt
-    ){       
-        ModelAndView mv = new ModelAndView("account-registration/phoneConfirmation");
-        HttpSession session = request.getSession();
-        User userSess = (User) session.getAttribute("user");
-        if(userSess!=null){
-            if(resend != null){
-                if(resend){
-                   l.info("Resend Number: "+userSess.getPhoneNumber());
-                   tv.startVerification(userSess.getPhoneNumber() , "sms");
-                   mv.addObject("newAttempt", true);
-                   return mv;
-                }
-            }
-            else if(failedAttempt != null){
-                if(failedAttempt){
-                    mv.addObject("failedAttempt", true);
-                    return mv;
-                }
-            }
-            else if(changeNumber != null){
-                if(changeNumber){
-                    number = number.replace("[^0-9]", "");
-                    //number = "+1"+number;
-                    l.info("Changed Number: "+number);
-                    userSess.setPhoneNumber("+"+number);                    
-                    VerificationResult vr = tv.startVerification(number, "sms");
-                    session.setAttribute("user", userSess);
-                    return mv;
-                }
-            }
-            else if(redirect != null){
-                if(redirect){
-                    return mv;
-            }
-            
-        }
-        }
+    ) throws IOException{       
+        ModelAndView mv = new ModelAndView("");
+        
         number = number.replace("[^0-9]", "");
         number = "+"+number;
-        l.info("Initial Registration Number: "+number);
         String emailAndPhoneConfirm = userService.checkUserEmailAndPhone(email, number);
         if(emailAndPhoneConfirm.equals("none")){
-            VerificationResult vr = tv.startVerification(number, "sms");
+           /* VerificationResult vr = tv.startVerification(number, "sms");
             if(!vr.isValid()){
                 System.out.println(vr.getErrors()[0]);
                 mv = new ModelAndView("account-registration/register");
                 mv.addObject("invalidPhoneNumber", true);
                 return mv;
-            }
+            }*/
             User user = new User();
             user.setFirstName(firstName);
             user.setEmail(email);
@@ -104,14 +69,21 @@ public class AccountRegistrationController {
             user.setLastName(LastName);
             user.setUserPassword(password);
             user.setPhoneNumber(number);
-            session.setAttribute("user", user);
-            return mv;
+            userService.registerUser(user);
+            request.getSession().setAttribute("loggedUser", user);
+            response.sendRedirect(request.getContextPath()+"/user-created"); 
+            return null;
         }
         else {
-            mv = new ModelAndView("account-registration/register");
-            mv.addObject("emailAndPhoneAlreadyExist", true);
-            return mv;
+            response.sendRedirect(request.getContextPath()+"/dashboard?emailOrPhoneTaken=true"); 
+            return null;
         }
+    }
+    
+    @RequestMapping(value="/user-created")
+    public ModelAndView accountCreatedSuccess(HttpServletRequest request, HttpServletResponse response
+    ) throws IOException{       
+        return new ModelAndView("account-registration/successfulAccCreationV2");
     }
     
     /* Old Registration Form 
