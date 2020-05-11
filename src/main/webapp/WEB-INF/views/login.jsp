@@ -266,7 +266,7 @@
                             </div>
                             
                             <div class="col-md-10 mx-auto">
-                                <form class="" method="POST" action="${pageContext.request.contextPath}/user-signup">
+                                <form class="form-register" method="POST" action="${pageContext.request.contextPath}/user-signup">
                                 <div class="form-label-group ">
                                         <input type="text" id="inputFirstName" class="form-control" placeholder="First Name" name="firstName" required >
                                         <label for="inputFirstName">First Name</label>
