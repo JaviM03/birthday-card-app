@@ -62,7 +62,9 @@
         <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
             <div class="app-header header-shadow" style="background-color: #0062cc; color: white;">
                 <div class="app-header__logo">
-                    <div class="logo-src" style="color:white; text-align: right; font-size: 24px; margin-bottom: 20px">Logo</div>
+                    <div class="logo-src" style="color:white; margin-left: 20px; font-size: 24px; margin-bottom: 28px">
+                        <img src="<c:url value="/resources/img/Logo.jpg"/>" class="logo-img" style="width:120%;">
+                    </div>
                     <div class="header__pane ml-auto">
                         <div>
                             <button type="button" class="hamburger close-sidebar-btn hamburger--elastic" data-class="closed-sidebar">
@@ -231,9 +233,9 @@
                                             <div class="col-lg-1"></div>
                                         </div>
                                         <div class="text-center mb-5 mt-3">
-                                            <button type="submit" class="btn btn-outline-success btn-lg" style="padding-top:10px;padding-bottom:10px;padding-left:30px;padding-right:30px;font-size: 18px">Save</button>
+                                            <button type="submit" class="btn btn-outline-success btn-lg" style="padding-top:10px;padding-bottom:10px;padding-left:30px;padding-right:30px;font-size: 18px; margin-right:10px">Save</button>
                                             <a href="${pageContext.request.contextPath}/dashboard">
-                                            <button type="button" class="btn btn-outline-warning btn-lg" style="padding-top:10px;padding-bottom:10px;padding-left:30px;padding-right:30px;font-size: 18px">Cancel</button>
+                                            <button type="button" class="btn btn-outline-danger btn-lg" style="padding-top:10px;padding-bottom:10px;padding-left:30px;padding-right:30px;font-size: 18px; margin-left:10px">Cancel</button>
                                             </a>
                                         </div>
                                     </form>

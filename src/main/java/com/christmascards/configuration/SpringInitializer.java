@@ -33,6 +33,7 @@ public class SpringInitializer implements WebApplicationInitializer{
                 TimerTask task = new TimerTask(){
                         public void run(){
                             emailAvailability.runEmailCheck();
+                            System.out.println("-------------Task has being initialiazited.-----------");
                         }
                 };
                 Timer timer = new Timer("emailTimer");

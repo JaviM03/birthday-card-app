@@ -50,10 +50,7 @@ public class AccountRegistrationController {
             @RequestParam(name="failedAttempt", required=false) Boolean failedAttempt
     ) throws IOException{       
         ModelAndView mv = new ModelAndView("");
-        System.out.println("Number: " + number);
-        response.sendRedirect(request.getContextPath()+"/dashboard?emailOrPhoneTaken=true"); 
-        return null;
-        /*
+
         number = number.replace("[^0-9]", "");
         number = "+"+number;
         String emailAndPhoneConfirm = userService.checkUserEmailAndPhone(email, number);
@@ -73,7 +70,7 @@ public class AccountRegistrationController {
         else {
             response.sendRedirect(request.getContextPath()+"/dashboard?emailOrPhoneTaken=true"); 
             return null;
-        }*/
+        }
     }
     
     @RequestMapping(value="/user-created")
