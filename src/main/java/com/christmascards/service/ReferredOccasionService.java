@@ -137,6 +137,12 @@ public class ReferredOccasionService {
         }
         referredOccasion.setReferrenceToken(refToken);
         
+        while(referredOccasion.getFriendFirstName().endsWith(" ")){
+            referredOccasion.setFriendFirstName(referredOccasion.getFriendFirstName().substring(0,referredOccasion.getFriendFirstName().lastIndexOf(" ")));
+        }
+        while(referredOccasion.getFriendLastName().endsWith(" ")){
+            referredOccasion.setFriendLastName(referredOccasion.getFriendLastName().substring(0,referredOccasion.getFriendLastName().lastIndexOf(" ")));
+        }
         ArrayList<String> personalizationParameters = new ArrayList();
         personalizationParameters.addAll(personalizInitialPrameters);
         personalizationParameters.add("User_Name");

@@ -78,11 +78,34 @@
                     .search-bar{
                         width:100%;
                     }
+                    .btn-group{
+                        
+                        -ms-flex-direction: column;
+                        flex-direction: column;
+                        -ms-flex-align: start;
+                        align-items: flex-start;
+                        -ms-flex-pack: center;
+                        justify-content: center;
+                    }
+                    .btn-group button{
+                        font-size: 16px;
+                    }
+                    .md-button{
+                        margin-top:10px;
+                        margin-bottom:10px;
+                        margin-left:4px;
+                        margin-right:0px;
+                    }
                 }
                 
                 @media only screen and (min-width: 769px){
                     .search-bar{
                         width:30%;
+                    }
+                    
+                    .md-button{
+                        margin-left: 10px;
+                        margin-right: 10px;
                     }
                 }
 
@@ -320,9 +343,9 @@
                                         <div class="search-word mt-2 mb-2 pl-2 pr-2"><input type="text" maxlength="48" class="form-control" name="searchWord" value="${occasionFilter}"></div>
                                         <div class=""><button type="submit" class="btn btn-success">Search</button></div>
                                         <div class="btn-actions-pane-right">
-                                            <div role="group" class="btn-group-sm btn-group">
+                                            <div role="group" class="btn-group mx-auto">
                                                 <a href="${pageContext.request.contextPath}/dashboard?searchWord=christmas"><button class="${occasionFilter=='christmas' || occasionFilter=='Christmas' ?'active':''} btn btn-focus" type="button">Christmas</button></a>
-                                                <a href="${pageContext.request.contextPath}/dashboard?searchWord=birthday"><button class="${occasionFilter=='birthday' || occasionFilter=='Birthday' ?'active':''} btn btn-focus ml-2 mr-2" type="button" >Birthday</button></a>
+                                                <a href="${pageContext.request.contextPath}/dashboard?searchWord=birthday"><button class="${occasionFilter=='birthday' || occasionFilter=='Birthday' ?'active':''} btn btn-focus md-button" type="button" >Birthday</button></a>
                                                 <a href="${pageContext.request.contextPath}/dashboard?searchWord=new%20year"><button class="${occasionFilter=='new year' || occasionFilter=='New year'?'active':''} btn btn-focus" type="button">New Year</button></a>
                                             </div>
                                         </div>

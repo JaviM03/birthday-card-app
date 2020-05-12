@@ -23,7 +23,7 @@ public class EmailAvailabilityHelper {
     @Autowired
     ReferredOccasionService refOcService;
 
-    @Scheduled(fixedRate = 86400 * 10000)
+    @Scheduled(fixedRate = 24 * 60 * 60 * 10000)
     public void runEmailCheck(){
         System.out.println("-----------Run email check triggered.---------------");
         //Checks to be used monthly, weekly or daily
