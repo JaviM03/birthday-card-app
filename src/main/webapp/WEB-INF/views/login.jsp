@@ -271,7 +271,7 @@
                             </div>
                             
                             <div class="col-md-10 mx-auto">
-                                <form class="form-register" method="POST" action="${pageContext.request.contextPath}/user-signup">
+                                <form id="form-register" method="POST" action="${pageContext.request.contextPath}/user-signup">
                                 <div class="form-label-group ">
                                         <input type="text" id="inputFirstName" class="form-control" placeholder="First Name" name="firstName" required >
                                         <label for="inputFirstName">First Name</label>
@@ -363,8 +363,7 @@
                     -->
                 </div>
             </div>
-        </div>
-                                                
+        </div>                         
         <script src="<c:url value="/resources/tel-input/build/js/intlTelInput-jquery.min.js"/>"></script> 
         <script src="<c:url value="/resources/tel-input/build/js/intlTelInput.js"/>"></script>
         
@@ -372,10 +371,9 @@
             
              var phoneInput = document.querySelector("#phone");
              var iti = window.intlTelInput(phoneInput);
-                $("#form-register").submit(function(e){
+               $("#form-register").submit(function(e){
                     var phoneForm = document.querySelector("#phoneForm");
                     phoneForm.value = iti.getSelectedCountryData().dialCode + phoneInput.value;
-                 
                 })
                 
         </script>

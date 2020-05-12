@@ -50,18 +50,14 @@ public class AccountRegistrationController {
             @RequestParam(name="failedAttempt", required=false) Boolean failedAttempt
     ) throws IOException{       
         ModelAndView mv = new ModelAndView("");
-        
+        System.out.println("Number: " + number);
+        response.sendRedirect(request.getContextPath()+"/dashboard?emailOrPhoneTaken=true"); 
+        return null;
+        /*
         number = number.replace("[^0-9]", "");
         number = "+"+number;
         String emailAndPhoneConfirm = userService.checkUserEmailAndPhone(email, number);
         if(emailAndPhoneConfirm.equals("none") || emailAndPhoneConfirm.equals("phone")){
-           /* VerificationResult vr = tv.startVerification(number, "sms");
-            if(!vr.isValid()){
-                System.out.println(vr.getErrors()[0]);
-                mv = new ModelAndView("account-registration/register");
-                mv.addObject("invalidPhoneNumber", true);
-                return mv;
-            }*/
             User user = new User();
             user.setFirstName(firstName);
             user.setEmail(email);
@@ -77,7 +73,7 @@ public class AccountRegistrationController {
         else {
             response.sendRedirect(request.getContextPath()+"/dashboard?emailOrPhoneTaken=true"); 
             return null;
-        }
+        }*/
     }
     
     @RequestMapping(value="/user-created")
