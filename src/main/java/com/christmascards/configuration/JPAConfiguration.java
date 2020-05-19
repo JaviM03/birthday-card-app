@@ -39,7 +39,7 @@ public class JPAConfiguration {
 		transactionManager.setEntityManagerFactory(entityManagerFactory);
 		return transactionManager;
 	}
-	
+	/*
 	@Bean
 	public DataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -48,8 +48,8 @@ public class JPAConfiguration {
 		dataSource.setUsername("ppmcaqnxnrsiee");
 		dataSource.setPassword("fac440f2f980913cbfcf81731101bcbd97502299ae6377f3156b4f3c94dcd83a");
 		return (DataSource) dataSource;
-	}
-        /*
+	}*/
+        
 	@Bean
 	public DataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -58,7 +58,7 @@ public class JPAConfiguration {
 		dataSource.setUsername("postgres");
 		dataSource.setPassword("root");
 		return (DataSource) dataSource;
-	}*/
+	}
 	
 	Properties hibernateProperties() {
 		Properties properties = new Properties();
