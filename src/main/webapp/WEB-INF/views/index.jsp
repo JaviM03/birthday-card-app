@@ -141,11 +141,11 @@
                                 <hr>
                                 <ul class="fa-ul">
                                     <li style="font-size: 20px; font-weight: bold"><span class="fa-li"><i class="fas fa-check"></i></span>Create your FREE Account</li>
-                                    <li style="font-size: 20px"><span class="fa-li"><i class="fas fa-check"></i></span>Verifies all your contacts addresses</li>
-                                    <li style="font-size: 20px"><span class="fa-li"><i class="fas fa-check"></i></span>Automates the updates/changes to your contacts addresses</li>
-                                    <li style="font-size: 20px"><span class="fa-li"><i class="fas fa-check"></i></span>Enable you to categorizes your contacts by “occasion” and more</li>
-                                    <li style="font-size: 20px"><span class="fa-li"><i class="fas fa-check"></i></span>Automatically keep your address book up to date with smart reminders</li>
-                                    <li style="font-size: 20px"><span class="fa-li"><i class="fas fa-check"></i></span>Access your address anywhere and anytime</li>
+                                    <li style="font-size: 20px"><span class="fa-li"><i class="fas fa-check"></i></span>We don’t share your information with anyone</li>
+                                    <li style="font-size: 20px"><span class="fa-li"><i class="fas fa-check"></i></span>We verify all your contacts’ addresses and automate any changes</li>
+                                    <li style="font-size: 20px"><span class="fa-li"><i class="fas fa-check"></i></span>We enable you to categorize your contacts by ‘occasion’ and more</li>
+                                    <li style="font-size: 20px"><span class="fa-li"><i class="fas fa-check"></i></span>We automatically keep your address book up to date with smart reminders</li>
+                                    <li style="font-size: 20px"><span class="fa-li"><i class="fas fa-check"></i></span>We give you access to your address book anywhere and anytime</li>
                                     <li style="font-size: 20px" class="pt-4"><span class="fa-li"><i class="fas fa-check"></i></span><strong>Never miss a date again!</strong></li>
                                 </ul>
                                 <div class="row">

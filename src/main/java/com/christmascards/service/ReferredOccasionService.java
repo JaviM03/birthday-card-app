@@ -165,6 +165,7 @@ public class ReferredOccasionService {
        }
        if(response.equals("202")){
         referredOccasion.setLastEmailDate(currentDate);
+        referredOccasion.setEmailCanBeResent(Boolean.FALSE);
        }
        else{
            referredOccasion.setEmailCanBeResent(Boolean.TRUE);
@@ -323,7 +324,7 @@ public class ReferredOccasionService {
    }
    
    public void checkIfReferedOccasionEmailCanBeSent(){
-       
+       System.out.println("Entered email can be sent method");
        Iterator<ReferredOccasion> refOccasions = ror.findAll().iterator();
        Calendar calendar = Calendar.getInstance();
        calendar.add(Calendar.DAY_OF_YEAR, -2);
@@ -331,35 +332,56 @@ public class ReferredOccasionService {
        calendar.set(Calendar.MINUTE, 0);
        calendar.set(Calendar.SECOND, 0);      
        calendar.set(Calendar.MILLISECOND, 0);
-       while(refOccasions.hasNext()){           
+       int i = 0;
+       while(refOccasions.hasNext()){   
            ReferredOccasion refOccasion = refOccasions.next();
+           i++;
+          
+           System.out.println("-----------------------------------------");
+           if(!refOccasion.getInfoHasBeingFilled()){
+               System.out.println("Entered info has not being filled");
+               try{
+                Calendar newLastEmailDate = sendReferredOccasionEmail(refOccasion.getUser().getUserId(),
+                        refOccasion.getEmailFrequency(),refOccasion.getLastEmailDate()); 
+                if(newLastEmailDate.equals(refOccasion.getLastEmailDate())){
+                    refOccasion.setEmailCanBeResent(Boolean.FALSE);
+                    continue;
+                }
+                refOccasion.setLastEmailDate(newLastEmailDate);
+                   System.out.println("Returned value from sendim email attempt was: " + newLastEmailDate.getTime());
+               }
+               catch(Exception e){
+                   System.out.println("There was an exception on sending reminding emails: " +e.getCause().getMessage());
+               }
+           }
            if(refOccasion.getEmailCanBeResent()){continue;}
-           refOccasion.getLastEmailDate().compareTo(calendar);
-           if(refOccasion.getLastEmailDate().compareTo(calendar) >= 0 ){
+           if(refOccasion.getLastEmailDate().compareTo(calendar) <= 0 ){
                refOccasion.setEmailCanBeResent(Boolean.TRUE);
                ror.save(refOccasion);
-           }           
-            //if info has not been filled
-           if(!refOccasion.getInfoHasBeingFilled()){
-                refOccasion.setLastEmailDate(sendReferredOccasionEmail(refOccasion.getUser().getUserId(),
-                        refOccasion.getEmailFrequency(),refOccasion.getLastEmailDate(),calendar));
            }
+            //if info has not been filled           
            
        }
        
    }
    
-   public Calendar sendReferredOccasionEmail(Integer userId, String freq,Calendar lastSent,Calendar calendar){
+   public Calendar sendReferredOccasionEmail(Integer userId, String freq,Calendar lastSent){
+       Calendar calendar = Calendar.getInstance();
+       calendar.set(Calendar.HOUR_OF_DAY, 0);
+       calendar.set(Calendar.MINUTE, 0);
+       calendar.set(Calendar.SECOND, 0);      
+       calendar.set(Calendar.MILLISECOND, 0);
         Calendar compareDate = null;        
-       
+       System.out.println("Entered referred occasion email method");
         //check daily reminder
         compareDate = lastSent;
-        compareDate.add(Calendar.DAY_OF_MONTH,1);
-        if(freq.equals("daily")  && (compareDate.compareTo(calendar) >= 0)){
+        compareDate.add(Calendar.DAY_OF_YEAR,-1);
+        if(freq.equals("daily")  && (compareDate.compareTo(calendar) <= 0)){
+            System.out.println("Entered daily");
                //sends email daily
                try  {
-                  sendRemindingEmail(userId);  
-                  lastSent=calendar;
+                  sendRemindingEmail(userId);
+                  return calendar;
                 }
                catch (IOException ex)
                 {
@@ -371,11 +393,12 @@ public class ReferredOccasionService {
         //check weekly reminder
         compareDate = null;
         compareDate = lastSent;
-        compareDate.add(Calendar.WEEK_OF_YEAR,1);
+        compareDate.add(Calendar.WEEK_OF_YEAR,-1);
         if(freq.equals("weekly") && (compareDate.compareTo(calendar) >= 0)){
+            System.out.println("Entered weekly");
             try  {
                   sendRemindingEmail(userId);  
-                  lastSent=calendar;
+                  return calendar;
                 }
                catch (IOException ex)
                 {
@@ -388,11 +411,12 @@ public class ReferredOccasionService {
         //check monthly reminder
         compareDate = null;
         compareDate = lastSent;
-        compareDate.add(Calendar.MONTH,1);
+        compareDate.add(Calendar.MONTH,-1);
         if(freq.equals("monthly") && (compareDate.compareTo(calendar) >= 0)){
+            System.out.println("Entered monthly");
             try  {
                   sendRemindingEmail(userId);  
-                  lastSent=calendar;
+                  return calendar;
                 }
             catch (IOException ex)
                 {
