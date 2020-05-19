@@ -132,10 +132,9 @@ public class AccountController {
             @RequestParam(value = "occasionDate", required = false) String date, @RequestParam("occasion") String occasion, 
             @RequestParam(value = "address", required = false) String address, @RequestParam("sendEmail") String sendEmail, 
             @RequestParam(value="emailFrequency" ,required = false) String emailFrequency, @RequestParam("timeZone") String timeZoneStr,
-            @RequestParam("recurring") String recurring) throws ParseException, IOException{
+            @RequestParam("recurring") Boolean recurring) throws ParseException, IOException{
         if(LoginVerification.sessionCheck(request)){
             User user = (User) request.getSession().getAttribute("loggedUser");
-            System.out.println("Recurring value: "+recurring);
             ReferredOccasion referredOccasion = new ReferredOccasion();
             referredOccasion.setFriendFirstName(firstName);
             referredOccasion.setFriendLastName(lastName);
@@ -149,6 +148,7 @@ public class AccountController {
             referredOccasion.setUser(user);
             referredOccasion.setLastEditedBy("Me");
             referredOccasion.setEmailFrequency(emailFrequency);
+            referredOccasion.setRecurring(recurring);
             if(user.getTimeZone()==null){
                 int timeZone = Integer.parseInt(timeZoneStr);
                 if (timeZone >= 0) {

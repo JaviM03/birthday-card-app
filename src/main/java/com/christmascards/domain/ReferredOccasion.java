@@ -97,8 +97,8 @@ public class ReferredOccasion implements Serializable {
     @Column(name="last_edited_by")
     private String lastEditedBy;
     
-    @Column(name="recurrent")
-    private Boolean recurrent;
+    @Column(name="recurring")
+    private Boolean recurring;
     
     @Transient
     private Calendar nextVerification;
@@ -299,13 +299,15 @@ public class ReferredOccasion implements Serializable {
         this.nextVerification = nextVerification;
     }
 
-    public Boolean getRecurrent() {
-        return recurrent;
+    public Boolean getRecurring() {
+        return recurring;
     }
 
-    public void setRecurrent(Boolean recurrent) {
-        this.recurrent = recurrent;
+    public void setRecurring(Boolean recurring) {
+        this.recurring = recurring;
     }
+
+ 
     
     
     

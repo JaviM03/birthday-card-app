@@ -537,7 +537,9 @@
                                 <div class="form-check">
                                     <input type="checkbox" class="form-check-input" id="sendEmailModal" name="sendEmail" checked>
                                     <label class="form-check-label" for="sendEmailModal">Request the rest of the information by email</label>
-                                    <input type="checkbox" class="form-check-input" id="recurringModal" name="recurring" >
+                                </div>
+                                <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="recurringModal" name="recurring" >
                                     <label class="form-check-label" for="recurringModal">Recurring date (Will be created once a year)</label>
                                 </div>
                             </div>
