@@ -360,12 +360,14 @@
                                                     <th class="text-center">Occasion Date</th>
                                                     <th class="text-center">Occasion 
                                                         <c:if test="${occasionSorting!='desc'}">
-                                                            <a href="${pageContext.request.contextPath}/dashboard?sorting=desc${occasionFilter!=null?(occasionFilter!=''?'&searchWord=':''):''}${occasionFilter!=null?(occasionFilter!=''?occasionFilter:''):''}">
+                                                            <a href="${pageContext.request.contextPath}/dashboard?sorting=desc">
+                                                            <!--<a href="${pageContext.request.contextPath}/dashboard?sorting=desc${occasionFilter!=null?(occasionFilter!=''?'&searchWord=':''):''}${occasionFilter!=null?(occasionFilter!=''?occasionFilter:''):''}">-->
                                                             <i class="fas fa-chevron-down"></i>
                                                             </a>
                                                         </c:if>
                                                             <c:if test="${occasionSorting=='desc'}">
-                                                                <a href="${pageContext.request.contextPath}/dashboard?sorting=asc${occasionFilter!=null?(occasionFilter!=''?'&searchWord=':''):''}${occasionFilter!=null?(occasionFilter!=''?occasionFilter:''):''}">
+                                                                <a href="${pageContext.request.contextPath}/dashboard?sorting=asc">
+                                                                <!--<a href="${pageContext.request.contextPath}/dashboard?sorting=asc${occasionFilter!=null?(occasionFilter!=''?'&searchWord=':''):''}${occasionFilter!=null?(occasionFilter!=''?occasionFilter:''):''}">-->
                                                             <i class="fas fa-chevron-up"></i>
                                                                 </a>
                                                         </c:if>
@@ -535,6 +537,8 @@
                                 <div class="form-check">
                                     <input type="checkbox" class="form-check-input" id="sendEmailModal" name="sendEmail" checked>
                                     <label class="form-check-label" for="sendEmailModal">Request the rest of the information by email</label>
+                                    <input type="checkbox" class="form-check-input" id="recurringModal" name="recurring" >
+                                    <label class="form-check-label" for="recurringModal">Recurring date (Will be created once a year)</label>
                                 </div>
                             </div>
                         </div>

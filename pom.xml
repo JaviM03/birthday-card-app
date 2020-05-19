@@ -129,6 +129,14 @@
             <version>5.1.4.RELEASE</version>
             <type>jar</type>
         </dependency>
+        
+                <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-config -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>4.1.1.RELEASE</version>
+        </dependency>
+
 
     </dependencies>
 

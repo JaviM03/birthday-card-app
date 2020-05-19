@@ -28,16 +28,6 @@ public class SpringInitializer implements WebApplicationInitializer{
 		servlet.addMapping("/");
 		servlet.setLoadOnStartup(1);
 		
-                emailAvailability = new EmailAvailabilityHelper();
-                
-                TimerTask task = new TimerTask(){
-                        public void run(){
-                            emailAvailability.runEmailCheck();
-                            System.out.println("-------------Task has being initialiazited.-----------");
-                        }
-                };
-                Timer timer = new Timer("emailTimer");
-                timer.schedule(task, TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS));
                 
 	}
 	
