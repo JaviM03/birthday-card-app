@@ -21,7 +21,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        super.configure(http); //To change body of generated methods, choose Tools | Templates.
+        http.requiresChannel().anyRequest().requiresSecure();
     }
+    
+    
     
 }
