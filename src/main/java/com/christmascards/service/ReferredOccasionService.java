@@ -366,66 +366,82 @@ public class ReferredOccasionService {
    }
    
    public Calendar sendReferredOccasionEmail(Integer userId, String freq,Calendar lastSent){
+       
        Calendar calendar = Calendar.getInstance();
        calendar.set(Calendar.HOUR_OF_DAY, 0);
        calendar.set(Calendar.MINUTE, 0);
        calendar.set(Calendar.SECOND, 0);      
        calendar.set(Calendar.MILLISECOND, 0);
-        Calendar compareDate = null;        
+        Calendar testDate = null;        
+        //Calendar compareDate2 = null;        
        System.out.println("Entered referred occasion email method");
+       int i;
         //check daily reminder
-        compareDate = lastSent;
-        compareDate.add(Calendar.DAY_OF_YEAR,-1);
-        if(freq.equals("daily")  && (compareDate.compareTo(calendar) <= 0)){
-            System.out.println("Entered daily");
-               //sends email daily
-               try  {
-                  sendRemindingEmail(userId);
-                  return calendar;
-                }
-               catch (IOException ex)
-                {
-                    System.out.println(ex.getMessage());
-                }
-               
+        testDate = (Calendar) lastSent.clone();
+        //compareDate2 = lastSent;
+        testDate.add(Calendar.DAY_OF_YEAR,1);
+        //compareDate2.add(Calendar.DAY_OF_YEAR,-1);
+        //System.out.println("cal :" + lastSent.getTime());
+        //System.out.println("compareDate +1 day:"+ testDate.getTime());
+        //System.out.println("compareDate test :"+ compareDate2.getTime());
+        i=testDate.compareTo(calendar);
+        if(freq.equals("daily")) {
+            if((i <= 0)){
+                System.out.println("Entered daily");
+                   //sends email daily
+                   try  {
+                      sendRemindingEmail(userId);
+                      return calendar;
+                    }
+                   catch (IOException ex)
+                    {
+                        System.out.println(ex.getMessage());
+                    }
            }
-        
+        }
         //check weekly reminder
-        compareDate = null;
-        compareDate = lastSent;
-        compareDate.add(Calendar.WEEK_OF_YEAR,-1);
-        if(freq.equals("weekly") && (compareDate.compareTo(calendar) >= 0)){
-            System.out.println("Entered weekly");
-            try  {
-                  sendRemindingEmail(userId);  
-                  return calendar;
-                }
-               catch (IOException ex)
-                {
-                    System.out.println(ex.getMessage());
-                }
-            
+        testDate = null;
+        testDate = (Calendar) lastSent.clone();
+        testDate.add(Calendar.WEEK_OF_YEAR,1);
+        //System.out.println("compareDate +1 week:"+ testDate.getTime());
+        i=testDate.compareTo(calendar);
+        if(freq.equals("weekly")) {
+            if((i <= 0)){
+                System.out.println("Entered weekly");
+                try  {
+                      sendRemindingEmail(userId);  
+                      return calendar;
+                    }
+                   catch (IOException ex)
+                    {
+                        System.out.println(ex.getMessage());
+                    }
+            }
         }
         
         
         //check monthly reminder
-        compareDate = null;
-        compareDate = lastSent;
-        compareDate.add(Calendar.MONTH,-1);
-        if(freq.equals("monthly") && (compareDate.compareTo(calendar) >= 0)){
-            System.out.println("Entered monthly");
-            try  {
-                  sendRemindingEmail(userId);  
-                  return calendar;
+        testDate = null;
+        testDate = (Calendar) lastSent.clone();
+        testDate.add(Calendar.MONTH,1);
+        //System.out.println("compareDate + 1 month:"+ testDate.getTime());
+        i=testDate.compareTo(calendar);
+        if(freq.equals("monthly")){
+                if((i <= 0)){
+                    System.out.println("Entered monthly");
+                    try  {
+                          sendRemindingEmail(userId);  
+                          return calendar;
+                        }
+                    catch (IOException ex)
+                        {
+                            System.out.println(ex.getMessage());
+                        }
                 }
-            catch (IOException ex)
-                {
-                    System.out.println(ex.getMessage());
-                }
-            
         }
         
         //otherwise, the last sent mail returns to normal
+        System.out.println("cal test again:" + lastSent.getTime());
         return lastSent;
    }
    

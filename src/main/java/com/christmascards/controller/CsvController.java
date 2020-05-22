@@ -10,6 +10,7 @@ import com.christmascards.util.LoginVerification;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.logging.Logger;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
@@ -53,6 +54,8 @@ public class CsvController extends HttpServlet {
             ReferredOccasion returnedOccasion = new ReferredOccasion();
             ArrayList<ReferredOccasion> saveUsers = new ArrayList();
             
+            Calendar lastEmailDateSet = Calendar.getInstance();
+            
             //ReferredOccasion savedFriendCata = null;
             //Friend friend = new Friend();
             //InsertCounter = modify to the number of columns in csv
@@ -92,6 +95,8 @@ public class CsvController extends HttpServlet {
                         case 3: //old email, changed to occassion
                                 //validate ocassion?
                                 referredOccasion.setOccasion(temp);
+                                referredOccasion.setEmailFrequency("weekly"); //frequency set to weekly
+                                referredOccasion.setLastEmailDate(lastEmailDateSet); // email to remind them from today 
                                 //date=temp;
                                 
                                 referredOccasion.setUser(user);
