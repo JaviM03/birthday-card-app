@@ -27,7 +27,7 @@ public class EmailAvailabilityHelper {
     public void runEmailCheck(){
         System.out.println("-----------Run email check triggered.---------------");
         //Checks to be used monthly, weekly or daily    
-        refOcService.checkIfReferedOccasionEmailCanBeSent();
+        //refOcService.checkIfReferedOccasionEmailCanBeSent();
     }
 
     public EmailAvailabilityHelper() {
