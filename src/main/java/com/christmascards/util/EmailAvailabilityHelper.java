@@ -23,11 +23,11 @@ public class EmailAvailabilityHelper {
     @Autowired
     ReferredOccasionService refOcService;
 
-    @Scheduled(fixedRate =  80 * 1000)
-    public void runEmailCheck(){
+    @Scheduled(cron = "0 1 1 * * ?")
+    public void runDailyTask(){
         System.out.println("-----------Run email check triggered.---------------");
-        //Checks to be used monthly, weekly or daily    
-        //refOcService.checkIfReferedOccasionEmailCanBeSent();
+        refOcService.checkIfReferedOccasionEmailCanBeSent();
+        refOcService.checkForRecurringOccasions();
     }
 
     public EmailAvailabilityHelper() {

@@ -444,5 +444,31 @@ public class ReferredOccasionService {
         System.out.println("cal test again:" + lastSent.getTime());
         return lastSent;
    }
+
+    public void checkForRecurringOccasions() {
+        
+       Iterable<ReferredOccasion> refOccasions = ror.findAll();
+       
+       Calendar calendar = Calendar.getInstance();
+       calendar.set(Calendar.HOUR_OF_DAY, 0);
+       calendar.set(Calendar.MINUTE, 0);
+       calendar.set(Calendar.SECOND, 0);      
+       calendar.set(Calendar.MILLISECOND, 0);
+       for(ReferredOccasion refOccasion : refOccasions){
+           if(refOccasion.getRecurring()){
+               Integer i = refOccasion.getOccasionDate().compareTo(calendar);
+               if(i <= 0){
+                   refOccasion.setRecurring(false);
+                   ReferredOccasion referredOccasion = refOccasion;
+                   Calendar newDate = refOccasion.getOccasionDate();
+                   newDate.add(Calendar.YEAR, 1);
+                   referredOccasion.setOccasionDate(newDate);
+                   referredOccasion.setReferredOccasionId(null);
+                   saveReferedOccasion(referredOccasion);
+                   saveReferedOccasion(refOccasion);
+               }
+           }
+       }
+    }
    
 }
