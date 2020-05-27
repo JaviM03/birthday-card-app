@@ -401,7 +401,7 @@
                                                         </td>
                                                         <td class="text-center"><fmt:formatDate type="date" dateStyle="short" value="${referral.occasionDate.time}"/></td>
                                                         <td class="text-center">${referral.occasion}</td>
-                                                        <td class="text-center"><fmt:formatDate type="date" dateStyle="short" value="${referral.referredDate.time}"/></td>
+                                                        <td class="text-center"><fmt:formatDate type="date" dateStyle="short" value="${referral.lastEmailDate.time}"/></td>
                                                         <td class="text-center"><c:if test="${referral.nextVerification!=null}"><fmt:formatDate type="date" dateStyle="short" value="${referral.nextVerification.time}"/></c:if></td>
                                                         <td class="text-center">
                                                             ${referral.city}
