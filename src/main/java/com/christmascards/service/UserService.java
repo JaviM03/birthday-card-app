@@ -53,7 +53,7 @@ public class UserService {
         "First Name: "+user.getFirstName()+"<br>"+
         "Last Name: "+user.getLastName()+"<br>"+
         "Email: "+user.getEmail();
-        //EmailSender.sendHTMLEmail("support@mydigitaladdressbook.com", "support@mydigitaladdressbook.com",  message, "Account created on Christmas card App");
+        EmailSender.sendHTMLEmail("support@mydigitaladdressbook.com", "support@mydigitaladdressbook.com",  message, "Account created on Christmas card App");
         ArrayList<String> personalizationParameters = new ArrayList();
         ArrayList<String> personalizationValues = new ArrayList();
         personalizationParameters.add("User_Name");
