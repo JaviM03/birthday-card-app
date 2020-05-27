@@ -344,7 +344,23 @@ public class ReferredOccasionService {
                 Calendar newLastEmailDate = sendReferredOccasionEmail(refOccasion.getUser().getUserId(),
                         refOccasion.getEmailFrequency(),refOccasion.getLastEmailDate()); 
                 if(newLastEmailDate.equals(refOccasion.getLastEmailDate())){
+                    if(refOccasion.getEmailFrequency().equals("daily")){
+                        Calendar cal = refOccasion.getLastEmailDate();
+                        cal.add(Calendar.DAY_OF_YEAR, +1);
+                        refOccasion.setNextVerification(cal);
+                    }
+                    else if (refOccasion.getEmailFrequency().equals("weekly")){
+                        Calendar cal = refOccasion.getLastEmailDate();
+                        cal.add(Calendar.WEEK_OF_YEAR, +1);
+                        refOccasion.setNextVerification(cal); 
+                    }
+                    else if (refOccasion.getEmailFrequency().equals("monthly")){
+                        Calendar cal = refOccasion.getLastEmailDate();
+                        cal.add(Calendar.MONTH, +1);
+                        refOccasion.setNextVerification(cal); 
+                    }
                     refOccasion.setEmailCanBeResent(Boolean.FALSE);
+                    ror.save(refOccasion);
                     continue;
                 }
                 refOccasion.setLastEmailDate(newLastEmailDate);
@@ -356,7 +372,7 @@ public class ReferredOccasionService {
            }
            if(refOccasion.getEmailCanBeResent()){continue;}
            if(refOccasion.getLastEmailDate().compareTo(calendar) <= 0 ){
-               refOccasion.setEmailCanBeResent(Boolean.TRUE);
+               refOccasion.setEmailCanBeResent(Boolean.TRUE);             
                ror.save(refOccasion);
            }
             //if info has not been filled           
