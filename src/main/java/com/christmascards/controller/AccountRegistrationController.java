@@ -54,7 +54,8 @@ public class AccountRegistrationController {
         number = number.replace("[^0-9]", "");
         number = "+"+number;
         String emailAndPhoneConfirm = userService.checkUserEmailAndPhone(email, number);
-        if(emailAndPhoneConfirm.equals("none") || emailAndPhoneConfirm.equals("phone")){
+        System.out.println("Email And Phone Confirm: " + emailAndPhoneConfirm);
+        if(emailAndPhoneConfirm.equals("none")){
             User user = new User();
             user.setFirstName(firstName);
             user.setEmail(email);
@@ -62,13 +63,13 @@ public class AccountRegistrationController {
             user.setLastName(LastName);
             user.setUserPassword(password);
             user.setPhoneNumber(number);
-            userService.registerUser(user);
+            user = userService.registerUser(user);
             request.getSession().setAttribute("loggedUser", user);
             response.sendRedirect(request.getContextPath()+"/user-created"); 
             return null;
         }
         else {
-            response.sendRedirect(request.getContextPath()+"/dashboard?emailOrPhoneTaken=true"); 
+            response.sendRedirect(request.getContextPath()+"/login?emailOrPhoneTaken=true"); 
             return null;
         }
     }

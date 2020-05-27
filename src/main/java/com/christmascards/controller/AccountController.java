@@ -107,6 +107,9 @@ public class AccountController {
             if(request.getParameter("userCreated")!=null){
                 mv.addObject("userCreated", true);
             }
+            if(request.getParameter("emailOrPhoneTaken")!=null){
+                mv.addObject("emailOrPhoneTaken", true);
+            }       
             mv.addObject("occasionFilter", searchWord);
             mv.addObject("occasionSorting", sorting);
             System.out.println("sorting: "+sorting);

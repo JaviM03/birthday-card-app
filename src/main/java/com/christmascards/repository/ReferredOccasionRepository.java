@@ -36,6 +36,8 @@ public interface ReferredOccasionRepository extends PagingAndSortingRepository<R
     public <S extends ReferredOccasion> S save(S s);
 
     public ReferredOccasion findFirstByReferrenceToken(String referrenceToken);
+    
+    
    
 
     //Find All with page, necesary parameters are added
